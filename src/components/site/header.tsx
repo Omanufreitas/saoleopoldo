@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Instagram, MessageCircle } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Instagram, Menu, MessageCircle, X } from "lucide-react";
 import { Logo } from "@/components/site/logo";
 import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/data/lojas";
@@ -16,10 +18,12 @@ const NAV_ITEMS = [
 ];
 
 export function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-3 sm:px-6">
-        <Link href="/#inicio" className="shrink-0">
+        <Link href="/#inicio" className="shrink-0" onClick={() => setMenuOpen(false)}>
           <Logo />
         </Link>
 
@@ -49,10 +53,45 @@ export function Header() {
             className={cn(buttonVariants({ variant: "default", size: "sm" }), "btn-shimmer")}
           >
             <MessageCircle className="h-4 w-4" aria-hidden />
-            WhatsApp
+            <span className="hidden sm:inline">WhatsApp</span>
           </a>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={menuOpen}
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "px-3 md:hidden")}
+          >
+            {menuOpen ? <X className="h-4 w-4" aria-hidden /> : <Menu className="h-4 w-4" aria-hidden />}
+          </button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden border-t border-border/70 bg-background md:hidden"
+          >
+            <div className="flex flex-col px-4 py-2 sm:px-6">
+              {NAV_ITEMS.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="border-b border-border/50 py-3 text-sm font-semibold text-foreground transition-colors last:border-none hover:text-primary"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
