@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
 import { UnitsSection } from "@/components/site/units-section";
 import { lojas } from "@/data/lojas";
+import { SITE_NAME } from "@/lib/site";
+
+const title = "Nossas Lojas | Drogaria São Leopoldo";
+const description = `Encontre a unidade da Drogaria São Leopoldo mais perto de você. ${lojas.length} lojas em Campo Grande - MS.`;
 
 export const metadata: Metadata = {
-  title: "Nossas Lojas | Drogaria São Leopoldo",
-  description: `Encontre a unidade da Drogaria São Leopoldo mais perto de você. ${lojas.length} lojas em Campo Grande - MS.`,
+  title,
+  description,
+  alternates: { canonical: "/nossas-lojas" },
+  openGraph: {
+    url: "/nossas-lojas",
+    siteName: SITE_NAME,
+    locale: "pt_BR",
+    type: "website",
+    title,
+    description,
+  },
 };
 
 export default function NossasLojasPage() {

@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
 import { AboutSection } from "@/components/site/about-section";
 import { siteConfig } from "@/data/lojas";
+import { SITE_NAME } from "@/lib/site";
+
+const title = "Quem Somos | Drogaria São Leopoldo";
+const description = `Conheça a história da Drogaria São Leopoldo, fundada em ${siteConfig.fundacao} por ${siteConfig.fundador}.`;
 
 export const metadata: Metadata = {
-  title: "Quem Somos | Drogaria São Leopoldo",
-  description: `Conheça a história da Drogaria São Leopoldo, fundada em ${siteConfig.fundacao} por ${siteConfig.fundador}.`,
+  title,
+  description,
+  alternates: { canonical: "/quem-somos" },
+  openGraph: {
+    url: "/quem-somos",
+    siteName: SITE_NAME,
+    locale: "pt_BR",
+    type: "website",
+    title,
+    description,
+  },
 };
 
 export default function QuemSomosPage() {
