@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Fraunces } from "next/font/google";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
-import { IntroSplash } from "@/components/site/intro-splash";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -47,7 +46,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${manrope.variable} ${fraunces.variable}`}>
       <body className={`${manrope.className} antialiased`}>
-        <IntroSplash />
         <Header />
         <main>{children}</main>
         <Footer />
