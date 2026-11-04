@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/inicial/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/inicial",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/relatorio-de-transparencia-salarial/",
+      "destination": "/wp-content/uploads/2026/04/TRANSPARENCIA-SALARIAL.pdf",
+      "statusCode": 301
+    },
+    {
+      "source": "/relatorio-de-transparencia-salarial",
+      "destination": "/wp-content/uploads/2026/04/TRANSPARENCIA-SALARIAL.pdf",
+      "statusCode": 301
+    }
+  ]
+}

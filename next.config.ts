@@ -1,14 +1,16 @@
 import type { NextConfig } from "next";
 
 const legacyRedirects: { source: string; destination: string }[] = [
-  { source: "/inicial", destination: "/" },
+  // Versões com barra primeiro: na Vercel o strip de trailing slash
+  // não pode ganhar da regra legada.
   { source: "/inicial/", destination: "/" },
+  { source: "/inicial", destination: "/" },
   {
-    source: "/relatorio-de-transparencia-salarial",
+    source: "/relatorio-de-transparencia-salarial/",
     destination: "/wp-content/uploads/2026/04/TRANSPARENCIA-SALARIAL.pdf",
   },
   {
-    source: "/relatorio-de-transparencia-salarial/",
+    source: "/relatorio-de-transparencia-salarial",
     destination: "/wp-content/uploads/2026/04/TRANSPARENCIA-SALARIAL.pdf",
   },
 ];
@@ -17,21 +19,14 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // O 308 automático de barra final roda antes dos redirects do config.
-  // Sem isso, /inicial/ iria para /inicial e só depois para /.
+  // Sem o 308 automático. O catch-all /:path+/ na Vercel acabava
+  // rodando antes dos 301 legados e gerava 2 saltos.
   skipTrailingSlashRedirect: true,
   async redirects() {
-    return [
-      ...legacyRedirects.map((redirect) => ({
-        ...redirect,
-        statusCode: 301,
-      })),
-      {
-        source: "/:path+/",
-        destination: "/:path+",
-        statusCode: 308,
-      },
-    ];
+    return legacyRedirects.map((redirect) => ({
+      ...redirect,
+      statusCode: 301,
+    }));
   },
   images: {
     remotePatterns: [
