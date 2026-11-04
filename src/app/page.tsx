@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/site/hero";
-import { FeaturedProductsSection } from "@/components/site/featured-products-section";
-import { PromotionSection } from "@/components/site/promotion-section";
 import { ContactSection } from "@/components/site/contact-section";
 import { SITE_NAME } from "@/lib/site";
 
@@ -27,8 +25,6 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <PromotionSection />
-      <FeaturedProductsSection />
       <ContactSection />
     </>
   );
