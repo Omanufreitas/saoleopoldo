@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="mt-16 bg-[color:var(--brand-green-dark)] text-white/70">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <Logo className="mb-4" invert />
+          <Logo className="mb-4" />
           <p className="mb-5 max-w-xs text-sm text-white/55">
             Referência em saúde, bem-estar e beleza em Campo Grande desde {siteConfig.anoFundacao}.
           </p>
