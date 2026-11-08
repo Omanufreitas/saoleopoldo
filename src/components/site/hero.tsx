@@ -54,7 +54,7 @@ export function Hero() {
         )}
       </div>
 
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-4 py-20 sm:px-6 sm:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-4 pb-14 pt-16 sm:px-6 sm:pb-16 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
         <motion.div
           initial={reduceMotion ? false : "hidden"}
           animate={reduceMotion ? undefined : "visible"}

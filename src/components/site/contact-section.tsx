@@ -29,7 +29,7 @@ const CANAIS = [
 
 export function ContactSection() {
   return (
-    <section id="contato" className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+    <section id="contato" className="mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 sm:pb-20 sm:pt-10">
       <div className="mb-10 text-center">
         <p className="text-xs font-bold uppercase tracking-widest text-primary">Fale com a gente</p>
         <h2
