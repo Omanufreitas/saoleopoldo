@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Fraunces } from "next/font/google";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
+import { GoogleAdsTag } from "@/components/analytics/google-ads-tag";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main>{children}</main>
         <Footer />
+        <GoogleAdsTag />
       </body>
     </html>
   );

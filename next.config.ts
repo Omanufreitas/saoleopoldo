@@ -13,6 +13,10 @@ const legacyRedirects: { source: string; destination: string }[] = [
     source: "/relatorio-de-transparencia-salarial",
     destination: "/wp-content/uploads/2026/04/TRANSPARENCIA-SALARIAL.pdf",
   },
+  // URL final dos anúncios do Google Ads (página do site antigo).
+  // O redirect preserva a query string, então o gclid chega intacto.
+  { source: "/farmacia/:path*/", destination: "/nossas-lojas" },
+  { source: "/farmacia/:path*", destination: "/nossas-lojas" },
 ];
 
 const nextConfig: NextConfig = {

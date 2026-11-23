@@ -37,7 +37,14 @@ export function Footer() {
           <h4 className="mb-4 text-sm font-extrabold text-white">Contato</h4>
           <ul className="space-y-2.5 text-sm text-white/60">
             <li>{siteConfig.email}</li>
-            <li>{siteConfig.telefonePrincipal}</li>
+            <li>
+              <a
+                href={`tel:+55${siteConfig.telefonePrincipal.replace(/\D/g, "")}`}
+                className="transition-colors hover:text-white"
+              >
+                {siteConfig.telefonePrincipal}
+              </a>
+            </li>
             <li>{siteConfig.endereco}</li>
           </ul>
         </div>
