@@ -19,6 +19,16 @@
       "source": "/relatorio-de-transparencia-salarial",
       "destination": "/wp-content/uploads/2026/04/TRANSPARENCIA-SALARIAL.pdf",
       "statusCode": 301
+    },
+    {
+      "source": "/farmacia/:path*/",
+      "destination": "/nossas-lojas",
+      "statusCode": 301
+    },
+    {
+      "source": "/farmacia/:path*",
+      "destination": "/nossas-lojas",
+      "statusCode": 301
     }
   ]
 }

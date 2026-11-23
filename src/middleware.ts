@@ -15,7 +15,7 @@ const LEGACY_PATHS = new Set([
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (LEGACY_PATHS.has(pathname)) {
+  if (LEGACY_PATHS.has(pathname) || pathname.startsWith("/farmacia/")) {
     return NextResponse.next();
   }
 
