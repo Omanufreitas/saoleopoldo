@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B7A5E">
+<title>Visão geral — painel · Drogaria Modelo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#10221D;-webkit-font-smoothing:antialiased}
+a{color:#0B7A5E;text-decoration:none}a:hover{color:#075E48}
+button{font-family:inherit}
+input,select{font-family:inherit}
+.nav-a{color:#C9DDD6}.nav-a:hover{color:#fff;background:rgba(255,255,255,0.06)}
+.row-h:hover{background:#F8FAF9}
+.btn-p:hover{background:#075E48 !important;color:#fff !important}
+.btn-g:hover{background:#EEF2F0 !important}
+
+</style>
+
+
+</head>
+<body>
+
+<div id="app"></div>
+<template id="tpl">
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; background: #F5F7F6">
+<nav aria-label="Menu principal" style="flex: 1 1 248px; max-width: 100%; background: #0C2B24; color: #fff; padding: 20px 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+<div style="padding: 4px 8px"><div style="display: flex; align-items: center; gap: 10px"><div style="width: 34px; height: 34px; border-radius: 10px; background: #16A37E; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="#fff"></path></svg></div><div style="font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-weight: 800; font-size: 17px; color: #fff; letter-spacing: -0.2px">Drogaria Modelo</div></div></div>
+<div style="background: rgba(255,255,255,0.07); border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; gap: 10px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8FD3BD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 9l1.5-5h15L21 9 M3 9v11h18V9 M3 9h18 M9 20v-6h6v6"></path></svg>
+<div style="flex: 1; min-width: 0"><div style="font-size: 11px; color: #A9C4BB; text-transform: uppercase; letter-spacing: 0.6px">Unidade</div><div style="font-size: 14px; font-weight: 600">Todas (13 lojas)</div></div>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9C4BB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m9 18 6-6-6-6"></path></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<a href="painel.html" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 600; background: rgba(255,255,255,0.12); color: #fff" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg><span>Visão geral</span></a>
+<a href="pedidos.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M6 7h12l1 14H5L6 7Z M9 7a3 3 0 0 1 6 0"></path></svg><span>Pedidos</span><span style="margin-left: auto; background: #16A37E; color: #fff; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px">14</span></a>
+<a href="conversao.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 4h18l-7 8v7l-4 2v-9L3 4Z"></path></svg><span>Conversão</span><span style="margin-left: auto; background: #C2410C; color: #fff; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px">23</span></a>
+<a href="catalogo.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z M3 8l9 5 9-5 M12 13v8"></path></svg><span>Catálogo</span></a>
+<a href="clientes.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z M22 20v-2a4 4 0 0 0-3-3.87 M16 2.13a4 4 0 0 1 0 7.75"></path></svg><span>Clientes</span></a>
+<a href="marketing.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1Z M16 8a5 5 0 0 1 0 8 M19 5a9 9 0 0 1 0 14"></path></svg><span>Marketing</span></a>
+<a href="entrega.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M1 4h14v12H1z M15 9h4l3 3v4h-7 M5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z M18.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path></svg><span>Entrega</span></a>
+<a href="configuracoes.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg><span>Configurações</span></a>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px">
+<a href="loja.html" class="nav-a" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; font-size: 13px; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M7 2h10v20H7z M11 18h2"></path></svg><span>Ver loja do cliente</span></a>
+<div style="display: flex; align-items: center; gap: 10px; padding: 8px">
+<div style="width: 36px; height: 36px; border-radius: 50%; background: #16A37E; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">PR</div>
+<div><div style="font-size: 13px; font-weight: 600">Patrícia Rezende</div><div style="font-size: 12px; color: #A9C4BB">Gerente de e-commerce</div></div>
+</div></div>
+</nav>
+<main style="flex: 999 1 560px; min-width: 0; padding: 28px 32px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 100%">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; justify-content: space-between">
+<div><h1 style="margin: 0; font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.4px">Bom dia, Patrícia</h1>
+<p style="margin: 4px 0 0; color: #55645F; font-size: 14px">Terça, 24 de novembro · resumo das vendas online da rede</p></div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<label style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #E3E9E6; border-radius: 10px; padding: 0 12px; min-height: 42px; width: 260px; color: #55645F"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z M21 21l-4.35-4.35"></path></svg><input type="search" aria-label="Buscar" placeholder="Buscar pedido, cliente ou produto" style="border: 0; outline: 0; font-size: 14px; flex: 1; min-width: 0; background: transparent; color: #10221D"></label>
+<div role="group" aria-label="Período" style="display: flex; background: #fff; border: 1px solid #E3E9E6; border-radius: 10px; padding: 3px; gap: 2px">
+<sc-for list="{{ periods }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.pick }}" style="{{ p.style }}">{{ p.label }}</button></sc-for></div>
+<button type="button" aria-label="Notificações" style="width: 42px; height: 42px; border-radius: 10px; border: 1px solid #E3E9E6; background: #fff; display: flex; align-items: center; justify-content: center; color: #10221D; cursor: pointer; position: relative"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span style="position: absolute; top: 9px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: #C2410C"></span></button>
+</div></header>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; background: #E6F4EF; border-radius: 14px; padding: 14px 18px; font-size: 14px">
+<span style="width: 10px; height: 10px; border-radius: 50%; background: #16A37E; box-shadow: 0 0 0 4px rgba(22,163,126,0.2)"></span>
+<strong>Loja vendendo agora</strong>
+<span style="color: #55645F">Hoje: <strong style="color: #10221D">R$ 14.862,30</strong> em 162 pedidos · 38 clientes navegando · último pedido há 2 min (Moreninhas, R$ 64,70 via Pix)</span>
+<a href="pedidos.html" style="margin-left: auto; font-weight: 600; display: inline-flex; align-items: center; gap: 2px">Acompanhar pedidos<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m9 18 6-6-6-6"></path></svg></a></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div style="font-size: 13px; color: #55645F; font-weight: 500">Faturamento</div>
+<div style="font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.6px">{{ k.fat }}</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px"><span style="display: inline-flex; align-items: center; gap: 3px; color: #0B7A5E; background: #E6F4EF; font-weight: 700; padding: 2px 8px; border-radius: 999px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M7 17 17 7 M8 7h9v9"></path></svg>{{ k.fatD }}</span><span style="color: #55645F">vs. período anterior</span></div>
+</section>
+<section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div style="font-size: 13px; color: #55645F; font-weight: 500">Pedidos pagos</div>
+<div style="font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.6px">{{ k.ped }}</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px"><span style="display: inline-flex; align-items: center; gap: 3px; color: #0B7A5E; background: #E6F4EF; font-weight: 700; padding: 2px 8px; border-radius: 999px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M7 17 17 7 M8 7h9v9"></path></svg>{{ k.pedD }}</span><span style="color: #55645F">vs. período anterior</span></div>
+</section>
+<section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div style="font-size: 13px; color: #55645F; font-weight: 500">Ticket médio</div>
+<div style="font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.6px">{{ k.tic }}</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px"><span style="display: inline-flex; align-items: center; gap: 3px; color: #0B7A5E; background: #E6F4EF; font-weight: 700; padding: 2px 8px; border-radius: 999px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M7 17 17 7 M8 7h9v9"></path></svg>{{ k.ticD }}</span><span style="color: #55645F">vs. período anterior</span></div>
+</section>
+<section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<div style="font-size: 13px; color: #55645F; font-weight: 500">Taxa de conversão</div>
+<div style="font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.6px">{{ k.conv }}</div>
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px"><span style="display: inline-flex; align-items: center; gap: 3px; color: #0B7A5E; background: #E6F4EF; font-weight: 700; padding: 2px 8px; border-radius: 999px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M7 17 17 7 M8 7h9v9"></path></svg>{{ k.convD }}</span><span style="color: #55645F">visitas → pedido pago</span></div>
+</section>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px"><section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 22px; min-width: 0; flex: 2 1 560px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: flex-start">
+<div><h2 style="margin: 0; font-size: 16px; font-weight: 700">Faturamento diário</h2><p style="margin: 2px 0 0; font-size: 13px; color: #55645F">{{ k.label }} · todas as unidades</p></div>
+<div style="display: flex; gap: 16px; font-size: 13px; color: #55645F; align-items: center">
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 14px; height: 3px; border-radius: 2px; background: #0B7A5E"></span>Período atual</span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 14px; height: 0; border-top: 2px dashed #9AA8A3"></span>Período anterior</span>
+</div></div>
+<div style="display: flex; gap: 10px">
+<div style="display: flex; flex-direction: column; justify-content: space-between; font-size: 11px; color: #55645F; padding-bottom: 22px; text-align: right; width: 56px">
+<span>{{ k.max }}</span><span>R$ 0</span></div>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<svg viewBox="0 0 800 220" preserveAspectRatio="none" role="img" aria-label="Gráfico de faturamento diário comparado ao período anterior" style="width: 100%; height: 220px; display: block">
+<line x1="0" y1="55" x2="800" y2="55" stroke="#E3E9E6" stroke-width="1"></line>
+<line x1="0" y1="110" x2="800" y2="110" stroke="#E3E9E6" stroke-width="1"></line>
+<line x1="0" y1="165" x2="800" y2="165" stroke="#E3E9E6" stroke-width="1"></line>
+<line x1="0" y1="219.5" x2="800" y2="219.5" stroke="#C9D3CF" stroke-width="1"></line>
+<path d="{{ k.area }}" fill="#0B7A5E" opacity="0.08"></path>
+<path d="{{ k.prev }}" fill="none" stroke="#9AA8A3" stroke-width="1.6" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"></path>
+<path d="{{ k.line }}" fill="none" stroke="#0B7A5E" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+</svg>
+<div style="display: flex; justify-content: space-between; font-size: 11px; color: #55645F">
+<sc-for list="{{ k.axis }}" as="a" hint-placeholder-count="4"><span>{{ a }}</span></sc-for>
+</div></div></div>
+</section><section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 22px 22px 10px; min-width: 0; flex: 1 1 340px">
+<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3v4 M12 17v4 M3 12h4 M17 12h4 M6 6l2.5 2.5 M15.5 15.5 18 18 M6 18l2.5-2.5 M15.5 8.5 18 6"></path></svg><h2 style="margin: 0; font-size: 16px; font-weight: 700">Precisa da sua atenção</h2></div>
+<div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #E3E9E6">
+<div style="width: 38px; height: 38px; border-radius: 10px; background: #FFF1E8; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#C2410C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 3h2l2.4 12.2a1 1 0 0 0 1 .8h9.7a1 1 0 0 0 1-.76L21 8H6 M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z M18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg></div>
+<div style="flex: 1; min-width: 0"><div style="font-size: 14px; font-weight: 600">23 carrinhos abandonados hoje</div><div style="font-size: 12px; color: #55645F">R$ 2.940,80 parados · recupere pelo WhatsApp</div></div>
+<a href="conversao.html" style="font-size: 13px; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 2px; min-height: 44px">Recuperar<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m9 18 6-6-6-6"></path></svg></a></div><div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #E3E9E6">
+<div style="width: 38px; height: 38px; border-radius: 10px; background: #EAF1FD; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#1D5FD1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M6 7h12l1 14H5L6 7Z M9 7a3 3 0 0 1 6 0"></path></svg></div>
+<div style="flex: 1; min-width: 0"><div style="font-size: 14px; font-weight: 600">7 pedidos aguardando separação há +20 min</div><div style="font-size: 12px; color: #55645F">Tiradentes (3), Centro (2), Aero Rancho (2)</div></div>
+<a href="pedidos.html" style="font-size: 13px; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 2px; min-height: 44px">Ver pedidos<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m9 18 6-6-6-6"></path></svg></a></div><div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #E3E9E6">
+<div style="width: 38px; height: 38px; border-radius: 10px; background: #FDECEA; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 9v4 M12 17h.01 M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg></div>
+<div style="flex: 1; min-width: 0"><div style="font-size: 14px; font-weight: 600">18 produtos campeões em ruptura</div><div style="font-size: 12px; color: #55645F">Venderam R$ 9,3 mil no mês passado</div></div>
+<a href="estoque.html" style="font-size: 13px; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 2px; min-height: 44px">Ver estoque<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m9 18 6-6-6-6"></path></svg></a></div><div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid #E3E9E6">
+<div style="width: 38px; height: 38px; border-radius: 10px; background: #F3EEFB; display: flex; align-items: center; justify-content: center"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#6D3FC0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 5h18v14H3z M3 16l5-5 4 4 3-3 6 6"></path></svg></div>
+<div style="flex: 1; min-width: 0"><div style="font-size: 14px; font-weight: 600">1.248 produtos sem foto</div><div style="font-size: 12px; color: #55645F">Produtos sem foto convertem 3× menos</div></div>
+<a href="catalogo.html" style="font-size: 13px; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 2px; min-height: 44px">Corrigir<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m9 18 6-6-6-6"></path></svg></a></div></section></div>
+<section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 22px; display: flex; flex-wrap: wrap; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 10px; flex: 1 1 200px; min-width: 0">
+<div style="font-size: 13px; font-weight: 600">Canal</div>
+<div style="display: flex; height: 12px; border-radius: 6px; overflow: hidden; gap: 2px"><div style="width: 58%; background: #0B7A5E"></div><div style="width: 42%; background: #7CC4AE"></div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px"><div style="display: flex; align-items: center; gap: 6px; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #0B7A5E"></span><span style="color: #55645F">App</span><strong>58%</strong></div><div style="display: flex; align-items: center; gap: 6px; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #7CC4AE"></span><span style="color: #55645F">Site</span><strong>42%</strong></div></div></div>
+<div style="display: flex; flex-direction: column; gap: 10px; flex: 1 1 200px; min-width: 0">
+<div style="font-size: 13px; font-weight: 600">Modalidade</div>
+<div style="display: flex; height: 12px; border-radius: 6px; overflow: hidden; gap: 2px"><div style="width: 71%; background: #1D5FD1"></div><div style="width: 29%; background: #9DBAF0"></div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px"><div style="display: flex; align-items: center; gap: 6px; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #1D5FD1"></span><span style="color: #55645F">Entrega</span><strong>71%</strong></div><div style="display: flex; align-items: center; gap: 6px; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #9DBAF0"></span><span style="color: #55645F">Retirada na loja</span><strong>29%</strong></div></div></div>
+<div style="display: flex; flex-direction: column; gap: 10px; flex: 1 1 200px; min-width: 0">
+<div style="font-size: 13px; font-weight: 600">Pagamento</div>
+<div style="display: flex; height: 12px; border-radius: 6px; overflow: hidden; gap: 2px"><div style="width: 54%; background: #0B7A5E"></div><div style="width: 46%; background: #7CC4AE"></div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px"><div style="display: flex; align-items: center; gap: 6px; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #0B7A5E"></span><span style="color: #55645F">Pix</span><strong>54%</strong></div><div style="display: flex; align-items: center; gap: 6px; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #7CC4AE"></span><span style="color: #55645F">Cartão de crédito</span><strong>46%</strong></div></div></div>
+<div style="display: flex; flex-direction: column; gap: 10px; flex: 1 1 200px; min-width: 0">
+<div style="font-size: 13px; font-weight: 600">Clientes</div>
+<div style="display: flex; height: 12px; border-radius: 6px; overflow: hidden; gap: 2px"><div style="width: 63%; background: #6D3FC0"></div><div style="width: 37%; background: #C7B4EC"></div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px"><div style="display: flex; align-items: center; gap: 6px; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #6D3FC0"></span><span style="color: #55645F">Recorrentes</span><strong>63%</strong></div><div style="display: flex; align-items: center; gap: 6px; font-size: 13px"><span style="width: 10px; height: 10px; border-radius: 3px; background: #C7B4EC"></span><span style="color: #55645F">Novos</span><strong>37%</strong></div></div></div>
+</section>
+<div style="display: flex; flex-wrap: wrap; gap: 16px"><section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 22px; min-width: 0; flex: 1 1 460px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px"><div><h2 style="margin: 0; font-size: 16px; font-weight: 700">Vendas por unidade</h2><p style="margin: 2px 0 0; font-size: 13px; color: #55645F">faturamento online · 30 dias · variação vs. mês anterior</p></div><a href="estoque.html" style="font-size: 13px; font-weight: 600">Detalhar</a></div>
+<div style="display: flex; flex-direction: column; gap: 4px"><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Centro (14 de Julho)</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 100.0%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 61.240</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+14%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Tiradentes</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 86.3%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 52.880</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+11%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Coronel Antonino</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 77.3%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 47.310</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+9%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Aero Rancho</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 73.4%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 44.960</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+18%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Moreninhas</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 67.1%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 41.120</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+7%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Monte Castelo</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 63.3%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 38.740</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+12%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Universitário</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 59.5%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 36.450</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+5%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Santo Amaro</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 57.1%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 34.980</span>
+<span style="text-align: right; font-weight: 600; color: #B42318">-3%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Nova Lima</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 54.2%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 33.210</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+16%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Guanandi</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 51.6%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 31.570</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+8%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Jardim Leblon</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 46.8%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 28.640</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+10%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Vila Carlota</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 36.6%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 22.410</span>
+<span style="text-align: right; font-weight: 600; color: #B42318">-6%</span></div><div style="display: grid; grid-template-columns: 150px 1fr 96px 44px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Rochedo – Centro</span>
+<div style="height: 10px; background: #EEF2F0; border-radius: 5px; overflow: hidden"><div style="height: 100%; width: 21.9%; background: #0B7A5E; border-radius: 5px"></div></div>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 13.410</span>
+<span style="text-align: right; font-weight: 600; color: #0B7A5E">+21%</span></div></div></section><section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 22px; min-width: 0; flex: 1 1 460px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px"><div><h2 style="margin: 0; font-size: 16px; font-weight: 700">Produtos mais vendidos</h2><p style="margin: 2px 0 0; font-size: 13px; color: #55645F">30 dias · todas as unidades</p></div><a href="catalogo.html" style="font-size: 13px; font-weight: 600">Ver catálogo</a></div>
+<div><div class="row-h" style="display: grid; grid-template-columns: 24px 40px 1fr 70px 100px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #E3E9E6; font-size: 13px">
+<span style="color: #55645F; font-weight: 600">1</span><div style="width: 40px; height: 40px; border-radius: 8px; background: #E6F4EF; display: flex; align-items: center; justify-content: center; flex: none"><svg width="31" height="31" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="20" width="44" height="30" rx="3" fill="#fff" stroke="#0B7A5E" stroke-width="2"></rect><rect x="10" y="20" width="44" height="9" rx="2" fill="#0B7A5E" opacity="0.85"></rect><rect x="16" y="35" width="22" height="3" rx="1.5" fill="#0B7A5E" opacity="0.5"></rect><rect x="16" y="41" width="14" height="3" rx="1.5" fill="#0B7A5E" opacity="0.35"></rect></svg></div>
+<span style="font-weight: 500; min-width: 0">Dipirona Monoidratada 1g · 10 comp. (Genérico)</span>
+<span style="text-align: right; color: #55645F; font-variant-numeric: tabular-nums">1.842 un.</span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 12.709,80</span></div><div class="row-h" style="display: grid; grid-template-columns: 24px 40px 1fr 70px 100px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #E3E9E6; font-size: 13px">
+<span style="color: #55645F; font-weight: 600">2</span><div style="width: 40px; height: 40px; border-radius: 8px; background: #EAF1FD; display: flex; align-items: center; justify-content: center; flex: none"><svg width="31" height="31" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="20" width="44" height="30" rx="3" fill="#fff" stroke="#1D5FD1" stroke-width="2"></rect><rect x="10" y="20" width="44" height="9" rx="2" fill="#1D5FD1" opacity="0.85"></rect><rect x="16" y="35" width="22" height="3" rx="1.5" fill="#1D5FD1" opacity="0.5"></rect><rect x="16" y="41" width="14" height="3" rx="1.5" fill="#1D5FD1" opacity="0.35"></rect></svg></div>
+<span style="font-weight: 500; min-width: 0">Losartana Potássica 50mg · 30 comp. (Genérico)</span>
+<span style="text-align: right; color: #55645F; font-variant-numeric: tabular-nums">1.326 un.</span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 15.779,40</span></div><div class="row-h" style="display: grid; grid-template-columns: 24px 40px 1fr 70px 100px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #E3E9E6; font-size: 13px">
+<span style="color: #55645F; font-weight: 600">3</span><div style="width: 40px; height: 40px; border-radius: 8px; background: #FFF1E8; display: flex; align-items: center; justify-content: center; flex: none"><svg width="31" height="31" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="20" width="44" height="30" rx="3" fill="#fff" stroke="#C2410C" stroke-width="2"></rect><rect x="10" y="20" width="44" height="9" rx="2" fill="#C2410C" opacity="0.85"></rect><rect x="16" y="35" width="22" height="3" rx="1.5" fill="#C2410C" opacity="0.5"></rect><rect x="16" y="41" width="14" height="3" rx="1.5" fill="#C2410C" opacity="0.35"></rect></svg></div>
+<span style="font-weight: 500; min-width: 0">Dorflex · 36 comp.</span>
+<span style="text-align: right; color: #55645F; font-variant-numeric: tabular-nums">968 un.</span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 22.167,20</span></div><div class="row-h" style="display: grid; grid-template-columns: 24px 40px 1fr 70px 100px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #E3E9E6; font-size: 13px">
+<span style="color: #55645F; font-weight: 600">4</span><div style="width: 40px; height: 40px; border-radius: 8px; background: #F3EEFB; display: flex; align-items: center; justify-content: center; flex: none"><svg width="31" height="31" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="20" width="44" height="30" rx="3" fill="#fff" stroke="#6D3FC0" stroke-width="2"></rect><rect x="10" y="20" width="44" height="9" rx="2" fill="#6D3FC0" opacity="0.85"></rect><rect x="16" y="35" width="22" height="3" rx="1.5" fill="#6D3FC0" opacity="0.5"></rect><rect x="16" y="41" width="14" height="3" rx="1.5" fill="#6D3FC0" opacity="0.35"></rect></svg></div>
+<span style="font-weight: 500; min-width: 0">Omeprazol 20mg · 28 cáps. (Genérico)</span>
+<span style="text-align: right; color: #55645F; font-variant-numeric: tabular-nums">1.104 un.</span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 16.449,60</span></div><div class="row-h" style="display: grid; grid-template-columns: 24px 40px 1fr 70px 100px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #E3E9E6; font-size: 13px">
+<span style="color: #55645F; font-weight: 600">5</span><div style="width: 40px; height: 40px; border-radius: 8px; background: #FDF6E3; display: flex; align-items: center; justify-content: center; flex: none"><svg width="31" height="31" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="20" width="44" height="30" rx="3" fill="#fff" stroke="#9A6A00" stroke-width="2"></rect><rect x="10" y="20" width="44" height="9" rx="2" fill="#9A6A00" opacity="0.85"></rect><rect x="16" y="35" width="22" height="3" rx="1.5" fill="#9A6A00" opacity="0.5"></rect><rect x="16" y="41" width="14" height="3" rx="1.5" fill="#9A6A00" opacity="0.35"></rect></svg></div>
+<span style="font-weight: 500; min-width: 0">Neosaldina · 30 drágeas</span>
+<span style="text-align: right; color: #55645F; font-variant-numeric: tabular-nums">512 un.</span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 16.844,80</span></div><div class="row-h" style="display: grid; grid-template-columns: 24px 40px 1fr 70px 100px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #E3E9E6; font-size: 13px">
+<span style="color: #55645F; font-weight: 600">6</span><div style="width: 40px; height: 40px; border-radius: 8px; background: #EEF6F9; display: flex; align-items: center; justify-content: center; flex: none"><svg width="31" height="31" viewBox="0 0 64 64" aria-hidden="true"><path d="M20 12h24l-3 36H23L20 12Z" fill="#fff" stroke="#1F6F8B" stroke-width="2"></path><rect x="26" y="48" width="12" height="6" rx="1.5" fill="#1F6F8B"></rect><rect x="24" y="22" width="16" height="8" rx="2" fill="#1F6F8B" opacity="0.3"></rect></svg></div>
+<span style="font-weight: 500; min-width: 0">Anthelios XL FPS 60 · 40g</span>
+<span style="text-align: right; color: #55645F; font-variant-numeric: tabular-nums">284 un.</span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 25.531,60</span></div><div class="row-h" style="display: grid; grid-template-columns: 24px 40px 1fr 70px 100px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #E3E9E6; font-size: 13px">
+<span style="color: #55645F; font-weight: 600">7</span><div style="width: 40px; height: 40px; border-radius: 8px; background: #E6F4EF; display: flex; align-items: center; justify-content: center; flex: none"><svg width="31" height="31" viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="12" width="40" height="42" rx="6" fill="#fff" stroke="#0B7A5E" stroke-width="2"></rect><circle cx="32" cy="30" r="9" fill="#0B7A5E" opacity="0.25"></circle><rect x="18" y="44" width="28" height="4" rx="2" fill="#0B7A5E" opacity="0.5"></rect></svg></div>
+<span style="font-weight: 500; min-width: 0">Pampers Confort Sec XG · 48 un.</span>
+<span style="text-align: right; color: #55645F; font-variant-numeric: tabular-nums">236 un.</span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 23.576,40</span></div><div class="row-h" style="display: grid; grid-template-columns: 24px 40px 1fr 70px 100px; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid #E3E9E6; font-size: 13px">
+<span style="color: #55645F; font-weight: 600">8</span><div style="width: 40px; height: 40px; border-radius: 8px; background: #EAF1FD; display: flex; align-items: center; justify-content: center; flex: none"><svg width="31" height="31" viewBox="0 0 64 64" aria-hidden="true"><rect x="25" y="10" width="14" height="8" rx="2" fill="#1D5FD1"></rect><rect x="19" y="18" width="26" height="36" rx="6" fill="#fff" stroke="#1D5FD1" stroke-width="2"></rect><rect x="19" y="30" width="26" height="12" fill="#1D5FD1" opacity="0.25"></rect></svg></div>
+<span style="font-weight: 500; min-width: 0">Centrum Mulher · 60 comp.</span>
+<span style="text-align: right; color: #55645F; font-variant-numeric: tabular-nums">198 un.</span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">R$ 15.820,20</span></div></div></section></div>
+</main>
+</div>
+</template>
+<script type="text/x-dc" id="logic">
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { period: '30' }; }
+  renderVals() {
+    const K = {"7": {"fat": "R$ 118.430,20", "fatD": "+9,8%", "ped": "1.286", "pedD": "+6,2%", "tic": "R$ 92,09", "ticD": "+3,4%", "conv": "3,3%", "convD": "+0,3 p.p.", "label": "últimos 7 dias", "axis": ["18/11", "20/11", "22/11", "24/11"], "line": "M0.0 67.8 L133.3 70.1 L266.7 55.1 L400.0 67.9 L533.3 23.6 L666.7 26.3 L800.0 84.1", "area": "M0.0 67.8 L133.3 70.1 L266.7 55.1 L400.0 67.9 L533.3 23.6 L666.7 26.3 L800.0 84.1 L800 220 L0 220 Z", "prev": "M0.0 81.3 L133.3 91.0 L266.7 81.3 L400.0 88.8 L533.3 63.7 L666.7 53.9 L800.0 90.3", "max": "R$ 23.746"}, "30": {"fat": "R$ 486.920,40", "fatD": "+12,4%", "ped": "5.312", "pedD": "+8,1%", "tic": "R$ 91,67", "ticD": "+4,0%", "conv": "3,2%", "convD": "+0,4 p.p.", "label": "últimos 30 dias", "axis": ["26/10", "05/11", "15/11", "24/11"], "line": "M0.0 77.5 L27.6 74.6 L55.2 64.3 L82.8 55.9 L110.3 36.5 L137.9 41.2 L165.5 76.9 L193.1 76.1 L220.7 55.4 L248.3 69.1 L275.9 72.3 L303.4 45.9 L331.0 39.7 L358.6 77.1 L386.2 69.4 L413.8 58.8 L441.4 56.8 L469.0 63.1 L496.6 28.9 L524.1 43.1 L551.7 90.7 L579.3 65.4 L606.9 52.6 L634.5 58.7 L662.1 61.2 L689.7 23.6 L717.2 27.1 L744.8 82.5 L772.4 46.5 L800.0 48.5", "area": "M0.0 77.5 L27.6 74.6 L55.2 64.3 L82.8 55.9 L110.3 36.5 L137.9 41.2 L165.5 76.9 L193.1 76.1 L220.7 55.4 L248.3 69.1 L275.9 72.3 L303.4 45.9 L331.0 39.7 L358.6 77.1 L386.2 69.4 L413.8 58.8 L441.4 56.8 L469.0 63.1 L496.6 28.9 L524.1 43.1 L551.7 90.7 L579.3 65.4 L606.9 52.6 L634.5 58.7 L662.1 61.2 L689.7 23.6 L717.2 27.1 L744.8 82.5 L772.4 46.5 L800.0 48.5 L800 220 L0 220 Z", "prev": "M0.0 91.3 L27.6 84.1 L55.2 85.0 L82.8 77.2 L110.3 55.0 L137.9 66.1 L165.5 94.8 L193.1 92.9 L220.7 86.2 L248.3 78.7 L275.9 91.6 L303.4 59.7 L331.0 71.0 L358.6 99.5 L386.2 77.6 L413.8 81.6 L441.4 74.8 L469.0 86.9 L496.6 52.8 L524.1 55.2 L551.7 100.0 L579.3 83.1 L606.9 74.4 L634.5 71.9 L662.1 82.1 L689.7 52.1 L717.2 67.7 L744.8 96.6 L772.4 77.6 L800.0 69.7", "max": "R$ 23.555"}, "90": {"fat": "R$ 1.392.115,80", "fatD": "+15,1%", "ped": "15.388", "pedD": "+10,7%", "tic": "R$ 90,47", "ticD": "+3,9%", "conv": "3,0%", "convD": "+0,5 p.p.", "label": "últimos 90 dias", "axis": ["26/ago", "25/set", "25/out", "24/nov"], "line": "M0.0 65.9 L9.0 78.3 L18.0 75.8 L27.0 69.0 L36.0 59.5 L44.9 47.1 L53.9 99.8 L62.9 81.3 L71.9 82.5 L80.9 65.6 L89.9 80.6 L98.9 52.0 L107.9 47.8 L116.9 84.5 L125.8 81.1 L134.8 72.2 L143.8 69.6 L152.8 61.5 L161.8 34.6 L170.8 33.1 L179.8 95.7 L188.8 72.0 L197.8 73.2 L206.7 60.4 L215.7 58.5 L224.7 52.2 L233.7 51.2 L242.7 95.7 L251.7 75.3 L260.7 69.1 L269.7 66.4 L278.7 74.1 L287.6 55.1 L296.6 43.0 L305.6 91.9 L314.6 66.1 L323.6 56.5 L332.6 62.7 L341.6 66.8 L350.6 36.1 L359.6 34.2 L368.5 97.6 L377.5 56.8 L386.5 59.5 L395.5 57.0 L404.5 58.7 L413.5 41.3 L422.5 40.9 L431.5 95.6 L440.4 62.1 L449.4 76.1 L458.4 75.8 L467.4 72.2 L476.4 46.7 L485.4 41.3 L494.4 95.8 L503.4 76.7 L512.4 72.8 L521.3 73.9 L530.3 67.2 L539.3 49.5 L548.3 24.2 L557.3 82.8 L566.3 72.0 L575.3 69.2 L584.3 66.7 L593.3 66.1 L602.2 45.4 L611.2 23.6 L620.2 73.6 L629.2 62.9 L638.2 62.3 L647.2 72.2 L656.2 71.6 L665.2 37.5 L674.2 39.7 L683.1 76.1 L692.1 69.5 L701.1 72.9 L710.1 49.0 L719.1 59.7 L728.1 42.1 L737.1 30.0 L746.1 92.7 L755.1 59.0 L764.0 47.3 L773.0 50.1 L782.0 54.2 L791.0 37.4 L800.0 34.0", "area": "M0.0 65.9 L9.0 78.3 L18.0 75.8 L27.0 69.0 L36.0 59.5 L44.9 47.1 L53.9 99.8 L62.9 81.3 L71.9 82.5 L80.9 65.6 L89.9 80.6 L98.9 52.0 L107.9 47.8 L116.9 84.5 L125.8 81.1 L134.8 72.2 L143.8 69.6 L152.8 61.5 L161.8 34.6 L170.8 33.1 L179.8 95.7 L188.8 72.0 L197.8 73.2 L206.7 60.4 L215.7 58.5 L224.7 52.2 L233.7 51.2 L242.7 95.7 L251.7 75.3 L260.7 69.1 L269.7 66.4 L278.7 74.1 L287.6 55.1 L296.6 43.0 L305.6 91.9 L314.6 66.1 L323.6 56.5 L332.6 62.7 L341.6 66.8 L350.6 36.1 L359.6 34.2 L368.5 97.6 L377.5 56.8 L386.5 59.5 L395.5 57.0 L404.5 58.7 L413.5 41.3 L422.5 40.9 L431.5 95.6 L440.4 62.1 L449.4 76.1 L458.4 75.8 L467.4 72.2 L476.4 46.7 L485.4 41.3 L494.4 95.8 L503.4 76.7 L512.4 72.8 L521.3 73.9 L530.3 67.2 L539.3 49.5 L548.3 24.2 L557.3 82.8 L566.3 72.0 L575.3 69.2 L584.3 66.7 L593.3 66.1 L602.2 45.4 L611.2 23.6 L620.2 73.6 L629.2 62.9 L638.2 62.3 L647.2 72.2 L656.2 71.6 L665.2 37.5 L674.2 39.7 L683.1 76.1 L692.1 69.5 L701.1 72.9 L710.1 49.0 L719.1 59.7 L728.1 42.1 L737.1 30.0 L746.1 92.7 L755.1 59.0 L764.0 47.3 L773.0 50.1 L782.0 54.2 L791.0 37.4 L800.0 34.0 L800 220 L0 220 Z", "prev": "M0.0 97.2 L9.0 84.6 L18.0 89.5 L27.0 84.3 L36.0 70.8 L44.9 73.4 L53.9 102.6 L62.9 79.8 L71.9 82.5 L80.9 83.4 L89.9 83.1 L98.9 60.3 L107.9 72.8 L116.9 107.5 L125.8 92.5 L134.8 99.3 L143.8 99.2 L152.8 93.9 L161.8 71.6 L170.8 60.9 L179.8 99.2 L188.8 90.2 L197.8 79.8 L206.7 78.7 L215.7 79.3 L224.7 68.6 L233.7 72.1 L242.7 112.0 L251.7 95.0 L260.7 94.8 L269.7 85.9 L278.7 80.1 L287.6 56.3 L296.6 65.2 L305.6 104.0 L314.6 81.9 L323.6 97.0 L332.6 84.8 L341.6 79.4 L350.6 57.2 L359.6 58.0 L368.5 106.8 L377.5 94.7 L386.5 81.7 L395.5 91.3 L404.5 81.3 L413.5 52.0 L422.5 66.3 L431.5 107.9 L440.4 78.0 L449.4 82.6 L458.4 94.3 L467.4 95.2 L476.4 72.1 L485.4 53.1 L494.4 100.1 L503.4 94.6 L512.4 80.0 L521.3 76.7 L530.3 83.5 L539.3 66.6 L548.3 61.6 L557.3 112.1 L566.3 97.0 L575.3 76.5 L584.3 83.3 L593.3 85.9 L602.2 51.4 L611.2 64.0 L620.2 98.2 L629.2 79.3 L638.2 92.4 L647.2 91.4 L656.2 90.5 L665.2 68.5 L674.2 59.6 L683.1 109.1 L692.1 87.6 L701.1 93.7 L710.1 76.9 L719.1 88.8 L728.1 62.5 L737.1 59.2 L746.1 96.8 L755.1 87.1 L764.0 76.4 L773.0 85.3 L782.0 84.6 L791.0 60.3 L800.0 73.1", "max": "R$ 23.217"}};
+    const p = this.state.period;
+    const base = 'border: 0; border-radius: 8px; padding: 0 14px; min-height: 36px; font-size: 13px; font-weight: 600; cursor: pointer; ';
+    const periods = [['7','7 dias'],['30','30 dias'],['90','90 dias']].map(([id, label]) => ({
+      label, pick: () => this.setState({ period: id }),
+      style: base + (id === p ? 'background: #0B7A5E; color: #fff' : 'background: transparent; color: #55645F')
+    }));
+    return { k: K[p], periods };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+<script>bootDC();</script>
+</body>
+</html>

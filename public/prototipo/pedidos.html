@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B7A5E">
+<title>Pedidos — kanban · Drogaria Modelo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#10221D;-webkit-font-smoothing:antialiased}
+a{color:#0B7A5E;text-decoration:none}a:hover{color:#075E48}
+button{font-family:inherit}
+input,select{font-family:inherit}
+.nav-a{color:#C9DDD6}.nav-a:hover{color:#fff;background:rgba(255,255,255,0.06)}
+.row-h:hover{background:#F8FAF9}
+.btn-p:hover{background:#075E48 !important;color:#fff !important}
+.btn-g:hover{background:#EEF2F0 !important}
+
+</style>
+
+
+</head>
+<body>
+
+<div id="app"></div>
+<template id="tpl">
+<div style="display: flex; flex-wrap: wrap; min-height: 100vh; background: #F5F7F6">
+<nav aria-label="Menu principal" style="flex: 1 1 248px; max-width: 100%; background: #0C2B24; color: #fff; padding: 20px 14px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px">
+<div style="padding: 4px 8px"><div style="display: flex; align-items: center; gap: 10px"><div style="width: 34px; height: 34px; border-radius: 10px; background: #16A37E; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z" fill="#fff"></path></svg></div><div style="font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-weight: 800; font-size: 17px; color: #fff; letter-spacing: -0.2px">Drogaria Modelo</div></div></div>
+<div style="background: rgba(255,255,255,0.07); border-radius: 12px; padding: 10px 12px; display: flex; align-items: center; gap: 10px">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8FD3BD" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 9l1.5-5h15L21 9 M3 9v11h18V9 M3 9h18 M9 20v-6h6v6"></path></svg>
+<div style="flex: 1; min-width: 0"><div style="font-size: 11px; color: #A9C4BB; text-transform: uppercase; letter-spacing: 0.6px">Unidade</div><div style="font-size: 14px; font-weight: 600">Todas (13 lojas)</div></div>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A9C4BB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m9 18 6-6-6-6"></path></svg>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<a href="painel.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg><span>Visão geral</span></a>
+<a href="pedidos.html" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 600; background: rgba(255,255,255,0.12); color: #fff" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M6 7h12l1 14H5L6 7Z M9 7a3 3 0 0 1 6 0"></path></svg><span>Pedidos</span><span style="margin-left: auto; background: #16A37E; color: #fff; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px">14</span></a>
+<a href="conversao.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 4h18l-7 8v7l-4 2v-9L3 4Z"></path></svg><span>Conversão</span><span style="margin-left: auto; background: #C2410C; color: #fff; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px">23</span></a>
+<a href="catalogo.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z M3 8l9 5 9-5 M12 13v8"></path></svg><span>Catálogo</span></a>
+<a href="clientes.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z M22 20v-2a4 4 0 0 0-3-3.87 M16 2.13a4 4 0 0 1 0 7.75"></path></svg><span>Clientes</span></a>
+<a href="marketing.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 11v2a1 1 0 0 0 1 1h3l5 4V6L7 10H4a1 1 0 0 0-1 1Z M16 8a5 5 0 0 1 0 8 M19 5a9 9 0 0 1 0 14"></path></svg><span>Marketing</span></a>
+<a href="entrega.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M1 4h14v12H1z M15 9h4l3 3v4h-7 M5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z M18.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path></svg><span>Entrega</span></a>
+<a href="configuracoes.html" class="nav-a" style="display: flex; align-items: center; gap: 12px; padding: 0 12px; min-height: 44px; border-radius: 10px; font-size: 14px; font-weight: 500; "><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg><span>Configurações</span></a>
+</div>
+<div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px">
+<a href="loja.html" class="nav-a" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; font-size: 13px; font-weight: 600"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M7 2h10v20H7z M11 18h2"></path></svg><span>Ver loja do cliente</span></a>
+<div style="display: flex; align-items: center; gap: 10px; padding: 8px">
+<div style="width: 36px; height: 36px; border-radius: 50%; background: #16A37E; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">PR</div>
+<div><div style="font-size: 13px; font-weight: 600">Patrícia Rezende</div><div style="font-size: 12px; color: #A9C4BB">Gerente de e-commerce</div></div>
+</div></div>
+</nav>
+<main style="flex: 999 1 560px; min-width: 0; padding: 28px 32px 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; max-width: 100%">
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; justify-content: space-between">
+<div><h1 style="margin: 0; font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.4px">Pedidos online de hoje · um clique avança o status e o cliente é avisado no app e no WhatsApp</h1>
+<p style="margin: 4px 0 0; color: #55645F; font-size: 14px"><div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+<label style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #E3E9E6; border-radius: 10px; padding: 0 12px; min-height: 42px; font-size: 14px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#55645F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 9l1.5-5h15L21 9 M3 9v11h18V9 M3 9h18 M9 20v-6h6v6"></path></svg><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Unidade</span>
+<select value="{{ unit }}" onChange="{{ setUnit }}" style="border: 0; outline: 0; font-size: 14px; font-weight: 600; background: transparent; color: #10221D; min-height: 40px"><option value="all">Todas as unidades (13)</option><option value="Centro (14 de Julho)">Centro (14 de Julho)</option><option value="Tiradentes">Tiradentes</option><option value="Coronel Antonino">Coronel Antonino</option><option value="Aero Rancho">Aero Rancho</option><option value="Moreninhas">Moreninhas</option><option value="Monte Castelo">Monte Castelo</option><option value="Universitário">Universitário</option><option value="Santo Amaro">Santo Amaro</option><option value="Nova Lima">Nova Lima</option><option value="Guanandi">Guanandi</option><option value="Jardim Leblon">Jardim Leblon</option><option value="Vila Carlota">Vila Carlota</option><option value="Rochedo – Centro">Rochedo – Centro</option></select></label>
+<div role="group" aria-label="Modalidade" style="display: flex; background: #fff; border: 1px solid #E3E9E6; border-radius: 10px; padding: 3px; gap: 2px">
+<sc-for list="{{ modes }}" as="m" hint-placeholder-count="3"><button type="button" onClick="{{ m.pick }}" style="{{ m.style }}">{{ m.label }}</button></sc-for></div>
+<div style="margin-left: auto; display: flex; gap: 18px; font-size: 13px; color: #55645F">
+<span>Tempo médio de separação: <strong style="color: #10221D">11 min</strong></span>
+<span>Entrega média: <strong style="color: #10221D">38 min</strong></span>
+<span style="display: inline-flex; align-items: center; gap: 6px"><span style="width: 8px; height: 8px; border-radius: 50%; background: #16A37E"></span>Atualizando ao vivo</span></div>
+</div><div style="overflow-x: auto; padding-bottom: 8px">
+<div style="display: grid; grid-template-columns: repeat(6, minmax(250px, 1fr)); gap: 14px; min-width: 1560px">
+<sc-for list="{{ cols }}" as="c" hint-placeholder-count="6">
+<div style="background: #EDF1EF; border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px; min-height: 640px">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 4px">
+<span style="{{ c.labelStyle }}">{{ c.label }}</span>
+<span style="font-size: 13px; font-weight: 700; color: #55645F">{{ c.count }}</span></div>
+<sc-for list="{{ c.orders }}" as="o" hint-placeholder-count="3"><article style="background: #fff; border: 1px solid #E3E9E6; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 8px">
+<strong style="font-size: 14px">#{{ o.id }}</strong>
+<span style="{{ o.agoStyle }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z M12 7v5l3 2"></path></svg>{{ o.ago }}</span></div>
+<div><div style="font-size: 14px; font-weight: 600">{{ o.name }}</div><div style="font-size: 12px; color: #55645F; margin-top: 2px">{{ o.items }}</div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<span style="font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; background: #EEF2F0; color: #3D4B47; display: inline-flex; align-items: center; gap: 4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 9l1.5-5h15L21 9 M3 9v11h18V9 M3 9h18 M9 20v-6h6v6"></path></svg>{{ o.unit }}</span>
+<span style="{{ o.modeStyle }}">{{ o.modeLabel }}</span>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #E3E9E6; padding-top: 10px">
+<div style="font-size: 13px"><strong style="font-size: 15px">{{ o.total }}</strong> <span style="color: #55645F">· {{ o.payLabel }}</span></div>
+<sc-if value="{{ o.canAdvance }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn-p" onClick="{{ o.advance }}" style="border: 0; background: #0B7A5E; color: #fff; font-size: 12px; font-weight: 600; border-radius: 8px; padding: 0 10px; min-height: 32px; cursor: pointer">{{ o.next }}</button></sc-if>
+</div></article></sc-for>
+<sc-if value="{{ c.empty }}" hint-placeholder-val="{{ false }}"><div style="font-size: 13px; color: #55645F; text-align: center; padding: 24px 8px">Nenhum pedido aqui</div></sc-if>
+</div></sc-for></div></div></p></div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+<label style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #E3E9E6; border-radius: 10px; padding: 0 12px; min-height: 42px; width: 260px; color: #55645F"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z M21 21l-4.35-4.35"></path></svg><input type="search" aria-label="Buscar" placeholder="Buscar pedido, cliente ou produto" style="border: 0; outline: 0; font-size: 14px; flex: 1; min-width: 0; background: transparent; color: #10221D"></label>
+
+<button type="button" aria-label="Notificações" style="width: 42px; height: 42px; border-radius: 10px; border: 1px solid #E3E9E6; background: #fff; display: flex; align-items: center; justify-content: center; color: #10221D; cursor: pointer; position: relative"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9 M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span style="position: absolute; top: 9px; right: 10px; width: 8px; height: 8px; border-radius: 50%; background: #C2410C"></span></button>
+</div></header>
+<button type="button" class="btn-g" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; background: #fff; color: #10221D; border: 1px solid #E3E9E6; "><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 3v12 M7 10l5 5 5-5 M4 21h16"></path></svg><span>Exportar</span></button>
+</main>
+</div>
+</template>
+<script type="text/x-dc" id="logic">
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { orders: [{"id": 48231, "name": "Maria Aparecida Souza", "unit": "Tiradentes", "mode": "entrega", "pay": "pix", "total": "R$ 87,40", "n": 3, "st": "novo", "ago": "agora", "items": "Losartana 50mg, Dipirona 1g +1"}, {"id": 48230, "name": "João Pedro Almeida", "unit": "Centro (14 de Julho)", "mode": "retirada", "pay": "cartao", "total": "R$ 142,90", "n": 2, "st": "novo", "ago": "2 min", "items": "Anthelios XL FPS 60, Água Micelar"}, {"id": 48229, "name": "Luciana Ferreira", "unit": "Moreninhas", "mode": "entrega", "pay": "pix", "total": "R$ 64,70", "n": 4, "st": "novo", "ago": "4 min", "items": "Pampers XG, Lenço Umedecido +2"}, {"id": 48228, "name": "Carlos Eduardo Ramos", "unit": "Aero Rancho", "mode": "entrega", "pay": "cartao", "total": "R$ 39,80", "n": 1, "st": "novo", "ago": "6 min", "items": "Neosaldina 30 drágeas"}, {"id": 48226, "name": "Fernanda Lima", "unit": "Coronel Antonino", "mode": "entrega", "pay": "pix", "total": "R$ 211,30", "n": 6, "st": "separacao", "ago": "9 min", "items": "Centrum Mulher, Vitamina D 2000UI +4"}, {"id": 48224, "name": "Rafael Oliveira", "unit": "Tiradentes", "mode": "retirada", "pay": "pix", "total": "R$ 23,80", "n": 2, "st": "separacao", "ago": "14 min", "items": "Dorflex 36 comp., Sal de Fruta"}, {"id": 48221, "name": "Ana Beatriz Costa", "unit": "Centro (14 de Julho)", "mode": "entrega", "pay": "cartao", "total": "R$ 96,50", "n": 3, "st": "separacao", "ago": "22 min", "items": "Omeprazol 20mg, Buscopan +1"}, {"id": 48219, "name": "Sebastião Nogueira", "unit": "Rochedo – Centro", "mode": "entrega", "pay": "pix", "total": "R$ 58,20", "n": 2, "st": "separacao", "ago": "24 min", "items": "Glifage XR 500mg, Losartana 50mg"}, {"id": 48217, "name": "Patrícia Gomes", "unit": "Monte Castelo", "mode": "entrega", "pay": "pix", "total": "R$ 132,00", "n": 5, "st": "saiu", "ago": "31 min", "items": "Cetaphil Loção, Protetor Labial +3"}, {"id": 48215, "name": "Gustavo Henrique Silva", "unit": "Guanandi", "mode": "entrega", "pay": "cartao", "total": "R$ 74,90", "n": 2, "st": "saiu", "ago": "36 min", "items": "Whey Protein 900g, Coqueteleira"}, {"id": 48212, "name": "Juliana Martins", "unit": "Universitário", "mode": "entrega", "pay": "pix", "total": "R$ 45,60", "n": 3, "st": "saiu", "ago": "42 min", "items": "Dipirona 1g, Termômetro Digital +1"}, {"id": 48210, "name": "Marcos Vinícius Rocha", "unit": "Santo Amaro", "mode": "retirada", "pay": "cartao", "total": "R$ 189,90", "n": 1, "st": "pronto", "ago": "48 min", "items": "Vichy Mineral 89 50ml"}, {"id": 48208, "name": "Cláudia Barbosa", "unit": "Tiradentes", "mode": "retirada", "pay": "pix", "total": "R$ 32,70", "n": 2, "st": "pronto", "ago": "51 min", "items": "Torsilax, Soro Fisiológico"}, {"id": 48205, "name": "Roberto Carlos Pinto", "unit": "Nova Lima", "mode": "retirada", "pay": "pix", "total": "R$ 27,80", "n": 1, "st": "pronto", "ago": "1h 02", "items": "Loratadina 10mg 12 comp."}, {"id": 48199, "name": "Helena Duarte", "unit": "Jardim Leblon", "mode": "entrega", "pay": "pix", "total": "R$ 118,40", "n": 4, "st": "entregue", "ago": "1h 20", "items": "Fralda Geriátrica G, Pomada +2"}, {"id": 48196, "name": "Thiago Moreira", "unit": "Centro (14 de Julho)", "mode": "entrega", "pay": "cartao", "total": "R$ 56,30", "n": 2, "st": "entregue", "ago": "1h 34", "items": "Allegra 120mg, Nasonex"}, {"id": 48192, "name": "Simone Araújo", "unit": "Vila Carlota", "mode": "retirada", "pay": "pix", "total": "R$ 84,90", "n": 3, "st": "entregue", "ago": "1h 51", "items": "Ácido Hialurônico Sérum +2"}, {"id": 48188, "name": "Eduardo Pires", "unit": "Aero Rancho", "mode": "entrega", "pay": "cartao", "total": "R$ 41,20", "n": 1, "st": "cancelado", "ago": "2h 05", "items": "Dramin B6 · cartão recusado"}, {"id": 48184, "name": "Vanessa Teixeira", "unit": "Moreninhas", "mode": "entrega", "pay": "pix", "total": "R$ 66,10", "n": 2, "st": "cancelado", "ago": "2h 18", "items": "Pix expirado"}], unit: 'all', mode: 'all' }; }
+  renderVals() {
+    const COLS = [{"id": "novo", "label": "Novos", "fg": "#1D5FD1", "bg": "#EAF1FD"}, {"id": "separacao", "label": "Em separação", "fg": "#9A6A00", "bg": "#FDF6E3"}, {"id": "saiu", "label": "Saiu para entrega", "fg": "#6D3FC0", "bg": "#F3EEFB"}, {"id": "pronto", "label": "Pronto para retirada", "fg": "#0B7A5E", "bg": "#E6F4EF"}, {"id": "entregue", "label": "Entregue", "fg": "#3D4B47", "bg": "#EEF2F0"}, {"id": "cancelado", "label": "Cancelado", "fg": "#B42318", "bg": "#FDECEA"}];
+    const NEXT = { novo: 'separacao', separacao: null, saiu: 'entregue', pronto: 'entregue' };
+    const LABEL = { novo: 'Iniciar separação', separacao: null, saiu: 'Confirmar entrega', pronto: 'Retirado' };
+    const { unit, mode } = this.state;
+    const list = this.state.orders.filter(o => (unit === 'all' || o.unit === unit) && (mode === 'all' || o.mode === mode));
+    const move = (id) => {
+      this.setState({ orders: this.state.orders.map(o => {
+        if (o.id !== id) return o;
+        let st = NEXT[o.st];
+        if (o.st === 'separacao') st = o.mode === 'entrega' ? 'saiu' : 'pronto';
+        return Object.assign({}, o, { st, ago: 'agora' });
+      }) });
+    };
+    const pill = 'font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; ';
+    const cols = COLS.map(c => {
+      const orders = list.filter(o => o.st === c.id).map(o => {
+        const late = o.st === 'separacao' && (o.ago === '22 min' || o.ago === '24 min');
+        return Object.assign({}, o, {
+          payLabel: o.pay === 'pix' ? 'Pix' : 'Cartão',
+          modeLabel: o.mode === 'entrega' ? 'Entrega' : 'Retirada',
+          modeStyle: pill + (o.mode === 'entrega' ? 'background: #EAF1FD; color: #1D5FD1' : 'background: #E6F4EF; color: #075E48'),
+          agoStyle: 'display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: ' + (late ? '#B42318' : '#55645F'),
+          canAdvance: o.st in LABEL && o.st !== 'entregue',
+          next: o.st === 'separacao' ? (o.mode === 'entrega' ? 'Despachar' : 'Pronto p/ retirar') : LABEL[o.st],
+          advance: () => move(o.id)
+        });
+      });
+      return Object.assign({}, c, { orders, count: orders.length, empty: orders.length === 0,
+        labelStyle: 'font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 999px; color: ' + c.fg + '; background: ' + c.bg });
+    });
+    const base = 'border: 0; border-radius: 8px; padding: 0 14px; min-height: 36px; font-size: 13px; font-weight: 600; cursor: pointer; ';
+    const modes = [['all','Todos'],['entrega','Entrega'],['retirada','Retirada']].map(([id, label]) => ({ label,
+      pick: () => this.setState({ mode: id }),
+      style: base + (id === mode ? 'background: #0B7A5E; color: #fff' : 'background: transparent; color: #55645F') }));
+    return { cols, modes, unit, setUnit: (e) => this.setState({ unit: e.target.value }) };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+<script>bootDC();</script>
+</body>
+</html>

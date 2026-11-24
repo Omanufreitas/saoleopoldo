@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B7A5E">
+<title>Loja — carrinho · Drogaria Modelo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#10221D;-webkit-font-smoothing:antialiased}
+a{color:#0B7A5E;text-decoration:none}a:hover{color:#075E48}
+button{font-family:inherit}
+input,select{font-family:inherit}
+.nav-a{color:#C9DDD6}.nav-a:hover{color:#fff;background:rgba(255,255,255,0.06)}
+.row-h:hover{background:#F8FAF9}
+.btn-p:hover{background:#075E48 !important;color:#fff !important}
+.btn-g:hover{background:#EEF2F0 !important}
+
+</style>
+
+<style>
+body{background:#DCE5E1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 0;box-sizing:border-box}
+#app>div{border-radius:36px;box-shadow:0 30px 60px rgba(12,43,36,0.22),0 0 0 10px #10221D}
+.demo-back{position:fixed;top:16px;left:16px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#10221D;font:600 13px Inter,sans-serif;padding:10px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
+@media (max-width:520px){body{padding:0;display:block;background:#F5F7F6}#app>div{width:100vw !important;height:100vh !important;height:100dvh !important;border-radius:0;box-shadow:none}.demo-back{display:none}}
+</style>
+</head>
+<body>
+<a class="demo-back" href="painel.html">← Ver painel da farmácia</a>
+<div id="app"></div>
+<template id="tpl">
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F5F7F6; display: flex; flex-direction: column; overflow: hidden; font-family: Inter, system-ui, sans-serif">
+<div style="flex: 1; min-height: 0; overflow-y: auto">
+<header style="display: flex; align-items: center; gap: 8px; padding: 14px 12px 10px; background: #fff; border-bottom: 1px solid #E3E9E6">
+<a href="loja-produto.html" aria-label="Voltar" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #10221D; border-radius: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m15 18-6-6 6-6"></path></svg></a>
+<h1 style="margin: 0; flex: 1; font-size: 17px; font-weight: 700">Carrinho</h1><span style="font-size: 13px; color: #55645F; padding-right: 8px">{{ count }} itens</span></header>
+<div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 12px">
+<section style="background: #fff; border-radius: 14px; padding: 12px 14px; border: 1px solid #E3E9E6; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 8px; font-size: 13px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M1 4h14v12H1z M15 9h4l3 3v4h-7 M5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z M18.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"></path></svg><span>{{ freeLabel }}</span></div>
+<div style="height: 8px; border-radius: 4px; background: #EEF2F0; overflow: hidden"><div style="{{ barStyle }}"></div></div></section>
+<sc-for list="{{ items }}" as="it" hint-placeholder-count="3"><div style="display: flex; gap: 12px; align-items: center; background: #fff; border-radius: 14px; padding: 10px; border: 1px solid #E3E9E6">
+<div style="{{ it.tile }}"><svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="16" width="40" height="34" rx="5" fill="#fff" stroke="{{ it.c }}" stroke-width="2.5"></rect><rect x="12" y="16" width="40" height="10" rx="4" fill="{{ it.c }}"></rect></svg></div>
+<div style="flex: 1; min-width: 0"><div style="font-size: 13px; font-weight: 600; line-height: 1.3">{{ it.n }}</div><div style="font-size: 12px; color: #55645F">{{ it.b }}</div><div style="font-size: 15px; font-weight: 800; margin-top: 4px">{{ it.sub }}</div></div>
+<div style="display: flex; align-items: center; border: 1px solid #E3E9E6; border-radius: 10px">
+<button type="button" aria-label="Diminuir" onClick="{{ it.dec }}" style="width: 36px; height: 38px; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #10221D"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10221D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M5 12h14"></path></svg></button>
+<span style="min-width: 18px; text-align: center; font-weight: 800">{{ it.q }}</span>
+<button type="button" aria-label="Aumentar" onClick="{{ it.inc }}" style="width: 36px; height: 38px; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #10221D"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10221D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 5v14 M5 12h14"></path></svg></button></div></div></sc-for>
+<sc-if value="{{ showSug }}" hint-placeholder-val="{{ true }}">
+<section style="background: #FFF1E8; border-radius: 14px; padding: 12px; display: flex; gap: 10px; align-items: center">
+<div style="width: 48px; height: 48px; border-radius: 10px; background: #FDF6E3; display: flex; align-items: center; justify-content: center; flex: none"><svg width="37" height="37" viewBox="0 0 64 64" aria-hidden="true"><path d="M20 12h24l-3 36H23L20 12Z" fill="#fff" stroke="#9A6A00" stroke-width="2"></path><rect x="26" y="48" width="12" height="6" rx="1.5" fill="#9A6A00"></rect><rect x="24" y="22" width="16" height="8" rx="2" fill="#9A6A00" opacity="0.3"></rect></svg></div><div style="flex: 1"><div style="font-size: 12px; font-weight: 700; color: #C2410C">LEVE JUNTO E GANHE FRETE GRÁTIS</div><div style="font-size: 13px; font-weight: 600">Protetor Labial Nivea FPS 30</div><div style="font-size: 14px; font-weight: 800">R$ 19,90</div></div>
+<button type="button" onClick="{{ addSug }}" style="border: 0; background: #C2410C; color: #fff; font-size: 13px; font-weight: 700; border-radius: 10px; padding: 0 12px; min-height: 40px; cursor: pointer">Adicionar</button></section></sc-if>
+<label style="display: flex; align-items: center; gap: 8px; background: #fff; border: 1px solid #E3E9E6; border-radius: 14px; padding: 0 12px; min-height: 48px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#55645F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z M7.5 7.5h.01"></path></svg><input type="text" aria-label="Cupom" placeholder="Cupom de desconto" style="flex: 1; min-width: 0; border: 0; outline: 0; font-size: 14px"><span style="font-size: 13px; font-weight: 700; color: #0B7A5E">Aplicar</span></label>
+<section style="background: #fff; border-radius: 14px; padding: 14px; border: 1px solid #E3E9E6; display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+<div style="display: flex; justify-content: space-between"><span style="color: #55645F">Subtotal</span><span>{{ subtotal }}</span></div>
+<div style="display: flex; justify-content: space-between"><span style="color: #55645F">Você vai ganhar</span><span style="color: #7A5300; font-weight: 600">{{ points }} pontos</span></div></section>
+</div>
+</div>
+<div style="padding: 12px 16px 18px; background: #fff; border-top: 1px solid #E3E9E6">
+<a href="loja-checkout.html" class="btn-p" style="display: flex; align-items: center; justify-content: space-between; background: #0B7A5E; color: #fff; border-radius: 14px; min-height: 52px; padding: 0 18px; font-size: 15px; font-weight: 700"><span>Continuar</span><span>{{ subtotal }}</span></a></div>
+</div>
+</template>
+<script type="text/x-dc" id="logic">
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { items: [{"n": "Losartana Potássica 50mg · 30 comp.", "b": "Genérico · EMS", "p": 11.9, "q": 2, "i": 0}, {"n": "Dipirona Monoidratada 1g · 10 comp.", "b": "Genérico · Medley", "p": 6.9, "q": 1, "i": 1}, {"n": "Anthelios XL FPS 60 · 40g", "b": "La Roche-Posay · -30%", "p": 62.9, "q": 1, "i": 2}] }; }
+  renderVals() {
+    const T = ['#E6F4EF','#EAF1FD','#FFF1E8','#F3EEFB','#FDF6E3','#EEF6F9'], S = ['#0B7A5E','#1D5FD1','#C2410C','#6D3FC0','#9A6A00','#1F6F8B'];
+    const f = (v) => 'R$ ' + v.toFixed(2).replace('.', ',');
+    const upd = (k, d) => this.setState({ items: this.state.items.map((x, j) => j === k ? Object.assign({}, x, { q: x.q + d }) : x).filter(x => x.q > 0) });
+    const items = this.state.items.map((it, k) => Object.assign({}, it, { sub: f(it.p * it.q), c: S[it.i % 6],
+      tile: 'width: 56px; height: 56px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex: none; background: ' + T[it.i % 6],
+      inc: () => upd(k, 1), dec: () => upd(k, -1) }));
+    const total = this.state.items.reduce((s, x) => s + x.p * x.q, 0);
+    const missing = 99 - total;
+    const hasSug = this.state.items.some(x => x.n.indexOf('Labial') >= 0);
+    return { items, subtotal: f(total), count: this.state.items.reduce((s, x) => s + x.q, 0), points: Math.floor(total) * 2,
+      freeLabel: missing > 0 ? 'Faltam ' + f(missing) + ' para frete grátis' : 'Você ganhou frete grátis!',
+      barStyle: 'height: 100%; border-radius: 4px; background: #0B7A5E; width: ' + Math.min(100, total / 99 * 100).toFixed(0) + '%',
+      showSug: !hasSug && missing > 0,
+      addSug: () => this.setState({ items: this.state.items.concat([{ n: 'Protetor Labial Nivea FPS 30', b: 'Nivea', p: 19.90, q: 1, i: 4 }]) }) };
+  }
+}
+</script>
+<script src="dc-runtime.js"></script>
+<script>bootDC();</script>
+</body>
+</html>
