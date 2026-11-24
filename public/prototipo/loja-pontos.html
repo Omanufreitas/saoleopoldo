@@ -4,62 +4,91 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0B7A5E">
-<title>Loja — pontos · Drogaria Modelo</title>
+<meta name="theme-color" content="#276A2C">
+<title>Loja — pontos · Drogaria São Leopoldo</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Inter,system-ui,sans-serif;color:#10221D;-webkit-font-smoothing:antialiased}
-a{color:#0B7A5E;text-decoration:none}a:hover{color:#075E48}
-button{font-family:inherit}
-input,select{font-family:inherit}
-.nav-a{color:#C9DDD6}.nav-a:hover{color:#fff;background:rgba(255,255,255,0.06)}
-.row-h:hover{background:#F8FAF9}
-.btn-p:hover{background:#075E48 !important;color:#fff !important}
-.btn-g:hover{background:#EEF2F0 !important}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:#12201A;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+a{color:#276A2C;text-decoration:none}a:hover{color:#1B4F1F}
+button{font-family:inherit}input,select{font-family:inherit}
+input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #3E9B44;outline-offset:2px}
+a,button{transition:background-color .2s ease,color .2s ease,border-color .2s ease,box-shadow .25s ease,transform .18s ease}
+button:active,a:active{transform:scale(.97)}
+@keyframes fxUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fxIn{from{opacity:0}to{opacity:1}}
+@keyframes fxGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes fxDraw{to{stroke-dashoffset:0}}
+@keyframes fxPulse{0%{box-shadow:0 0 0 0 rgba(62,155,68,.55)}70%{box-shadow:0 0 0 12px rgba(62,155,68,0)}100%{box-shadow:0 0 0 0 rgba(62,155,68,0)}}
+@keyframes fxShine{from{transform:translateX(-120%) skewX(-18deg)}to{transform:translateX(320%) skewX(-18deg)}}
+@keyframes fxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+main>*{animation:fxUp .7s cubic-bezier(.2,.7,.2,1) both}
+main>*:nth-child(2){animation-delay:.06s}main>*:nth-child(3){animation-delay:.12s}main>*:nth-child(4){animation-delay:.18s}main>*:nth-child(5){animation-delay:.24s}main>*:nth-child(6){animation-delay:.3s}main>*:nth-child(7){animation-delay:.36s}
+main section{box-shadow:0 1px 2px rgba(16,34,29,.04),0 10px 30px -18px rgba(16,34,29,.22);transition:box-shadow .3s ease,transform .3s ease,border-color .3s ease}
+main section:hover{box-shadow:0 2px 4px rgba(16,34,29,.05),0 22px 44px -20px rgba(16,34,29,.30);border-color:#D9D7CC !important}
+.lift:hover{transform:translateY(-3px)}
+article{transition:transform .25s ease,box-shadow .25s ease}article:hover{transform:translateY(-3px);box-shadow:0 18px 32px -18px rgba(16,34,29,.35)}
+.fx-grow{transform-origin:left center;animation:fxGrow 1.1s cubic-bezier(.2,.7,.2,1) .25s both}
+.fx-draw{stroke-dasharray:1;stroke-dashoffset:1;animation:fxDraw 1.6s cubic-bezier(.4,.1,.2,1) .3s forwards}
+.fx-fade{animation:fxIn 1.2s ease .5s both}
+.fx-live{animation:fxPulse 2s infinite}
+.fx-float{animation:fxFloat 4s ease-in-out infinite}
+.fx-shine{position:relative;overflow:hidden}.fx-shine::after{content:"";position:absolute;top:0;bottom:0;left:0;width:30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);animation:fxShine 3.6s ease-in-out 1s infinite}
+path.morph{transition:d .7s cubic-bezier(.2,.7,.2,1)}
+.nav-a{color:#BED5C0}.nav-a:hover{color:#fff;background:rgba(255,255,255,0.07)}
+.row-h{transition:background-color .15s}.row-h:hover{background:#F5F8F1}
+.btn-p{background:linear-gradient(180deg,#31803A,#276A2C) !important;box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 8px 18px -8px rgba(39,106,44,.7)}
+.btn-p:hover{box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 12px 24px -8px rgba(39,106,44,.85);color:#fff !important;transform:translateY(-1px)}
+.btn-g:hover{background:#F1F5F3 !important;border-color:#D6D4C9 !important}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}.fx-draw{stroke-dashoffset:0}}
+.scr>*{animation:fxUp .6s cubic-bezier(.2,.7,.2,1) both}.scr>*:nth-child(2){animation-delay:.05s}.scr>*:nth-child(3){animation-delay:.1s}.scr>*:nth-child(4){animation-delay:.15s}.scr>*:nth-child(5){animation-delay:.2s}.scr>*:nth-child(6){animation-delay:.25s}.scr>*:nth-child(7){animation-delay:.3s}
+.scr section{box-shadow:0 1px 2px rgba(18,32,26,.04),0 10px 24px -16px rgba(18,32,26,.25)}
+.pc{box-shadow:0 1px 2px rgba(18,32,26,.04),0 10px 22px -16px rgba(18,32,26,.3)}.pc:hover{transform:translateY(-3px);box-shadow:0 16px 28px -16px rgba(18,32,26,.4)}
+.tab-on{background:#E7F2E2;border-radius:999px;padding:4px 16px}
+nav.tb{background:rgba(255,255,255,.88);-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px)}
 
 </style>
 
 <style>
-body{background:#DCE5E1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 0;box-sizing:border-box}
-#app>div{border-radius:36px;box-shadow:0 30px 60px rgba(12,43,36,0.22),0 0 0 10px #10221D}
-.demo-back{position:fixed;top:16px;left:16px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#10221D;font:600 13px Inter,sans-serif;padding:10px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
-@media (max-width:520px){body{padding:0;display:block;background:#F5F7F6}#app>div{width:100vw !important;height:100vh !important;height:100dvh !important;border-radius:0;box-shadow:none}.demo-back{display:none}}
+body{background:#E4E9DF;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 0;box-sizing:border-box}
+#app>div{border-radius:36px;box-shadow:0 30px 60px rgba(12,43,36,0.22),0 0 0 10px #12201A}
+.demo-back{position:fixed;top:16px;left:16px;display:inline-flex;align-items:center;gap:8px;background:#fff;color:#12201A;font:600 13px Inter,sans-serif;padding:10px 14px;border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,0.1)}
+@media (max-width:520px){body{padding:0;display:block;background:#F7F6F1}#app>div{width:100vw !important;height:100vh !important;height:100dvh !important;border-radius:0;box-shadow:none}.demo-back{display:none}}
 </style>
 </head>
 <body>
 <a class="demo-back" href="painel.html">← Ver painel da farmácia</a>
 <div id="app"></div>
 <template id="tpl">
-<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F5F7F6; display: flex; flex-direction: column; overflow: hidden; font-family: Inter, system-ui, sans-serif">
-<div style="flex: 1; min-height: 0; overflow-y: auto">
-<header style="display: flex; align-items: center; gap: 8px; padding: 14px 12px 10px; background: #fff; border-bottom: 1px solid #E3E9E6">
-<a href="loja.html" aria-label="Voltar" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #10221D; border-radius: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m15 18-6-6 6-6"></path></svg></a>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F7F6F1; display: flex; flex-direction: column; overflow: hidden; font-family: Inter, system-ui, sans-serif">
+<div class="scr" style="flex: 1; min-height: 0; overflow-y: auto">
+<header style="display: flex; align-items: center; gap: 8px; padding: 14px 12px 10px; background: #fff; border-bottom: 1px solid #E7E6DE">
+<a href="loja.html" aria-label="Voltar" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #12201A; border-radius: 12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="m15 18-6-6 6-6"></path></svg></a>
 <h1 style="margin: 0; flex: 1; font-size: 17px; font-weight: 700">Meus pontos</h1></header>
 <div style="padding: 14px 16px; display: flex; flex-direction: column; gap: 14px">
-<section style="background: #0C2B24; color: #fff; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
-<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 13px; color: #A9C4BB">Saldo disponível</span><span style="display: inline-flex; align-items: center; gap: 5px; background: rgba(255,214,107,0.18); color: #FFD66B; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFD66B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2Z"></path></svg>Nível Ouro</span></div>
-<div><span style="font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-size: 40px; font-weight: 800">{{ bal }}</span> <span style="font-size: 15px; color: #C9DDD6">pontos</span></div>
-<div style="font-size: 13px; color: #C9DDD6">Equivale a <strong style="color: #fff">{{ brl }}</strong> em descontos</div>
-<div><div style="height: 8px; border-radius: 4px; background: rgba(255,255,255,0.15); overflow: hidden"><div style="height: 100%; width: 78%; background: #FFD66B; border-radius: 4px"></div></div>
-<div style="font-size: 12px; color: #C9DDD6; margin-top: 6px">Faltam 660 pontos para o nível Diamante (pontos x3 e entrega grátis)</div></div>
+<section style="background: #0F2413; color: #fff; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-size: 13px; color: #B4C9B6">Saldo disponível</span><span style="display: inline-flex; align-items: center; gap: 5px; background: rgba(242,193,24,0.18); color: #F2C118; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F2C118" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2Z"></path></svg>Nível Ouro</span></div>
+<div><span style="font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-size: 40px; font-weight: 800">{{ bal }}</span> <span style="font-size: 15px; color: #CFE0D0">pontos</span></div>
+<div style="font-size: 13px; color: #CFE0D0">Equivale a <strong style="color: #fff">{{ brl }}</strong> em descontos</div>
+<div><div style="height: 8px; border-radius: 4px; background: rgba(255,255,255,0.15); overflow: hidden"><div style="height: 100%; width: 78%; background: #F2C118; border-radius: 4px"></div></div>
+<div style="font-size: 12px; color: #CFE0D0; margin-top: 6px">Faltam 660 pontos para o nível Diamante (pontos x3 e entrega grátis)</div></div>
 </section>
-<sc-if value="{{ msg }}" hint-placeholder-val="{{ false }}"><div style="display: flex; gap: 8px; align-items: center; background: #E6F4EF; color: #075E48; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>{{ msgText }}</div></sc-if>
+<sc-if value="{{ msg }}" hint-placeholder-val="{{ false }}"><div style="display: flex; gap: 8px; align-items: center; background: #E7F2E2; color: #1B4F1F; border-radius: 12px; padding: 12px; font-size: 13px; font-weight: 600"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#276A2C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M20 6 9 17l-5-5"></path></svg>{{ msgText }}</div></sc-if>
 <h2 style="margin: 4px 0 0; font-size: 16px; font-weight: 800">Trocar pontos</h2>
-<sc-for list="{{ rew }}" as="r" hint-placeholder-count="4"><div style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #E3E9E6; border-radius: 14px; padding: 12px">
+<sc-for list="{{ rew }}" as="r" hint-placeholder-count="4"><div style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #E7E6DE; border-radius: 14px; padding: 12px">
 <div style="width: 42px; height: 42px; border-radius: 12px; background: #FDF6E3; display: flex; align-items: center; justify-content: center; flex: none"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A6A00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M20 12v9H4v-9 M2 7h20v5H2z M12 21V7 M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7Z M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7Z"></path></svg></div>
-<div style="flex: 1; min-width: 0"><div style="font-size: 14px; font-weight: 700">{{ r.t }}</div><div style="font-size: 12px; color: #55645F">{{ r.c }} pontos · {{ r.s }}</div></div>
+<div style="flex: 1; min-width: 0"><div style="font-size: 14px; font-weight: 700">{{ r.t }}</div><div style="font-size: 12px; color: #56645A">{{ r.c }} pontos · {{ r.s }}</div></div>
 <button type="button" onClick="{{ r.go }}" style="{{ r.style }}">{{ r.btn }}</button></div></sc-for>
-<section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<section style="background: #fff; border: 1px solid #E7E6DE; border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px">
 <h2 style="margin: 0; font-size: 15px; font-weight: 800">Como ganhar mais</h2>
-<div style="display: flex; gap: 10px; align-items: center; font-size: 13px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M7 2h10v20H7z M11 18h2"></path></svg><span><strong>Pontos em dobro</strong> comprando pelo app</span></div>
-<div style="display: flex; gap: 10px; align-items: center; font-size: 13px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M17 2l4 4-4 4 M3 11V9a3 3 0 0 1 3-3h15 M7 22l-4-4 4-4 M21 13v2a3 3 0 0 1-3 3H3"></path></svg><span><strong>+50 por mês</strong> com compra recorrente ativa</span></div>
-<div style="display: flex; gap: 10px; align-items: center; font-size: 13px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z M22 20v-2a4 4 0 0 0-3-3.87 M16 2.13a4 4 0 0 1 0 7.75"></path></svg><span><strong>+300</strong> por amigo indicado que comprar</span></div></section>
-<section style="background: #fff; border: 1px solid #E3E9E6; border-radius: 16px; padding: 14px 14px 4px">
-<h2 style="margin: 0 0 6px; font-size: 15px; font-weight: 800">Extrato</h2><div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #E3E9E6; font-size: 13px"><div><div style="font-weight: 600">Pedido #48231</div><div style="color: #55645F">24/11</div></div><strong style="color: #0B7A5E">+186</strong></div><div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #E3E9E6; font-size: 13px"><div><div style="font-weight: 600">Resgate · frete grátis</div><div style="color: #55645F">18/11</div></div><strong style="color: #10221D">-150</strong></div><div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #E3E9E6; font-size: 13px"><div><div style="font-weight: 600">Pedido #48102</div><div style="color: #55645F">18/11</div></div><strong style="color: #0B7A5E">+174</strong></div><div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #E3E9E6; font-size: 13px"><div><div style="font-weight: 600">Bônus aniversário</div><div style="color: #55645F">05/11</div></div><strong style="color: #0B7A5E">+200</strong></div></section>
+<div style="display: flex; gap: 10px; align-items: center; font-size: 13px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#276A2C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M7 2h10v20H7z M11 18h2"></path></svg><span><strong>Pontos em dobro</strong> comprando pelo app</span></div>
+<div style="display: flex; gap: 10px; align-items: center; font-size: 13px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#276A2C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M17 2l4 4-4 4 M3 11V9a3 3 0 0 1 3-3h15 M7 22l-4-4 4-4 M21 13v2a3 3 0 0 1-3 3H3"></path></svg><span><strong>+50 por mês</strong> com compra recorrente ativa</span></div>
+<div style="display: flex; gap: 10px; align-items: center; font-size: 13px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#276A2C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z M22 20v-2a4 4 0 0 0-3-3.87 M16 2.13a4 4 0 0 1 0 7.75"></path></svg><span><strong>+300</strong> por amigo indicado que comprar</span></div></section>
+<section style="background: #fff; border: 1px solid #E7E6DE; border-radius: 16px; padding: 14px 14px 4px">
+<h2 style="margin: 0 0 6px; font-size: 15px; font-weight: 800">Extrato</h2><div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #E7E6DE; font-size: 13px"><div><div style="font-weight: 600">Pedido #48231</div><div style="color: #56645A">24/11</div></div><strong style="color: #276A2C">+186</strong></div><div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #E7E6DE; font-size: 13px"><div><div style="font-weight: 600">Resgate · frete grátis</div><div style="color: #56645A">18/11</div></div><strong style="color: #12201A">-150</strong></div><div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #E7E6DE; font-size: 13px"><div><div style="font-weight: 600">Pedido #48102</div><div style="color: #56645A">18/11</div></div><strong style="color: #276A2C">+174</strong></div><div style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #E7E6DE; font-size: 13px"><div><div style="font-weight: 600">Bônus aniversário</div><div style="color: #56645A">05/11</div></div><strong style="color: #276A2C">+200</strong></div></section>
 </div>
 </div>
-<nav aria-label="Navegação da loja" style="display: flex; border-top: 1px solid #E3E9E6; background: #fff; padding: 4px 6px 14px"><a href="loja.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #6B7A75; font-size: 11px; font-weight: 500"><span style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7A75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg></span>Início</a><a href="loja-busca.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #6B7A75; font-size: 11px; font-weight: 500"><span style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7A75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z M21 21l-4.35-4.35"></path></svg></span>Buscar</a><a href="loja-carrinho.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #6B7A75; font-size: 11px; font-weight: 500"><span style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7A75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 3h2l2.4 12.2a1 1 0 0 0 1 .8h9.7a1 1 0 0 0 1-.76L21 8H6 M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z M18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg><span style="position: absolute; top: -4px; right: -9px; background: #C2410C; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center">3</span></span>Carrinho</a><a href="loja-pedido.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #6B7A75; font-size: 11px; font-weight: 500"><span style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7A75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M6 7h12l1 14H5L6 7Z M9 7a3 3 0 0 1 6 0"></path></svg></span>Pedidos</a><a href="loja-pontos.html" aria-current="page" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #0B7A5E; font-size: 11px; font-weight: 700"><span style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B7A5E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2Z"></path></svg></span>Pontos</a></nav>
+<nav class="tb" aria-label="Navegação da loja" style="display: flex; border-top: 1px solid #E7E6DE; background: #fff; padding: 4px 6px 14px"><a href="loja.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #6B7A75; font-size: 11px; font-weight: 500"><span class="" style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7A75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"></path></svg></span>Início</a><a href="loja-busca.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #6B7A75; font-size: 11px; font-weight: 500"><span class="" style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7A75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z M21 21l-4.35-4.35"></path></svg></span>Buscar</a><a href="loja-carrinho.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #6B7A75; font-size: 11px; font-weight: 500"><span class="" style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7A75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M3 3h2l2.4 12.2a1 1 0 0 0 1 .8h9.7a1 1 0 0 0 1-.76L21 8H6 M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z M18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg><span style="position: absolute; top: -4px; right: -9px; background: #C22A26; color: #fff; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center">3</span></span>Carrinho</a><a href="loja-pedido.html" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #6B7A75; font-size: 11px; font-weight: 500"><span class="" style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B7A75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M6 7h12l1 14H5L6 7Z M9 7a3 3 0 0 1 6 0"></path></svg></span>Pedidos</a><a href="loja-pontos.html" aria-current="page" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 56px; color: #276A2C; font-size: 11px; font-weight: 700"><span class="tab-on" style="position: relative; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#276A2C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1L12 2Z"></path></svg></span>Pontos</a></nav>
 </div>
 </template>
 <script type="text/x-dc" id="logic">
@@ -70,7 +99,7 @@ class Component extends DCLogic {
     const { bal, used, msg } = this.state;
     const rew = R.map((r, i) => { const u = !!used[i]; const can = bal >= r.c && !u;
       return Object.assign({}, r, { btn: u ? 'Resgatado' : 'Trocar',
-        style: 'border: 0; border-radius: 10px; padding: 0 14px; min-height: 40px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; ' + (u ? 'background: #E6F4EF; color: #075E48' : (can ? 'background: #0B7A5E; color: #fff' : 'background: #EEF2F0; color: #8A9893')),
+        style: 'border: 0; border-radius: 10px; padding: 0 14px; min-height: 40px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; ' + (u ? 'background: #E7F2E2; color: #1B4F1F' : (can ? 'background: #276A2C; color: #fff' : 'background: #EFEEE7; color: #8A9893')),
         go: () => { if (!can) return; this.setState({ bal: bal - r.c, used: Object.assign({}, used, { [i]: true }), msg: r.t + ' adicionado ao seu próximo pedido' }); } }); });
     return { rew, bal: bal.toLocaleString('pt-BR'), brl: 'R$ ' + (bal / 20).toFixed(2).replace('.', ','), msg: !!msg, msgText: msg };
   }

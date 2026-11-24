@@ -32,13 +32,14 @@
   }
   function child(scope, extra) { var s = Object.create(scope); for (var k in extra) s[k] = extra[k]; return s; }
 
+  // ---- virtual nodes ----
   function renderKids(node, scope, out) {
     for (var c = node.firstChild; c; c = c.nextSibling) renderNode(c, scope, out);
   }
   function renderNode(node, scope, out) {
     if (node.nodeType === 3) {
       var t = node.nodeValue;
-      out.push(document.createTextNode(t.indexOf('{{') >= 0 ? interp(t, scope) : t));
+      out.push({ text: t.indexOf('{{') >= 0 ? interp(t, scope) : t });
       return;
     }
     if (node.nodeType !== 1) return;
@@ -58,10 +59,7 @@
       if (m2 && lookup(scope, m2[1])) renderKids(node, scope, out);
       return;
     }
-    var el = node.namespaceURI && node.namespaceURI !== 'http://www.w3.org/1999/xhtml'
-      ? document.createElementNS(node.namespaceURI, node.tagName)
-      : document.createElement(tag);
-    var deferred = {};
+    var v = { tag: node.tagName, ns: node.namespaceURI, attrs: {}, ev: {}, props: {}, kids: [] };
     for (var i = 0; i < node.attributes.length; i++) {
       var a = node.attributes[i], name = a.name, val = a.value;
       if (name.indexOf('hint-') === 0) continue;
@@ -74,40 +72,65 @@
             var type = (node.getAttribute('type') || 'text').toLowerCase();
             ev = (type === 'checkbox' || type === 'radio') ? 'change' : 'input';
           }
-          el.addEventListener(ev, fn);
+          v.ev[ev] = fn;
         }
         continue;
       }
-      if ((name === 'checked' || name === 'value') && mm) { deferred[name] = lookup(scope, mm[1]); continue; }
-      var out2 = mm ? lookup(scope, mm[1]) : (val.indexOf('{{') >= 0 ? interp(val, scope) : val);
-      if (out2 == null || out2 === false) continue;
-      el.setAttribute(name, out2 === true ? '' : String(out2));
+      if ((name === 'checked' || name === 'value') && mm) { v.props[name] = lookup(scope, mm[1]); continue; }
+      var o = mm ? lookup(scope, mm[1]) : (val.indexOf('{{') >= 0 ? interp(val, scope) : val);
+      if (o == null || o === false) continue;
+      v.attrs[name] = o === true ? '' : String(o);
     }
-    var kids = [];
-    renderKids(node, scope, kids);
-    kids.forEach(function (k) { el.appendChild(k); });
-    if ('checked' in deferred) el.checked = !!deferred.checked;
-    if ('value' in deferred) el.value = deferred.value == null ? '' : deferred.value;
-    out.push(el);
+    renderKids(node, scope, v.kids);
+    out.push(v);
   }
-
+  // ---- DOM patch (keeps elements alive so CSS animations run once) ----
+  function create(v) {
+    if (v.text != null) return document.createTextNode(v.text);
+    var el = (v.ns && v.ns !== 'http://www.w3.org/1999/xhtml') ? document.createElementNS(v.ns, v.tag) : document.createElement(v.tag.toLowerCase());
+    el.__v = { attrs: {}, ev: {} };
+    update(el, v);
+    return el;
+  }
+  function same(el, v) {
+    if (v.text != null) return el.nodeType === 3;
+    return el.nodeType === 1 && el.tagName === v.tag && el.namespaceURI === v.ns;
+  }
+  function update(el, v) {
+    var st = el.__v || (el.__v = { attrs: {}, ev: {} });
+    var k;
+    for (k in st.attrs) if (!(k in v.attrs)) el.removeAttribute(k);
+    for (k in v.attrs) if (st.attrs[k] !== v.attrs[k]) el.setAttribute(k, v.attrs[k]);
+    st.attrs = v.attrs;
+    for (k in v.ev) if (!st.ev[k]) { (function (name) { el.addEventListener(name, function (e) { var f = el.__v.ev[name]; if (f) f(e); }); })(k); }
+    st.ev = Object.assign({}, st.ev);
+    for (k in st.ev) st.ev[k] = v.ev[k] || null;
+    for (k in v.ev) st.ev[k] = v.ev[k];
+    patchKids(el, v.kids);
+    if ('checked' in v.props) el.checked = !!v.props.checked;
+    if ('value' in v.props) { var nv = v.props.value == null ? '' : String(v.props.value); if (el.value !== nv) el.value = nv; }
+  }
+  function patchKids(parent, vkids) {
+    var cur = parent.firstChild, i = 0;
+    for (; i < vkids.length; i++) {
+      var v = vkids[i];
+      if (cur && same(cur, v)) {
+        if (v.text != null) { if (cur.nodeValue !== v.text) cur.nodeValue = v.text; }
+        else update(cur, v);
+        cur = cur.nextSibling;
+      } else {
+        var n = create(v);
+        parent.insertBefore(n, cur);
+      }
+    }
+    while (cur) { var nx = cur.nextSibling; parent.removeChild(cur); cur = nx; }
+  }
   function render() {
     pending = false;
-    var act = document.activeElement, idx = -1, s0 = null, s1 = null;
-    if (act && app.contains(act) && /^(INPUT|TEXTAREA|SELECT)$/.test(act.tagName)) {
-      idx = Array.prototype.indexOf.call(app.querySelectorAll('input,textarea,select'), act);
-      try { s0 = act.selectionStart; s1 = act.selectionEnd; } catch (e) {}
-    }
     var vals = inst.renderVals() || {};
     var out = [];
     renderKids(tpl.content, vals, out);
-    var frag = document.createDocumentFragment();
-    out.forEach(function (n) { frag.appendChild(n); });
-    app.replaceChildren(frag);
-    if (idx >= 0) {
-      var el = app.querySelectorAll('input,textarea,select')[idx];
-      if (el) { el.focus(); try { if (s0 != null) el.setSelectionRange(s0, s1); } catch (e) {} }
-    }
+    patchKids(app, out);
   }
   function schedule() { if (!inst || pending) return; pending = true; Promise.resolve().then(render); }
 
