@@ -26,6 +26,10 @@ const nextConfig: NextConfig = {
   // Sem o 308 automático. O catch-all /:path+/ na Vercel acabava
   // rodando antes dos 301 legados e gerava 2 saltos.
   skipTrailingSlashRedirect: true,
+  // Protótipo (loja + painel admin) servido em /demo sem mudar a URL.
+  async rewrites() {
+    return [{ source: "/demo", destination: "/demo/index.html" }];
+  },
   async redirects() {
     return legacyRedirects.map((redirect) => ({
       ...redirect,
