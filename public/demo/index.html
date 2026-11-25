@@ -1,0 +1,1522 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>SL Digital Protótipo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: barra de modo fixa no topo; Loja = vitrine mobile-first em coluna de 1200px; Painel = sidebar + área de trabalho */
+:root{
+  --bg:#F4F7F4; --surface:#FFFFFF; --surface-2:#EBF1EC; --surface-3:#DFE8E1; --ink:#13201A; --muted:#5A6A60; --line:#D9E2DB;
+  --red:#D8202A; --red-soft:#FDE8E8; --green:#009848; --green-ink:#007A3A; --green-soft:#DFF3E7; --yellow:#F8E000; --yellow-soft:#FFF9C7;
+  --amber:#A86200; --amber-soft:#FFF0D4; --blue:#2563EB; --blue-soft:#E3ECFF;
+  --shadow:0 1px 2px rgba(19,32,26,.06),0 8px 24px -12px rgba(19,32,26,.18);
+  --shadow-lg:0 24px 60px -20px rgba(19,32,26,.35);
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --pack-bg:#FFFFFF; color-scheme:light;
+}
+:root,:root[data-theme]{color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+:where(svg:not([class]):not([width])){width:18px;height:18px;flex-shrink:0}
+.pkv{width:100%;height:auto;display:block}
+.hero .eta svg{width:30px;height:30px}
+.hero .eta span{white-space:nowrap}
+.alert .ai svg{width:18px;height:18px}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:#13201A}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px;border-radius:6px}
+h1,h2,h3,h4{font-family:var(--display);margin:0;line-height:1.1;text-wrap:balance}
+p{margin:0}
+.mono{font-family:var(--mono)}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1200px;margin:0 auto}
+
+/* ===== barra de modo ===== */
+.modebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:#13201A;color:#F4F7F4;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.modebar .in{display:flex;align-items:center;gap:12px;height:52px;max-width:1400px;margin:0 auto}
+.modebar .tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:#B9C8BF;white-space:nowrap}
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:#2A3A31;border:1px solid #3B4F44;border-radius:999px;padding:4px;margin-inline:auto}
+.seg button{position:relative;z-index:1;color:#FFFFFF;font-weight:600;font-size:.86rem;padding:6px 16px;border-radius:999px;white-space:nowrap;display:flex;gap:6px;align-items:center;justify-content:center;transition:color .3s}
+.seg button[aria-pressed="true"]{color:#13201A}
+.seg button[aria-pressed="false"]:hover{background:rgba(255,255,255,.08)}
+.seg .knob{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);background:#F8E000;border-radius:999px;transition:transform .45s cubic-bezier(.7,-0.2,.3,1.3);box-shadow:0 4px 14px rgba(248,224,0,.35)}
+.seg.admin .knob{transform:translateX(100%);background:#FFFFFF}
+.modebar .hint{font-size:.75rem;color:#B9C8BF;white-space:nowrap}
+@media (max-width:700px){.modebar .tag,.modebar .hint{display:none}.seg button{padding:6px 12px}}
+
+/* ===== LOJA ===== */
+.s-head{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);z-index:40;background:color-mix(in srgb,var(--surface) 86%,transparent);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid var(--line)}
+.s-head .row1{display:flex;align-items:center;gap:14px;height:68px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+.logo svg{width:40px;height:40px;filter:drop-shadow(0 4px 8px rgba(216,32,42,.25))}
+.logo .wm{display:grid;line-height:1}
+.logo .wm small{font-family:var(--mono);font-size:.6rem;letter-spacing:.22em;color:var(--red);font-weight:600}
+.logo .wm b{font-family:var(--display);font-size:1.18rem;font-weight:800;color:var(--green-ink);letter-spacing:-.01em}
+.loc{display:flex;align-items:center;gap:8px;background:var(--green-soft);color:var(--green-ink);padding:7px 12px;border-radius:12px;font-size:.8rem;font-weight:600;white-space:nowrap}
+.loc .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 var(--green);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.loc small{display:block;font-weight:500;opacity:.8;font-size:.7rem}
+.search{position:relative;flex:1;min-width:0}
+.search input{width:100%;height:46px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);padding:0 46px 0 44px;font-size:.95rem;transition:border-color .2s, box-shadow .2s}
+.search input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 18%,transparent)}
+.search .ic{position:absolute;left:14px;top:50%;translate:0 -50%;width:18px;height:18px;color:var(--muted)}
+.search .scan{position:absolute;right:6px;top:50%;translate:0 -50%;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--green-ink);background:var(--green-soft)}
+.s-icons{display:flex;gap:4px;flex-shrink:0}
+.ibtn{position:relative;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--ink);transition:background .2s}
+.ibtn:hover{background:var(--surface-2)}
+.ibtn svg{width:22px;height:22px}
+.ibtn .cnt{position:absolute;top:4px;right:3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;font-size:.7rem;font-weight:700;display:grid;place-items:center}
+.ibtn .cnt.bump{animation:bump .5s}
+@keyframes bump{30%{transform:scale(1.5)}60%{transform:scale(.9)}}
+.s-nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+.s-nav::-webkit-scrollbar{display:none}
+.s-nav button{white-space:nowrap;font-size:.84rem;font-weight:600;padding:6px 12px;border-radius:999px;color:var(--muted);transition:all .2s}
+.s-nav button:hover,.s-nav button.on{background:var(--ink);color:var(--bg)}
+@media (max-width:820px){.loc{display:none}.s-head .row1{gap:8px}.logo .wm{display:none}}
+
+/* mega menu */
+.s-head .wrap{position:relative}
+.s-nav{align-items:center}
+.s-nav .dp{display:inline-flex;align-items:center;gap:4px}
+.s-nav .dp svg{width:14px;height:14px;transition:transform .25s}
+.s-nav .dp.open{background:var(--ink);color:#fff}
+.s-nav .dp.open svg{transform:rotate(180deg)}
+.s-nav .hot{color:var(--red)}
+.s-nav .hot:hover,.s-nav .hot.on{background:var(--red);color:#fff}
+.mega{position:absolute;left:0;right:0;top:calc(100% + 1px);background:rgba(255,255,255,.93);border:1px solid var(--line);border-top:0;border-radius:0 0 28px 28px;box-shadow:0 40px 80px -30px rgba(19,32,26,.45),0 1px 0 rgba(255,255,255,.8) inset;padding:20px 24px 24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 300px;grid-template-rows:auto 1fr;column-gap:26px;row-gap:16px;z-index:44;transform-origin:top center}
+.mega.enter{animation:megaIn .34s cubic-bezier(.2,.8,.2,1) both}
+.mega.swap>*{animation:megaCol .28s ease both}
+@keyframes megaIn{from{opacity:0;transform:translateY(-14px) scaleY(.97);filter:blur(4px)}}
+@keyframes megaCol{from{opacity:0;transform:translateY(10px)}}
+.mega.enter>*{animation:megaCol .42s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*55ms + 80ms)}
+.mega .mchips{grid-column:1/4;display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.mega .mchips span{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-right:4px}
+.mega .mchips button{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;border:1px solid var(--line);font-size:.8rem;font-weight:600;background:var(--surface);transition:transform .2s,background .2s,border-color .2s,color .2s}
+.mega .mchips button i{width:8px;height:8px;border-radius:50%;background:var(--cc)}
+.mega .mchips button:hover{transform:translateY(-2px);border-color:var(--cc);background:color-mix(in srgb,var(--cc) 12%,#fff);color:var(--ink)}
+.mega h5{font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px 10px;font-weight:600}
+.mega .grp{display:grid;gap:1px;align-content:start;position:relative;z-index:1}
+.mega .grp button{position:relative;z-index:1;text-align:left;padding:6px 10px;border-radius:12px;font-size:.88rem;font-weight:500;display:flex;gap:10px;align-items:center;transition:color .15s}
+.mega .grp button .mi{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--cs);color:var(--cc);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.mega .grp button .mi svg{width:15px;height:15px}
+.mega .grp button .nm{flex:1;min-width:0}
+.mega .grp button small{color:var(--muted);font-size:.7rem;font-family:var(--mono)}
+.mega .grp button:hover,.mega .grp button.hv{color:var(--ink)}
+.mega .grp button.hv .mi{transform:scale(1.12) rotate(-6deg)}
+.mega .all{margin-top:4px;font-weight:700!important;color:var(--green-ink)}
+.mega .mpill{position:absolute;left:0;top:0;border-radius:12px;background:var(--pc,var(--green-soft));box-shadow:0 6px 16px -10px rgba(19,32,26,.4);pointer-events:none;opacity:0;transition:transform .28s cubic-bezier(.3,1.2,.4,1),width .28s,height .28s,opacity .2s,background .3s;z-index:0}
+.mega .mside{grid-column:4;grid-row:1/3;display:grid;gap:12px;align-content:start}
+.mega .mban{position:relative;overflow:hidden;border-radius:22px;padding:16px 16px 0;min-height:186px;background:linear-gradient(150deg,var(--bs,#fff),#fff 92%);border:1px solid color-mix(in srgb,var(--bc) 22%,transparent);cursor:pointer;display:grid;align-content:start;gap:4px;transition:transform .25s}
+.mega .mban:hover{transform:translateY(-2px)}
+.mega .mban:after{content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;background:var(--bc);opacity:.12}
+.mega .mban .tg{font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bc);font-weight:700}
+.mega .mban b{font-family:var(--display);font-size:1.25rem;line-height:1.1;letter-spacing:-.01em}
+.mega .mban p{margin:0;font-size:.78rem;color:var(--muted)}
+.mega .mban .go{font-size:.78rem;font-weight:700;color:var(--bc);display:inline-flex;gap:4px;align-items:center}
+.mega .mban .go svg{width:13px;height:13px;transform:rotate(-90deg)}
+.mega .mban .row{display:flex;justify-content:center;align-items:flex-end;margin-top:6px;height:84px}
+.mega .mban .row .pk{width:70px;margin:0 -8px;filter:drop-shadow(0 12px 12px rgba(0,0,0,.18));transition:transform .45s cubic-bezier(.3,1.4,.5,1)}
+.mega .mban .row .pk:nth-child(2){width:84px;z-index:1}
+.mega .mban:hover .row .pk:nth-child(1){transform:rotate(-8deg) translateX(-4px)}
+.mega .mban:hover .row .pk:nth-child(3){transform:rotate(8deg) translateX(4px)}
+.mega .mban .in{animation:banIn .35s cubic-bezier(.2,.8,.2,1) both;display:contents}
+.mega .mban.ch>*{animation:banIn .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes banIn{from{opacity:0;transform:translateX(12px)}}
+.mega .mbest h5{margin:2px 0 6px 2px}
+.mega .mmini{display:flex;align-items:center;gap:10px;padding:6px 8px 6px 6px;border-radius:14px;cursor:pointer;transition:background .2s}
+.mega .mmini:hover{background:var(--surface-2)}
+.mega .mmini .pk{width:40px;flex:none}
+.mega .mmini .tx{flex:1;min-width:0;display:grid;line-height:1.2}
+.mega .mmini .tx span{font-size:.78rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mega .mmini .tx em{font-style:normal;font-family:var(--display);font-weight:800;font-size:.92rem;color:var(--red)}
+.mega .mmini .tx em s{color:var(--muted);font-weight:500;font-size:.72rem;margin-left:4px;font-family:var(--body,inherit)}
+.mega .mmini .ad{flex:none;font-size:.72rem;font-weight:700;padding:6px 10px;border-radius:99px;background:var(--green);color:#fff;transition:transform .2s,background .2s}
+.mega .mmini .ad:hover{transform:scale(1.06);background:var(--green-ink)}
+.mdim{position:fixed;inset:0;z-index:39;background:rgba(19,32,26,.32);backdrop-filter:blur(3px) saturate(.9);-webkit-backdrop-filter:blur(3px) saturate(.9);opacity:0;pointer-events:none;transition:opacity .3s}
+.mdim.on{opacity:1;pointer-events:auto}
+@media (max-width:900px){.mega{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:16px;max-height:70vh;overflow:auto}.mega .mchips{grid-column:1/-1}.mega .mside{display:none}.mega .mpill{display:none}}
+@media (prefers-reduced-motion:reduce){.mega.enter,.mega.enter>*,.mega.swap>*,.mega .mban.ch>*{animation:none}}
+/* dropdown busca */
+.sdrop{position:absolute;left:0;right:0;top:calc(100% + 8px);background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-lg);padding:10px;max-height:min(70vh,560px);overflow:auto;z-index:45;animation:pop .22s ease}
+@keyframes pop{from{opacity:0;transform:translateY(-6px) scale(.98)}}
+.sdrop h5{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:8px 8px 6px;font-weight:600}
+.sres{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;padding:8px;border-radius:12px;cursor:pointer;width:100%;text-align:left}
+.sres:hover,.sres.act{background:var(--surface-2)}
+.sres .t{font-weight:600;font-size:.9rem}
+.sres .t mark{background:var(--yellow-soft);color:inherit;border-radius:3px}
+.sres small{color:var(--muted);font-size:.76rem}
+.sres .p{font-family:var(--display);font-weight:800}
+.schips{display:flex;flex-wrap:wrap;gap:6px;padding:0 8px 6px}
+.schip{font-size:.8rem;padding:5px 10px;border-radius:999px;background:var(--surface-2);font-weight:500}
+.schip:hover{background:var(--green-soft);color:var(--green-ink)}
+.sk{height:56px;border-radius:12px;margin:6px 0;background:linear-gradient(90deg,var(--surface-2) 25%,var(--surface-3) 50%,var(--surface-2) 75%);background-size:200% 100%;animation:shim 1s linear infinite}
+@keyframes shim{to{background-position:-200% 0}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-radius:28px;margin-top:22px;background:var(--green-ink);color:#fff;isolation:isolate;min-height:300px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.hero .blob{position:absolute;border-radius:50%;filter:blur(50px);opacity:.75;z-index:-1;animation:float 14s ease-in-out infinite alternate}
+.hero .b1{width:420px;height:420px;background:#00B85A;left:-120px;top:-160px}
+.hero .b2{width:360px;height:360px;background:#F8E000;right:-80px;bottom:-200px;opacity:.55;animation-delay:-5s}
+.hero .b3{width:260px;height:260px;background:#D8202A;right:24%;top:-140px;opacity:.5;animation-delay:-9s}
+@keyframes float{to{transform:translate(60px,40px) scale(1.15)}}
+.hero .grain{position:absolute;inset:0;z-index:-1;opacity:.12;background-image:radial-gradient(rgba(255,255,255,.7) 1px,transparent 1px);background-size:18px 18px;mask-image:linear-gradient(90deg,#000,transparent 70%)}
+.hero .copy{padding:40px 40px 36px;display:grid;gap:16px;align-content:center}
+.hero .kick{display:inline-flex;gap:8px;align-items:center;font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,0,0,.2);padding:6px 12px;border-radius:999px;justify-self:start}
+.hero h1{font-size:clamp(2rem,4.4vw,3.4rem);font-weight:800;letter-spacing:-.025em}
+.hero h1 em{font-style:normal;color:#F8E000}
+.hero p{font-size:1.05rem;opacity:.92;max-width:44ch}
+.hero .ctas{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 20px;border-radius:14px;font-weight:700;font-size:.92rem;transition:transform .15s, box-shadow .2s, background .2s}
+.btn:active{transform:scale(.97)}
+.btn.y{background:#F8E000;color:#13201A;box-shadow:0 8px 20px -8px rgba(248,224,0,.7)}
+.btn.y:hover{box-shadow:0 12px 26px -8px rgba(248,224,0,.9)}
+.btn.ghost{background:rgba(255,255,255,.14);color:#fff}
+.btn.g{background:var(--green);color:#fff;box-shadow:0 8px 20px -10px var(--green)}
+.btn.g:hover{background:var(--green-ink)}
+.btn.line{border:1.5px solid var(--line);background:var(--surface)}
+.btn.full{width:100%}
+.hero .stage{position:relative;display:grid;place-items:center;min-height:260px}
+.hero .stage .pk{position:absolute;transition:transform .6s}
+.hero .stage .pk svg{filter:drop-shadow(0 24px 24px rgba(0,0,0,.35))}
+.hero .stage .p1{width:46%;left:10%;top:16%;transform:rotate(-8deg);animation:bob 6s ease-in-out infinite}
+.hero .stage .p2{width:40%;right:8%;top:8%;transform:rotate(7deg);animation:bob 7s ease-in-out -2s infinite}
+.hero .stage .p3{width:34%;left:38%;bottom:4%;transform:rotate(-2deg);animation:bob 5s ease-in-out -1s infinite}
+@keyframes bob{50%{translate:0 -10px}}
+.hero .eta{position:absolute;right:20px;bottom:20px;background:#fff;color:#13201A;border-radius:16px;padding:10px 14px;display:flex;gap:10px;align-items:center;box-shadow:var(--shadow-lg);font-size:.8rem}
+.hero .eta b{font-family:var(--display);font-size:1.3rem;color:var(--red)}
+@media (max-width:820px){.hero{grid-template-columns:minmax(0,1fr)}.hero .copy{padding:28px 22px 8px}.hero .stage{min-height:220px}}
+
+.perks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.perk{display:flex;gap:10px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;font-size:.82rem}
+.perk svg{width:28px;height:28px;color:var(--green);flex-shrink:0}
+.perk b{display:block;font-size:.88rem}
+@media (max-width:820px){.perks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.sec{margin-top:44px;display:grid;gap:16px}
+.sec-h{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sec-h h2{font-size:clamp(1.35rem,2.6vw,1.8rem);font-weight:800;letter-spacing:-.015em}
+.sec-h a,.link{color:var(--green-ink);font-weight:600;font-size:.88rem;cursor:pointer;text-decoration:none}
+
+.needs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.needs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.needs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.need{position:relative;overflow:hidden;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;display:grid;gap:22px;transition:transform .25s, box-shadow .25s, border-color .25s}
+.need:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:transparent}
+.need .ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--c-soft,var(--green-soft));color:var(--c,var(--green-ink));transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.need:hover .ico{transform:rotate(-8deg) scale(1.08)}
+.need .ico svg{width:26px;height:26px}
+.need b{font-family:var(--display);font-size:1.02rem;font-weight:700}
+.need small{display:block;color:var(--muted);font-size:.76rem;font-weight:500;margin-top:2px}
+
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(200px,1fr);gap:14px;overflow-x:auto;padding:4px 2px 16px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.rail>*{scroll-snap-align:start}
+.grid-p{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.card{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:12px;display:grid;gap:8px;grid-template-rows:auto 1fr auto;transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;cursor:pointer;min-width:0}
+.card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:transparent}
+.card .img{position:relative;aspect-ratio:1;border-radius:14px;background:radial-gradient(120% 90% at 50% 100%,var(--surface-2),var(--surface) 70%);display:grid;place-items:center;overflow:hidden}
+.card .img .pk{width:66%;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.card:hover .img .pk{transform:translateY(-6px) rotate(-3deg) scale(1.05)}
+.card .img::after{content:"";position:absolute;bottom:12%;left:25%;right:25%;height:10px;border-radius:50%;background:rgba(19,32,26,.18);filter:blur(6px);transition:transform .45s}
+.card:hover .img::after{transform:scaleX(.8);opacity:.6}
+.card .off{position:absolute;top:10px;left:10px;background:var(--red);color:#fff;font-weight:700;font-size:.72rem;padding:3px 8px;border-radius:8px;z-index:1}
+.card .fav{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:var(--surface);display:grid;place-items:center;z-index:1;box-shadow:var(--shadow);color:var(--muted)}
+.card .fav.on{color:var(--red)}
+.card .fav svg{width:16px;height:16px}
+.card .meta{display:grid;gap:3px;align-content:start}
+.card .mk{font-size:.72rem;color:var(--muted);font-weight:500}
+.card .nm{font-weight:600;font-size:.9rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .bt{display:flex;align-items:end;justify-content:space-between;gap:8px}
+.card .pr{display:grid;line-height:1.1}
+.card .pr s{font-size:.75rem;color:var(--muted)}
+.card .pr b{font-family:var(--display);font-size:1.25rem;font-weight:800}
+.card .add{width:42px;height:42px;border-radius:13px;background:var(--green);color:#fff;display:grid;place-items:center;transition:transform .2s, background .2s;flex-shrink:0}
+.card .add:hover{transform:rotate(90deg);background:var(--green-ink)}
+.card .add svg{width:20px;height:20px}
+.card .avail{font-size:.72rem;color:var(--green-ink);font-weight:600;display:flex;gap:5px;align-items:center}
+.card .avail i{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.badges{display:flex;gap:4px;flex-wrap:wrap}
+.bd{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--surface-2);color:var(--muted)}
+.bd.gen{background:var(--yellow);color:#13201A}
+.bd.ref{background:var(--blue-soft);color:var(--blue)}
+.bd.tarja{background:var(--red-soft);color:var(--red)}
+.bd.mip{background:var(--green-soft);color:var(--green-ink)}
+
+.promo2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.promo2{grid-template-columns:minmax(0,1fr)}}
+.pban{position:relative;overflow:hidden;border-radius:24px;padding:26px;min-height:190px;display:grid;align-content:space-between;gap:16px;isolation:isolate}
+.pban.a{background:var(--yellow);color:#13201A}
+.pban.b{background:var(--red);color:#fff}
+.pban h3{font-size:1.6rem;font-weight:800;letter-spacing:-.02em;max-width:16ch}
+.pban p{font-size:.9rem;max-width:34ch;opacity:.9}
+.pban .pk{position:absolute;right:-10px;bottom:-24px;width:44%;z-index:-1;transform:rotate(10deg);transition:transform .5s}
+.pban:hover .pk{transform:rotate(2deg) translateY(-8px)}
+.pban .btn{justify-self:start;height:40px}
+.pban.a .btn{background:#13201A;color:#F8E000}
+.pban.b .btn{background:#fff;color:var(--red)}
+
+.stores{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.store{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:8px}
+.store .top{display:flex;justify-content:space-between;gap:8px;align-items:start}
+.store b{font-family:var(--display);font-size:1.05rem}
+.open{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--green-soft);color:var(--green-ink);white-space:nowrap}
+.store .acts{display:flex;gap:6px;margin-top:4px}
+.store .acts button{font-size:.78rem;font-weight:600;padding:6px 10px;border-radius:10px;background:var(--surface-2)}
+.store .acts button:hover{background:var(--green-soft);color:var(--green-ink)}
+.s-foot{margin-top:64px;border-top:1px solid var(--line);padding-block:28px 40px;display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+
+/* categoria */
+.cat-head{margin-top:24px;display:grid;gap:14px}
+.crumbs{font-size:.8rem;color:var(--muted)}
+.crumbs a{color:var(--green-ink);cursor:pointer}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.fchip{padding:7px 13px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-size:.82rem;font-weight:600;transition:all .2s}
+.fchip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* sheet / drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,16,13,.5);backdrop-filter:blur(4px);z-index:70;animation:fade .25s}
+@keyframes fade{from{opacity:0}}
+.sheet{position:fixed;z-index:71;background:var(--surface);box-shadow:var(--shadow-lg)}
+.sheet.product{left:50%;top:50%;translate:-50% -50%;width:min(980px,calc(100vw - 32px));max-height:calc(100vh - 80px);overflow:auto;border-radius:28px;animation:rise .4s cubic-bezier(.2,.9,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(30px) scale(.97)}}
+.sheet.drawer{top:0;right:0;bottom:0;width:min(440px,100vw);display:grid;grid-template-rows:auto 1fr auto;animation:slide .4s cubic-bezier(.2,.9,.2,1);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@keyframes slide{from{transform:translateX(100%)}}
+.xbtn{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;z-index:2}
+.xbtn svg{width:18px;height:18px}
+.pd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:760px){.pd{grid-template-columns:minmax(0,1fr)}}
+.pd .gal{position:relative;background:radial-gradient(100% 80% at 50% 100%,var(--surface-3),var(--surface-2) 60%);display:grid;place-items:center;min-height:380px;border-radius:28px 0 0 28px;overflow:hidden}
+@media (max-width:760px){.pd .gal{border-radius:28px 28px 0 0;min-height:280px}}
+.pd .gal .pk{width:56%;animation:bob 6s ease-in-out infinite;filter:drop-shadow(0 30px 30px rgba(0,0,0,.25))}
+.pd .gal .ring{position:absolute;width:70%;aspect-ratio:1;border-radius:50%;border:1px dashed color-mix(in srgb,var(--muted) 40%,transparent);animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pd .info{padding:30px;display:grid;gap:16px;align-content:start}
+.pd h2{font-size:1.7rem;font-weight:800;letter-spacing:-.02em}
+.pd .price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pd .price b{font-family:var(--display);font-size:2.2rem;font-weight:800}
+.pd .price s{color:var(--muted)}
+.save{display:flex;gap:12px;align-items:center;background:var(--yellow-soft);border-radius:16px;padding:12px 14px;font-size:.85rem;cursor:pointer;border:1px solid color-mix(in srgb,var(--yellow) 60%,transparent)}
+.save .pk{width:44px;flex-shrink:0}
+.save b{color:var(--ink)}
+.qty{display:flex;align-items:center;background:var(--surface-2);border-radius:14px;height:50px}
+.qty button{width:44px;height:50px;font-size:1.3rem;font-weight:600}
+.qty span{min-width:32px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.buy{display:flex;gap:10px}
+.buy .btn{flex:1;height:50px}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tabs button{padding:8px 12px;font-weight:600;font-size:.85rem;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button.on{color:var(--ink);border-color:var(--green)}
+.tabbody{font-size:.9rem;color:var(--muted);min-height:64px}
+.srcs{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.src{font-family:var(--mono);font-size:.68rem;padding:2px 7px;border-radius:5px;background:var(--surface-2);color:var(--muted)}
+.av{display:grid;gap:6px}
+.av .r{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:12px;background:var(--surface-2);font-size:.84rem}
+.av .r.best{background:var(--green-soft)}
+.av .r .st{font-weight:700;font-size:.76rem}
+.av .r .st.lo{color:var(--amber)}
+
+.dr-h{display:flex;justify-content:space-between;align-items:center;padding:20px 20px 12px}
+.dr-h h3{font-size:1.4rem;font-weight:800}
+.dr-b{overflow:auto;padding:4px 20px;display:grid;gap:10px;align-content:start}
+.dr-f{padding:16px 20px 20px;border-top:1px solid var(--line);display:grid;gap:12px}
+.li{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;background:var(--surface-2);border-radius:16px;padding:10px;animation:pop .3s}
+.li .th{aspect-ratio:1;border-radius:12px;background:var(--surface);display:grid;place-items:center}
+.li .th .pk{width:70%}
+.li b{font-size:.86rem;font-weight:600;line-height:1.25;display:block}
+.li small{color:var(--muted);font-size:.74rem}
+.li .q{display:flex;align-items:center;gap:2px;background:var(--surface);border-radius:10px}
+.li .q button{width:28px;height:30px;font-weight:700}
+.li .q span{min-width:18px;text-align:center;font-size:.85rem;font-weight:700}
+.tot{display:flex;justify-content:space-between;font-size:.9rem}
+.tot.big{font-size:1.1rem;font-weight:700}
+.tot.big b{font-family:var(--display);font-size:1.5rem}
+.prog{height:8px;border-radius:4px;background:var(--surface-3);overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#7BE495);border-radius:4px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.empty{text-align:center;padding:40px 10px;display:grid;gap:10px;justify-items:center;color:var(--muted)}
+.empty .pk{width:90px;opacity:.6}
+
+/* checkout */
+.co{display:grid;gap:14px}
+.opt2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1.5px solid var(--line);border-radius:14px;padding:12px;text-align:left;display:grid;gap:2px;font-size:.8rem;color:var(--muted);transition:all .2s;background:var(--surface)}
+.opt b{color:var(--ink);font-size:.92rem}
+.opt.on{border-color:var(--green);background:var(--green-soft)}
+.co select{width:100%;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);padding:0 12px}
+.pix{display:grid;justify-items:center;gap:12px;text-align:center;padding:8px 0}
+.pix .qr{width:200px;height:200px;padding:12px;background:#fff;border-radius:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.pix .qr::after{content:"";position:absolute;left:0;right:0;height:40px;background:linear-gradient(180deg,transparent,rgba(0,152,72,.35),transparent);animation:scanl 2.2s ease-in-out infinite}
+@keyframes scanl{0%{top:-40px}100%{top:100%}}
+.pix code{font-family:var(--mono);font-size:.7rem;background:var(--surface-2);padding:8px 10px;border-radius:10px;word-break:break-all;max-width:320px}
+.track{display:grid;gap:0}
+.tstep{display:grid;grid-template-columns:36px 1fr;gap:12px;position:relative;padding-bottom:22px}
+.tstep::before{content:"";position:absolute;left:17px;top:34px;bottom:0;width:2px;background:var(--line)}
+.tstep:last-child::before{display:none}
+.tstep .c{width:36px;height:36px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;color:var(--muted);transition:all .4s}
+.tstep .c svg{width:18px;height:18px}
+.tstep.done .c{background:var(--green);color:#fff}
+.tstep.now .c{background:var(--yellow);color:#13201A;box-shadow:0 0 0 6px color-mix(in srgb,var(--yellow) 30%,transparent);animation:pulse2 1.6s infinite}
+@keyframes pulse2{50%{box-shadow:0 0 0 10px transparent}}
+.tstep b{display:block;font-size:.95rem}
+.tstep small{color:var(--muted);font-size:.8rem}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));translate:-50% 0;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:14px;font-weight:600;font-size:.88rem;z-index:90;box-shadow:var(--shadow-lg);display:flex;gap:10px;align-items:center;animation:toast 2.6s forwards}
+@keyframes toast{0%{opacity:0;transform:translateY(20px)}10%,85%{opacity:1;transform:none}100%{opacity:0;transform:translateY(10px)}}
+.flyer{position:fixed;z-index:95;pointer-events:none}
+
+/* ===== PAINEL ===== */
+.adm{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:calc(100vh - 48px)}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 52px);height:calc(100vh - 52px - env(safe-area-inset-top,0px));background:var(--surface);border-right:1px solid var(--line);padding:18px 12px;display:grid;grid-template-rows:auto auto 1fr auto;gap:16px}
+.side .logo{padding:0 8px}
+.side .logo .wm b{font-size:1rem}
+.kbar{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:12px;background:var(--surface-2);color:var(--muted);font-size:.82rem;width:100%;text-align:left}
+.kbar kbd{margin-left:auto;font-family:var(--mono);font-size:.68rem;background:var(--surface);border:1px solid var(--line);padding:1px 6px;border-radius:5px}
+.snav{display:grid;gap:2px;align-content:start}
+.snav button{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:11px;font-weight:600;font-size:.88rem;color:var(--muted);text-align:left;position:relative;transition:background .2s,color .2s}
+.snav button svg{width:18px;height:18px;flex-shrink:0}
+.snav button:hover{background:var(--surface-2);color:var(--ink)}
+.snav button.on{background:var(--ink);color:var(--bg)}
+.snav .pill{margin-left:auto;font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--red);color:#fff}
+.snav .pill.y{background:var(--yellow);color:#13201A}
+.side .me{display:flex;gap:10px;align-items:center;padding:10px;border-radius:14px;background:var(--surface-2);font-size:.8rem}
+.ava{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--yellow));display:grid;place-items:center;color:#13201A;font-weight:800;font-size:.8rem;flex-shrink:0}
+@media (max-width:900px){
+  .adm{grid-template-columns:minmax(0,1fr)}
+  .side{position:sticky;height:auto;grid-template-rows:auto;grid-auto-flow:column;grid-template-columns:auto minmax(0,1fr);padding:8px 12px;border-right:0;border-bottom:1px solid var(--line);z-index:30;align-items:center}
+  .side .logo .wm,.side .me,.kbar{display:none}
+  .snav{grid-auto-flow:column;overflow-x:auto;scrollbar-width:none}
+  .snav button{white-space:nowrap}
+}
+.main{padding-block:26px 60px;min-width:0}
+.main .inner{max-width:1180px;margin:0 auto;display:grid;gap:18px}
+.ph{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}
+.ph h1{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.02em}
+.ph p{color:var(--muted);font-size:.9rem;margin-top:4px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;min-width:0}
+.panel h3{font-size:1.05rem;font-weight:700}
+.panel .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:6px;position:relative;overflow:hidden}
+.kpi small{color:var(--muted);font-size:.78rem;font-weight:600}
+.kpi b{font-family:var(--display);font-size:1.7rem;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.delta{font-size:.74rem;font-weight:700;display:inline-flex;gap:3px;align-items:center;padding:2px 7px;border-radius:999px;justify-self:start}
+.delta.up{background:var(--green-soft);color:var(--green-ink)}
+.delta.dn{background:var(--red-soft);color:var(--red)}
+.kpi svg.spark{position:absolute;right:12px;top:12px;width:80px;height:30px;opacity:.9}
+.g2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:1000px){.g2,.g3{grid-template-columns:minmax(0,1fr)}}
+.chart{width:100%;height:220px;display:block}
+.chart .area{fill:url(#ga)}
+.chart .ln{fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 1.6s .2s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart text{fill:var(--muted);font-size:10px;font-family:var(--mono)}
+.chart .pt{fill:var(--surface);stroke:var(--green);stroke-width:2.5}
+.health{display:grid;grid-template-columns:130px 1fr;gap:16px;align-items:center}
+.ringw{position:relative;width:130px;height:130px}
+.ringw svg{width:130px;height:130px;transform:rotate(-90deg)}
+.ringw .bgc{stroke:var(--surface-3)}
+.ringw .fgc{stroke:var(--green);stroke-linecap:round;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1)}
+.ringw .lbl{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ringw .lbl b{font-family:var(--display);font-size:1.8rem;font-weight:800;display:block;line-height:1}
+.ringw .lbl small{font-size:.68rem;color:var(--muted)}
+.bars{display:grid;gap:10px}
+.bar{display:grid;gap:4px;font-size:.8rem}
+.bar .t{display:flex;justify-content:space-between}
+.bar .t b{font-variant-numeric:tabular-nums}
+.bar .tr{height:7px;border-radius:4px;background:var(--surface-3);overflow:hidden}
+.bar .tr i{display:block;height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.alerts{display:grid;gap:8px}
+.alert{display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:center;padding:10px;border-radius:14px;background:var(--surface-2);font-size:.84rem}
+.alert .ai{width:36px;height:36px;border-radius:11px;display:grid;place-items:center}
+.alert .ai svg{width:18px;height:18px}
+.alert .ai.r{background:var(--red-soft);color:var(--red)}
+.alert .ai.a{background:var(--amber-soft);color:var(--amber)}
+.alert .ai.g{background:var(--green-soft);color:var(--green-ink)}
+.alert small{display:block;color:var(--muted);font-size:.76rem}
+.alert button{font-size:.78rem;font-weight:700;color:var(--green-ink);padding:6px 10px;border-radius:9px;background:var(--surface)}
+.sbars{display:grid;gap:8px}
+.sbar{display:grid;grid-template-columns:110px 1fr 40px;gap:10px;align-items:center;font-size:.8rem}
+.sbar .tr{height:22px;border-radius:7px;background:var(--surface-2);overflow:hidden}
+.sbar .tr i{display:block;height:100%;background:linear-gradient(90deg,var(--green),color-mix(in srgb,var(--green) 55%,var(--yellow)));border-radius:7px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.sbar b{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ações rápidas e assistentes */
+.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.quick{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.qa{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:4px;transition:transform .25s,box-shadow .25s,border-color .25s}
+.qa:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--green)}
+.qa .qi{width:40px;height:40px;border-radius:12px;background:var(--green-soft);color:var(--green-ink);display:grid;place-items:center;margin-bottom:8px;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.qa:hover .qi{transform:scale(1.1) rotate(-6deg)}
+.qa .qi svg{width:22px;height:22px}
+.qa b{font-family:var(--display);font-size:1.05rem}
+.qa small{color:var(--muted);font-size:.8rem}
+.wiz{position:fixed;left:50%;top:50%;translate:-50% -50%;width:min(620px,calc(100vw - 32px));max-height:calc(100vh - 60px);overflow:auto;background:var(--surface);border-radius:26px;box-shadow:var(--shadow-lg);z-index:71;padding:26px;display:grid;gap:18px;animation:rise .35s cubic-bezier(.2,.9,.2,1)}
+.wsteps{display:flex;gap:6px}
+.wsteps i{flex:1;height:6px;border-radius:3px;background:var(--surface-3);transition:background .4s}
+.wsteps i.on{background:var(--green)}
+.wiz h2{font-size:1.5rem;font-weight:800}
+.big-in{display:flex;gap:8px}
+.big-in input{flex:1;min-width:0;height:56px;border-radius:16px;border:1.5px solid var(--line);background:var(--bg);padding:0 16px;font-family:var(--mono);font-size:1.15rem;letter-spacing:.06em}
+.big-in input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--green-soft)}
+.found{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;background:var(--surface-2);border-radius:18px;padding:14px;animation:pop .35s}
+.found .bx{aspect-ratio:1;border-radius:14px;background:var(--surface);display:grid;place-items:center}
+.found .bx .pk{width:72%}
+.ff{display:grid;gap:8px}
+.ff label{display:grid;gap:4px;font-size:.78rem;font-weight:600;color:var(--muted)}
+.ff input,.ff select{width:100%;min-width:0;height:42px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);padding:0 12px;font-size:.92rem;color:var(--ink)}
+.auto{font-size:.7rem;font-weight:700;color:var(--green-ink);background:var(--green-soft);padding:1px 6px;border-radius:5px;margin-left:6px}
+.wact{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.range{width:100%;accent-color:var(--red)}
+.offprev{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:center}
+@media (max-width:560px){.offprev{grid-template-columns:minmax(0,1fr)}}
+.offprev .card{pointer-events:none}
+/* kanban */
+.kan{display:grid;grid-template-columns:repeat(4,minmax(230px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}
+.col{background:var(--surface-2);border-radius:18px;padding:10px;display:grid;gap:8px;align-content:start;min-height:300px;transition:background .2s, outline-color .2s;outline:2px dashed transparent}
+.col.over{outline-color:var(--green);background:var(--green-soft)}
+.col .ch{display:flex;justify-content:space-between;align-items:center;padding:4px 6px;font-weight:700;font-size:.85rem}
+.col .ch span{font-family:var(--mono);font-size:.72rem;background:var(--surface);padding:1px 8px;border-radius:999px}
+.ord{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:grid;gap:8px;cursor:grab;transition:transform .2s, box-shadow .2s;animation:pop .3s}
+.ord:hover{box-shadow:var(--shadow)}
+.ord.drag{opacity:.4}
+.ord .r1{display:flex;justify-content:space-between;font-size:.8rem}
+.ord .r1 b{font-family:var(--mono)}
+.ord .who{font-weight:600;font-size:.9rem}
+.ord .r2{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:.76rem;color:var(--muted)}
+.ord .mode{font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:6px}
+.ord .mode.ret{background:var(--green-soft);color:var(--green-ink)}
+.ord .mode.ent{background:var(--blue-soft);color:var(--blue)}
+.ord .rx{font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--red-soft);color:var(--red)}
+.ord .nx{font-size:.76rem;font-weight:700;color:var(--green-ink);text-align:left}
+.ord .timer{font-family:var(--mono);font-size:.72rem}
+.ord .timer.late{color:var(--red)}
+
+/* tabela catálogo */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tsearch{flex:1;min-width:200px;height:40px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);padding:0 12px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.84rem;min-width:860px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-family:var(--mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--surface-2);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr.sel{background:var(--green-soft)}
+td .th{width:40px;height:40px;border-radius:10px;background:var(--surface-2);display:grid;place-items:center}
+td .th .pk{width:70%}
+td .th.none{background:repeating-linear-gradient(45deg,var(--red-soft) 0 6px,var(--surface) 6px 12px);color:var(--red)}
+td .th.none svg{width:16px;height:16px}
+td .nm{font-weight:600;display:block}
+td .raw{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+td.price{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+td.price span[contenteditable]{padding:3px 6px;border-radius:6px;outline:none}
+td.price span[contenteditable]:hover{background:var(--surface-3)}
+td.price span[contenteditable]:focus{background:var(--yellow-soft);box-shadow:0 0 0 2px var(--yellow)}
+.score{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-variant-numeric:tabular-nums}
+.score i{width:34px;height:6px;border-radius:3px;background:var(--surface-3);overflow:hidden;display:block}
+.score i::after{content:"";display:block;height:100%;width:var(--w);background:var(--c)}
+.iss{display:flex;gap:4px;flex-wrap:wrap}
+.is{font-size:.66rem;font-weight:700;padding:2px 6px;border-radius:5px;background:var(--red-soft);color:var(--red);white-space:nowrap}
+.is.a{background:var(--amber-soft);color:var(--amber)}
+.is.ok{background:var(--green-soft);color:var(--green-ink)}
+input[type=checkbox]{width:16px;height:16px;accent-color:var(--green)}
+.bulk{position:sticky;bottom:calc(16px + env(safe-area-inset-bottom,0px));margin-inline:auto;display:flex;gap:8px;align-items:center;background:var(--ink);color:var(--bg);padding:8px 8px 8px 16px;border-radius:16px;box-shadow:var(--shadow-lg);animation:rise .3s;width:max-content;max-width:100%;flex-wrap:wrap;z-index:20}
+.bulk button{background:rgba(255,255,255,.12);color:inherit;padding:8px 12px;border-radius:10px;font-size:.8rem;font-weight:600}
+.bulk button.y{background:var(--yellow);color:#13201A}
+
+/* revisão IA */
+.rev{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:900px){.rev{grid-template-columns:minmax(0,1fr)}}
+.rv{border-radius:20px;padding:18px;display:grid;gap:12px;align-content:start}
+.rv.before{background:var(--surface-2);border:1px dashed var(--line)}
+.rv.after{background:var(--surface);border:1.5px solid var(--green);box-shadow:0 0 0 5px var(--green-soft)}
+.rv .lab{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.rv.before .lab{color:var(--red)}
+.rv.after .lab{color:var(--green-ink);display:flex;gap:6px;align-items:center}
+.fld{display:grid;gap:3px}
+.fld small{font-size:.7rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.fld .v{font-size:.92rem}
+.rv.before .v{font-family:var(--mono);font-size:.82rem}
+.rv .imgbox{display:flex;gap:12px;align-items:center}
+.rv .imgbox .bx{width:84px;height:84px;border-radius:14px;background:var(--surface);display:grid;place-items:center;border:1px solid var(--line);overflow:hidden}
+.rv .imgbox .bx .pk{width:70%}
+.typing::after{content:"▍";animation:blink 1s steps(1) infinite;color:var(--green)}
+@keyframes blink{50%{opacity:0}}
+.rvbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rvbar .btn{height:44px}
+.btn.r{background:var(--red-soft);color:var(--red)}
+kbd.k{font-family:var(--mono);font-size:.7rem;padding:1px 6px;border-radius:5px;background:rgba(0,0,0,.12);margin-left:4px}
+.qprog{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--muted)}
+.qprog .prog{width:180px}
+.conf{display:inline-flex;gap:6px;align-items:center;font-size:.76rem;font-weight:700;color:var(--green-ink);background:var(--green-soft);padding:3px 9px;border-radius:999px}
+
+/* ferramenta imagem */
+.drop{border:2px dashed var(--line);border-radius:22px;padding:28px;display:grid;justify-items:center;gap:10px;text-align:center;background:var(--surface);transition:all .2s;cursor:pointer}
+.drop.over{border-color:var(--green);background:var(--green-soft);transform:scale(1.01)}
+.drop svg{width:44px;height:44px;color:var(--green)}
+.drop b{font-family:var(--display);font-size:1.2rem}
+.presets{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.ba{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:700px){.ba{grid-template-columns:minmax(0,1fr)}}
+.ba figure{margin:0;display:grid;gap:8px}
+.ba canvas{width:100%;height:auto;border-radius:16px;border:1px solid var(--line);background:repeating-conic-gradient(var(--surface-2) 0 25%,var(--surface) 0 50%) 0 0/20px 20px;display:block}
+.ba figcaption{font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.steps{display:grid;gap:6px}
+.stp{display:flex;gap:10px;align-items:center;font-size:.84rem;padding:8px 10px;border-radius:10px;background:var(--surface-2);opacity:.45;transition:opacity .3s}
+.stp.ok{opacity:1}
+.stp.ok .ck{background:var(--green);color:#fff}
+.stp .ck{width:22px;height:22px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;font-size:.7rem;font-weight:800}
+
+/* ERP */
+.pipe{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;position:relative}
+@media (max-width:1000px){.pipe{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.node{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:6px;position:relative;overflow:hidden}
+.node::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;background:linear-gradient(90deg,transparent,var(--green),transparent);transform:translateX(-100%);animation:flow 2.4s linear infinite;animation-delay:var(--d)}
+@keyframes flow{to{transform:translateX(100%)}}
+.node b{font-family:var(--display);font-size:.98rem}
+.node small{font-size:.74rem;color:var(--muted)}
+.node .n{font-family:var(--mono);font-size:1.1rem;font-weight:600;font-variant-numeric:tabular-nums}
+.log{font-family:var(--mono);font-size:.74rem;background:#0D1310;color:#B8D8C4;border-radius:16px;padding:14px;height:240px;overflow:auto;display:grid;align-content:start;gap:3px}
+.log .ok{color:#4BE095}.log .wa{color:#FFD24A}.log .er{color:#FF7A7E}
+.log time{color:#5F7A6A;margin-right:8px}
+
+/* vitrine */
+.vit{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+@media (max-width:900px){.vit{grid-template-columns:minmax(0,1fr)}}
+.blk{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;cursor:grab;transition:box-shadow .2s,transform .2s}
+.blk.drag{opacity:.4}
+.blk .grip{color:var(--muted);font-size:1.1rem;letter-spacing:-2px}
+.blk b{font-size:.9rem}
+.blk small{display:block;color:var(--muted);font-size:.76rem}
+.sw{margin-left:auto;width:40px;height:24px;border-radius:12px;background:var(--surface-3);position:relative;transition:background .2s;flex-shrink:0}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .25s cubic-bezier(.3,1.5,.5,1)}
+.sw.on{background:var(--green)}
+.sw.on::after{transform:translateX(16px)}
+.phone{width:100%;max-width:300px;border-radius:36px;border:8px solid var(--ink);background:var(--bg);aspect-ratio:9/18;overflow:hidden;position:sticky;top:120px;display:grid;align-content:start;gap:8px;padding:10px;margin-inline:auto}
+.phone .pb{border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:.66rem;padding:8px;display:grid;gap:4px;animation:pop .3s}
+.phone .pb.hero2{background:var(--green-ink);color:#fff;min-height:80px;align-content:end;font-family:var(--display);font-weight:800;font-size:.85rem}
+.phone .pb.yel{background:var(--yellow);color:#13201A;font-weight:700}
+.phone .dots{display:flex;gap:4px}
+.phone .dots i{flex:1;aspect-ratio:1;border-radius:6px;background:var(--surface-2)}
+
+/* paleta comando */
+.cmd{position:fixed;left:50%;top:14vh;translate:-50% 0;width:min(620px,calc(100vw - 32px));background:var(--surface);border-radius:20px;box-shadow:var(--shadow-lg);z-index:81;overflow:hidden;animation:rise .25s}
+.cmd input{width:100%;height:56px;border:0;border-bottom:1px solid var(--line);background:transparent;padding:0 20px;font-size:1.05rem;outline:none}
+.cmd .list{max-height:50vh;overflow:auto;padding:8px}
+.cmd .it{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;width:100%;text-align:left;font-size:.9rem}
+.cmd .it.act{background:var(--surface-2)}
+.cmd .it small{margin-left:auto;color:var(--muted);font-size:.74rem}
+.cmd .it .pk{width:26px}
+.scrim.c{z-index:80}
+
+
+/* ===== acabamento da loja (v3) ===== */
+html{scroll-behavior:smooth}
+#store{scrollbar-color:color-mix(in srgb,var(--green) 55%,transparent) transparent}
+#store ::-webkit-scrollbar{height:6px;width:8px}
+#store ::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--green) 45%,transparent);border-radius:99px}
+#store ::-webkit-scrollbar-track{background:transparent}
+.annc{background:linear-gradient(90deg,var(--green-ink),#00A653,var(--green-ink));color:#fff;font-size:.8rem;font-weight:600;height:34px;overflow:hidden}
+.annc .tr{display:grid;transition:transform .7s cubic-bezier(.7,0,.25,1)}
+.annc .tr span{height:34px;display:flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}
+.annc .tr span b{color:#F8E000}
+.annc svg{width:16px;height:16px}
+.sprog{position:fixed;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 52px);height:3px;z-index:51;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--red),var(--yellow),var(--green));pointer-events:none}
+.s-head .row1{transition:height .35s cubic-bezier(.2,.8,.2,1)}
+.s-head{transition:box-shadow .35s}
+.s-head.shrink{box-shadow:0 14px 30px -24px rgba(19,32,26,.55)}
+.s-head.shrink .row1{height:58px}
+.hbtn{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;text-align:left;line-height:1.15;transition:background .2s;position:relative}
+.hbtn:hover{background:var(--surface-2)}
+.hbtn svg{width:22px;height:22px}
+.hbtn small{display:block;font-size:.7rem;color:var(--muted)}
+.hbtn b{font-size:.82rem;white-space:nowrap}
+.hbtn .cnt{position:absolute;top:0;left:22px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;font-size:.7rem;font-weight:700;display:grid;place-items:center}
+.hbtn .cnt.bump{animation:bump .5s}
+@media (max-width:1100px){.hbtn span{display:none}}
+/* carrossel hero */
+.hcar{position:relative;margin-top:22px;border-radius:28px;overflow:hidden;isolation:isolate;--py:0px;--ho:1}
+.htrack{display:flex;transition:transform .9s cubic-bezier(.7,0,.2,1);touch-action:pan-y}
+.hcar .hero{flex:0 0 100%;margin:0;border-radius:0}
+.hcar .hero .stage{transform:translateY(var(--py))}
+.hcar .hero .copy{opacity:var(--ho)}
+.hero.y{background:#F8E000;color:#13201A}
+.hero.y em{color:var(--red)}
+.hero.y .b1{background:#FFFFFF;opacity:.6}.hero.y .b2{background:#00B85A;opacity:.35}.hero.y .b3{background:#FF8A00;opacity:.4}
+.hero.y .kick{background:rgba(19,32,26,.1)}
+.hero.y .btn.y{background:#13201A;color:#F8E000;box-shadow:none}
+.hero.y .btn.ghost{background:rgba(19,32,26,.08);color:#13201A}
+.hero.y .grain{background-image:radial-gradient(rgba(19,32,26,.5) 1px,transparent 1px)}
+.hero.r{background:#C4141E}
+.hero.r .b1{background:#FF4D55}.hero.r .b2{background:#F8E000;opacity:.45}.hero.r .b3{background:#7A0A10;opacity:.6}
+.hero .big{position:absolute;right:20px;bottom:20px;background:#fff;color:#13201A;border-radius:18px;padding:10px 16px;box-shadow:var(--shadow-lg);font-size:.78rem;line-height:1.1}
+.hero .big b{display:block;font-family:var(--display);font-size:2rem;color:var(--red)}
+.hctrl{position:absolute;right:24px;top:22px;display:flex;align-items:center;gap:10px;z-index:3}
+.hdots{display:flex;gap:6px;background:rgba(19,32,26,.28);backdrop-filter:blur(8px);padding:7px 9px;border-radius:99px}
+.hdots button{width:26px;height:5px;border-radius:3px;background:rgba(255,255,255,.4);overflow:hidden;position:relative;transition:width .4s}
+.hdots button.on{width:44px}
+.hdots button.on::after{content:"";position:absolute;inset:0;background:#fff;transform-origin:0 50%;animation:fill 6s linear forwards}
+.hcar.paused .hdots button.on::after{animation-play-state:paused}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.harr{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);color:#13201A;display:grid;place-items:center;box-shadow:0 6px 16px -6px rgba(0,0,0,.4);transition:transform .2s}
+.harr:hover{transform:scale(1.08)}
+.harr svg{width:18px;height:18px}
+@media (max-width:820px){.hctrl{right:16px;top:16px}.harr{display:none}}
+/* serviços */
+.svc{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:22px}
+@media (max-width:900px){.svc{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:120px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}}
+.svc button{display:grid;justify-items:center;gap:8px;text-align:center;padding:14px 8px;border-radius:18px;font-size:.8rem;font-weight:600;line-height:1.2;transition:background .2s;scroll-snap-align:start}
+.svc button:hover{background:var(--surface)}
+.svc .ci{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--green-ink);position:relative;transition:transform .35s cubic-bezier(.3,1.6,.5,1),background .25s,color .25s}
+.svc button:hover .ci{transform:translateY(-4px) rotate(-6deg);background:var(--green);color:#fff;border-color:transparent}
+.svc .ci svg{width:26px;height:26px}
+.svc .ci .nw{position:absolute;top:-6px;right:-10px;font-size:.58rem;font-weight:800;letter-spacing:.04em;background:var(--red);color:#fff;padding:2px 6px;border-radius:6px}
+/* trilhos */
+.railw{position:relative;display:grid;gap:12px}
+.railw .rail{scrollbar-width:none;padding:6px 4px 18px;margin:-6px -4px 0;mask-image:linear-gradient(90deg,transparent 0,#000 24px,#000 calc(100% - 48px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 24px,#000 calc(100% - 48px),transparent);cursor:grab;scroll-behavior:smooth}
+.railw .rail::-webkit-scrollbar{display:none}
+.railw .rail.drag{cursor:grabbing;scroll-behavior:auto;scroll-snap-type:none}
+.railw .rail.drag .card{pointer-events:none}
+.rbar{height:4px;border-radius:2px;background:var(--surface-3);overflow:hidden;max-width:220px}
+.rbar i{display:block;height:100%;width:30%;border-radius:2px;background:var(--ink);transition:transform .15s linear}
+.rarr{display:flex;gap:8px;align-items:center}
+.rarr button{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center;transition:all .2s}
+.rarr button:hover:not(:disabled){background:var(--ink);color:#fff;border-color:var(--ink)}
+.rarr button:disabled{opacity:.35;cursor:default}
+.rarr svg{width:18px;height:18px}
+.sec-h .sub{color:var(--muted);font-size:.9rem;margin-top:4px}
+/* extras no card */
+.stars{display:flex;align-items:center;gap:4px;font-size:.7rem;color:var(--muted)}
+.stars i{display:inline-block;width:62px;height:11px;background:linear-gradient(90deg,#F5A600 var(--r),var(--surface-3) var(--r));-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 62 11'%3E%3Cg fill='%23000'%3E%3Cpath id='s' d='M5.5 0l1.6 3.4 3.7.4-2.8 2.5.8 3.7-3.3-1.9-3.3 1.9.8-3.7L.2 3.8l3.7-.4z'/%3E%3Cuse href='%23s' x='12.8'/%3E%3Cuse href='%23s' x='25.6'/%3E%3Cuse href='%23s' x='38.4'/%3E%3Cuse href='%23s' x='51.2'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 62 11'%3E%3Cg fill='%23000'%3E%3Cpath id='s' d='M5.5 0l1.6 3.4 3.7.4-2.8 2.5.8 3.7-3.3-1.9-3.3 1.9.8-3.7L.2 3.8l3.7-.4z'/%3E%3Cuse href='%23s' x='12.8'/%3E%3Cuse href='%23s' x='25.6'/%3E%3Cuse href='%23s' x='38.4'/%3E%3Cuse href='%23s' x='51.2'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
+.leve{font-size:.72rem;font-weight:700;color:var(--green-ink);background:var(--green-soft);padding:2px 7px;border-radius:6px;justify-self:start}
+.opts{font-size:.68rem;font-weight:600;border:1px solid var(--line);padding:1px 7px;border-radius:99px;color:var(--muted);justify-self:start}
+/* kits */
+.kits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.kits{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:82%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}.kits>*{scroll-snap-align:start}}
+.kit{position:relative;border-radius:24px;overflow:hidden;background:var(--surface);border:1px solid var(--line);display:grid;cursor:pointer;transition:transform .3s,box-shadow .3s}
+.kit:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.kit .art{height:200px;position:relative;display:grid;place-items:center;background:var(--k)}
+.kit .art .pk{position:absolute;width:min(24%,92px);bottom:18px;transition:transform .5s cubic-bezier(.3,1.4,.5,1);filter:drop-shadow(0 14px 14px rgba(0,0,0,.22))}
+.kit .art .pk:nth-child(1){transform:translateX(-62%) rotate(-12deg)}
+.kit .art .pk:nth-child(2){transform:translateY(-8px);z-index:1}
+.kit .art .pk:nth-child(3){transform:translateX(62%) rotate(12deg)}
+.kit:hover .art .pk:nth-child(1){transform:translateX(-88%) rotate(-20deg)}
+.kit:hover .art .pk:nth-child(2){transform:translateY(-18px) scale(1.06)}
+.kit:hover .art .pk:nth-child(3){transform:translateX(88%) rotate(20deg)}
+.kit .art h4{position:absolute;top:16px;left:18px;font-size:1.15rem;font-weight:800;color:#13201A}
+.kit .ft{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.84rem}
+.kit .ft b{color:var(--green-ink);font-family:var(--display);font-size:1.15rem}
+/* marcas */
+.marq{overflow:hidden;border-block:1px solid var(--line);padding-block:18px;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.marq .mt{display:flex;gap:56px;width:max-content;animation:marq 32s linear infinite}
+.marq:hover .mt{animation-play-state:paused}
+.marq span{font-family:var(--display);font-weight:800;font-size:1.6rem;color:var(--muted);opacity:.55;white-space:nowrap;transition:opacity .2s,color .2s;cursor:default}
+.marq span:hover{opacity:1;color:var(--green-ink)}
+@keyframes marq{to{transform:translateX(-50%)}}
+/* rodapé */
+.sfoot{margin-top:72px;background:var(--surface);border-top:1px solid var(--line)}
+.sfoot .cols{display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,1fr));gap:28px;padding-block:40px 28px}
+@media (max-width:820px){.sfoot .cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.sfoot h5{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:600}
+.sfoot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.88rem}
+.sfoot li{cursor:pointer;transition:color .2s}
+.sfoot li:hover{color:var(--green-ink)}
+.sfoot .news{display:flex;gap:8px;margin-top:12px}
+.sfoot .news input{flex:1;min-width:0;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);padding:0 12px}
+.pays{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.pays span{font-family:var(--mono);font-size:.7rem;font-weight:600;border:1px solid var(--line);border-radius:6px;padding:3px 8px;background:var(--bg)}
+.sfoot .legal{border-top:1px solid var(--line);padding-block:16px 28px;font-size:.76rem;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.totop{position:fixed;right:max(20px,env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));width:48px;height:48px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;box-shadow:var(--shadow-lg);z-index:30;transform:translateY(90px);transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
+.totop.show{transform:none}
+.totop svg{width:20px;height:20px;transform:rotate(180deg)}
+.srx{display:flex;width:100%;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--green-soft);color:var(--green-ink);font-weight:700;font-size:.86rem;margin-bottom:6px}
+.srx svg{width:18px;height:18px}
+.srx span.nw{margin-left:auto;font-size:.62rem;background:var(--green);color:#fff;padding:2px 6px;border-radius:5px}
+.terms{display:grid;padding:0 4px 4px}
+.terms button{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:10px;font-size:.88rem;text-align:left}
+.terms button:hover{background:var(--surface-2)}
+.terms svg{width:15px;height:15px;color:var(--muted)}
+/* revelar ao rolar (animações ligadas ao scroll) */
+@supports (animation-timeline: view()){
+ #store .rv{animation:rvl linear both;animation-timeline:view();animation-range:entry 0% entry 70%}
+ #store .grid-p .card,#store .needs .need,#store .stores .store,#store .kit{animation:rvc linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
+ #store .pban .pk{animation:spin2 linear both;animation-timeline:view();animation-range:cover 0% cover 100%}
+}
+@keyframes rvl{from{opacity:.2;transform:translateY(48px)}to{opacity:1;transform:none}}
+@keyframes rvc{from{opacity:.25;transform:translateY(36px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes spin2{from{transform:rotate(22deg) translateY(30px)}to{transform:rotate(-4deg) translateY(-20px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.45s}
+</style>
+
+<div class="modebar gut">
+  <div class="in">
+    <span class="tag">Drogaria São Leopoldo · protótipo</span>
+    <div class="seg" id="seg" role="group" aria-label="Alternar visão">
+      <span class="knob" aria-hidden="true"></span>
+      <button id="bStore" aria-pressed="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/></svg>Loja do cliente</button>
+      <button id="bAdmin" aria-pressed="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Painel admin</button>
+    </div>
+    <span class="hint">Dados de exemplo · nada é real</span>
+  </div>
+</div>
+
+<div id="store"></div>
+<div id="admin" hidden></div>
+<div id="layer"></div>
+
+<script>
+/* ================= utilidades ================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const brl=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const vt=fn=>document.startViewTransition&&!matchMedia('(prefers-reduced-motion: reduce)').matches?document.startViewTransition(fn):fn();
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(msg){const t=document.createElement('div');t.className='toast';t.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>'+esc(msg);document.body.appendChild(t);setTimeout(()=>t.remove(),2700)}
+
+const I={
+ search:'<path d="M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.3-4.3"/>',
+ scan:'<path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2M7 8v8M10 8v8M13 8v8M17 8v8"/>',
+ bag:'<path d="M6 7h12l1 13H5L6 7zM9 7a3 3 0 016 0"/>',
+ user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/>',
+ heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ x:'<path d="M6 6l12 12M18 6L6 18"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ bike:'<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9L8 5H5"/>',
+ shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/>',
+ chat:'<path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/>',
+ pill:'<rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.5 9.5l5 5"/>',
+ therm:'<path d="M14 14.8V4a2 2 0 10-4 0v10.8a4 4 0 104 0z"/><path d="M12 17v-6"/>',
+ tissue:'<path d="M4 18c2-1 3-5 8-5s6 4 8 5M6 13c0-4 3-8 6-8s6 4 6 8"/>',
+ stomach:'<path d="M9 3v4c0 2-3 3-3 7a6 6 0 0012 0c0-3-3-3-3-5s2-2 2-4"/>',
+ heartp:'<path d="M3 12h4l2-4 3 8 2-4h7"/>',
+ drop:'<path d="M12 3s6 6.5 6 11a6 6 0 01-12 0c0-4.5 6-11 6-11z"/>',
+ baby:'<circle cx="12" cy="10" r="6"/><path d="M9 10h.01M15 10h.01M10 13c1 1 3 1 4 0M8 20h8"/>',
+ band:'<rect x="2" y="8" width="20" height="8" rx="4" transform="rotate(-30 12 12)"/><path d="M10 11h.01M14 13h.01M12 12h.01"/>',
+ leaf:'<path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15"/><path d="M5 19l8-8"/>',
+ cup:'<path d="M5 8h12v5a6 6 0 01-12 0V8zM17 9h1a3 3 0 010 6h-1M8 3v2M12 3v2"/>',
+ home:'<path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>',
+ box:'<path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7M12 11v10"/>',
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+ spark:'<path d="M12 3l2 5.5L19.5 10 14 12l-2 6-2-6-5.5-2L10 8.5z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/>',
+ image:'<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
+ layout:'<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/>',
+ plug:'<path d="M9 2v6M15 2v6M6 8h12v3a6 6 0 01-12 0V8zM12 17v5"/>',
+ alert:'<path d="M12 3l10 18H2L12 3z"/><path d="M12 10v5M12 18h.01"/>',
+ check:'<path d="M5 12l5 5L20 7"/>',
+ upload:'<path d="M12 16V4M7 9l5-5 5 5M4 16v3a2 2 0 002 2h12a2 2 0 002-2v-3"/>',
+ map:'<path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+ phone:'<path d="M5 3h4l2 5-2.5 1.5a11 11 0 006 6L16 13l5 2v4a2 2 0 01-2 2A17 17 0 013 5a2 2 0 012-2z"/>',
+ pkg:'<path d="M4 7l8-4 8 4v10l-8 4-8-4z"/><path d="M4 7l8 4 8-4M12 11v10"/>',
+ store:'<path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/>',
+ trend:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',
+ chev:'<path d="M6 9l6 6 6-6"/>'
+};
+const ic=(n,sw=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`;
+
+/* logo SL redesenhado */
+const LOGO=`<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3.5c1.3 0 2.5.7 3.2 1.8l19 32.4c1.5 2.5-.3 5.8-3.2 5.8H5c-2.9 0-4.7-3.3-3.2-5.8l19-32.4C21.5 4.2 22.7 3.5 24 3.5z" fill="#D8202A"/><path d="M5.5 38.5h37" stroke="#009848" stroke-width="3.2" stroke-linecap="round"/><text x="24" y="34" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="17" fill="#F8E000" font-style="italic" letter-spacing="-1">SL</text></svg>`;
+const logoHTML=`<div class="logo" data-go="home">${LOGO}<div class="wm"><small>DROGARIA</small><b>São Leopoldo</b></div></div>`;
+
+/* ================= dados de exemplo ================= */
+const STORES=[
+ {id:'centro',n:'SL Centro',a:'R. Padre João Crippa, 1598',km:1.2},
+ {id:'caranda',n:'SL Carandá Bosque',a:'Av. Hiroshima, 685',km:3.4},
+ {id:'noroeste',n:'SL Noroeste',a:'R. das Perdizes, 1120',km:5.1},
+ {id:'novalima',n:'SL Nova Lima',a:'R. Zulmira Borba, 1351',km:6.8},
+ {id:'zahran',n:'SL Jardim Allah',a:'Av. Eduardo Elias Zahran, 979',km:4.2},
+ {id:'julio',n:'SL Vila Alba',a:'Av. Júlio de Castilho, 1120',km:7.5},
+ {id:'sobrinho',n:'SL Vila Sobrinho',a:'R. Ricardo Franco, 21',km:2.9}
+];
+const CATS=[
+ {id:'dor',n:'Dor e febre',s:'Analgésicos e antitérmicos',i:'therm',c:'var(--red)',cs:'var(--red-soft)'},
+ {id:'gripe',n:'Gripe e resfriado',s:'Alívio dos sintomas',i:'tissue',c:'var(--blue)',cs:'var(--blue-soft)'},
+ {id:'continuo',n:'Uso contínuo',s:'Pressão, diabetes e mais',i:'heartp',c:'var(--green-ink)',cs:'var(--green-soft)'},
+ {id:'estomago',n:'Estômago e intestino',s:'Vermífugos e digestão',i:'stomach',c:'var(--amber)',cs:'var(--amber-soft)'},
+ {id:'dermo',n:'Dermocosméticos',s:'Pele, rosto e proteção solar',i:'drop',c:'var(--blue)',cs:'var(--blue-soft)'},
+ {id:'higiene',n:'Higiene pessoal',s:'Bucal, corpo e banho',i:'leaf',c:'var(--green-ink)',cs:'var(--green-soft)'},
+ {id:'bebe',n:'Mãe e bebê',s:'Fraldas e cuidados',i:'baby',c:'var(--amber)',cs:'var(--amber-soft)'},
+ {id:'socorros',n:'Primeiros socorros',s:'Curativos e coleta',i:'band',c:'var(--red)',cs:'var(--red-soft)'},
+ {id:'suplementos',n:'Vitaminas',s:'Suplementos e nutrição',i:'pill',c:'var(--green-ink)',cs:'var(--green-soft)'},
+ {id:'conveniencia',n:'Conveniência',s:'Adoçantes, bebidas e mais',i:'cup',c:'var(--muted)',cs:'var(--surface-2)'}
+];
+const DEPTS=[
+ {id:'med',n:'Medicamentos',feat:6,tag:'Mais vendido',g:[['Por necessidade',[['Dor e febre','dor'],['Gripe e resfriado','gripe'],['Estômago e intestino','estomago'],['Alergias','gripe'],['Uso contínuo','continuo']]],['Uso contínuo',[['Pressão alta','continuo'],['Diabetes','continuo'],['Colesterol','continuo'],['Tireoide','continuo'],['Anticoncepcionais','continuo']]],['Tipo de medicamento',[['Genéricos','dor','gen'],['Sem receita','dor','semrx'],['Com receita','continuo'],['Fitoterápicos','estomago']]]]},
+ {id:'dermo',n:'Dermocosméticos',feat:20,tag:'Oferta da semana',g:[['Rosto',[['Protetor solar','dermo'],['Hidratante facial','dermo'],['Limpeza','dermo'],['Antissinais','dermo'],['Acne e oleosidade','dermo']]],['Corpo',[['Hidratante corporal','dermo'],['Pós-sol','dermo'],['Pele sensível','dermo']]],['Marcas',[['La Roche-Posay','dermo'],['Cetaphil','dermo'],['Nivea','higiene'],['Vichy','dermo']]]]},
+ {id:'hig',n:'Higiene e beleza',feat:19,tag:'Leve 3, pague 2',g:[['Higiene bucal',[['Creme dental','higiene'],['Escovas','higiene'],['Fio dental','higiene'],['Enxaguante','higiene']]],['Corpo e banho',[['Desodorantes','higiene'],['Sabonetes','higiene'],['Hidratantes','higiene'],['Barbear','higiene']]],['Cabelo',[['Shampoo','higiene'],['Condicionador','higiene'],['Tinturas','higiene'],['Acessórios','higiene']]]]},
+ {id:'bebe',n:'Mãe e bebê',feat:22,tag:'Até 15% off',g:[['Fraldas',[['Fraldas infantis','bebe'],['Fraldas noturnas','bebe'],['Lenços umedecidos','bebe']]],['Cuidados',[['Pomadas e assaduras','bebe'],['Shampoo infantil','bebe'],['Hidratantes infantis','bebe']]],['Alimentação',[['Mamadeiras','bebe'],['Chupetas','bebe'],['Leites e fórmulas','bebe']]]]},
+ {id:'saude',n:'Saúde e bem-estar',feat:23,tag:'Imunidade',g:[['Vitaminas e suplementos',[['Vitamina C','suplementos'],['Multivitamínicos','suplementos'],['Ômega 3','suplementos'],['Proteínas','suplementos']]],['Primeiros socorros',[['Curativos','socorros'],['Gaze e esparadrapo','socorros'],['Antissépticos','socorros'],['Coletores','socorros']]],['Aparelhos',[['Termômetros','socorros'],['Medidores de pressão','socorros'],['Ortopédicos','socorros']]]]},
+ {id:'conv',n:'Conveniência',feat:17,tag:'Zero açúcar',g:[['Alimentação',[['Adoçantes','conveniencia'],['Snacks saudáveis','conveniencia'],['Chás','conveniencia']]],['Bebidas',[['Água e isotônicos','conveniencia'],['Energéticos','conveniencia']]],['Outros',[['Pilhas','conveniencia'],['Carregadores','conveniencia']]]]}
+];
+// t: gen | ref | sim | mip | out ; k: box | bottle | tube | pack | jar
+const P=[
+ {id:1,n:'Dipirona monoidratada 500 mg',q:'10 comprimidos',m:'Prati-Donaduzzi',c:'dor',pa:'dipirona',p:6.75,t:'gen',k:'box',col:'#F2F2F2',ac:'#1F4FA8',raw:'DIPIRONA 500MG 10CPR',ean:'7896181902017',img:true,sc:92,ind:'Analgésico e antitérmico, indicado para dor e febre.'},
+ {id:2,n:'Dipirona monoidratada 1 g',q:'10 comprimidos',m:'Medley',c:'dor',pa:'dipirona',p:15.13,o:28.72,t:'gen',k:'box',col:'#FFFFFF',ac:'#00894A',raw:'DIPIRONA 1G 10CPR',ean:'7896422507278',img:true,sc:88,ind:'Analgésico e antitérmico, indicado para dor e febre.'},
+ {id:3,n:'Anador 1 g',q:'10 comprimidos',m:'Opella',c:'dor',pa:'dipirona',p:16.81,t:'mip',k:'box',col:'#E5312B',ac:'#FFFFFF',raw:'ANADOR 1G 10CPR',ean:'7891058017750',img:true,sc:90,ind:'Analgésico e antitérmico, indicado para dor e febre.',best:true},
+ {id:4,n:'Anador',q:'4 comprimidos',m:'Opella',c:'dor',pa:'dipirona',p:5.74,t:'mip',k:'box',col:'#E5312B',ac:'#FFFFFF',raw:'ANADOR 4CPR',ean:'7891058021665',img:false,wrong:true,sc:34,ind:'Analgésico e antitérmico, indicado para dor e febre.'},
+ {id:5,n:'Novalgina 1 g',q:'10 comprimidos',m:'Opella',c:'dor',pa:'dipirona',p:25.43,t:'mip',k:'box',col:'#FFFFFF',ac:'#E2001A',raw:'NOVALGINA 1G C/10 CPR',ean:'7891058001155',img:true,sc:91,ind:'Analgésico e antitérmico, indicado para dor e febre.',best:true},
+ {id:6,n:'Dorflex',q:'36 comprimidos',m:'Opella',c:'dor',pa:'dipirona + orfenadrina + cafeína',p:24.64,t:'mip',k:'box',col:'#1A9AD6',ac:'#F7C600',raw:'DORFLEX 36 CPR',ean:'7891058003142',img:true,sc:89,ind:'Analgésico e relaxante muscular, indicado para dores musculares e de cabeça tensional.',best:true},
+ {id:7,n:'Dorflex DIP 1 g',q:'10 comprimidos',m:'Opella',c:'dor',pa:'dipirona',p:17.21,t:'mip',k:'box',col:'#2BA8E0',ac:'#FFFFFF',raw:'DORFLEX DIP 1G C/10CPR',ean:'7891058021733',img:true,sc:86,ind:'Analgésico e antitérmico, indicado para dor e febre.'},
+ {id:8,n:'Neosaldina',q:'4 drágeas',m:'Hypera',c:'dor',pa:'dipirona + isometepteno + cafeína',p:9.47,t:'mip',k:'box',col:'#6B2A8A',ac:'#FFFFFF',raw:'NEOSALDINA 4 DRG',ean:'7896094201201',img:false,sc:48,ind:'Indicado para dores de cabeça.'},
+ {id:9,n:'Maxalgina gotas 500 mg/ml',q:'20 ml',m:'Natulab',c:'dor',pa:'dipirona',p:19.36,t:'sim',k:'bottle',col:'#8BC53F',ac:'#FFFFFF',raw:'MAXALGINA 20ML',ean:'7896331703443',img:true,sc:72,ind:'Analgésico e antitérmico, indicado para dor e febre.'},
+ {id:10,n:'Flex Muscular',q:'30 comprimidos',m:'Cimed',c:'dor',pa:'dipirona + orfenadrina + cafeína',p:21.68,o:29.99,t:'sim',k:'box',col:'#F36F21',ac:'#FFFFFF',raw:'FLEX MUSCULAR C/30CPR',ean:'7896523201887',img:true,sc:80,ind:'Analgésico e relaxante muscular.'},
+ {id:11,n:'Buscopan Composto',q:'20 drágeas',m:'Opella',c:'estomago',pa:'butilbrometo de escopolamina + dipirona',p:29.12,t:'mip',k:'box',col:'#FFFFFF',ac:'#00843D',raw:'BUSCOPAN COMPOSTO 20 DRG',ean:'7891058017705',img:true,sc:87,ind:'Indicado para cólicas e dores abdominais.'},
+ {id:12,n:'Benegrip',q:'12 comprimidos',m:'Hypera',c:'gripe',pa:'dipirona + clorfeniramina + cafeína',p:29.12,t:'mip',k:'box',col:'#F5D000',ac:'#C8102E',raw:'BENEGRIP C/12CPR',ean:'7896094910271',img:true,sc:85,ind:'Alívio dos sintomas da gripe e do resfriado.',best:true},
+ {id:13,n:'Losartana potássica 50 mg',q:'30 comprimidos',m:'EMS',c:'continuo',pa:'losartana',p:10.94,t:'gen',rx:true,k:'box',col:'#FFFFFF',ac:'#E30613',raw:'LOSARTANA POTASSICA 50MG 30CPR',ean:'7896004713380',img:false,sc:41,ind:'Anti-hipertensivo. Venda sob prescrição médica.'},
+ {id:14,n:'Albendazol 400 mg',q:'1 comprimido',m:'Prati-Donaduzzi',c:'estomago',pa:'albendazol',p:9.37,t:'gen',rx:true,k:'box',col:'#FFFFFF',ac:'#6A1B9A',raw:'ALBENDAZOL 400MG 1CPR',ean:'7896181904219',img:false,sc:44,ind:'Vermífugo. Venda sob prescrição médica.'},
+ {id:15,n:'Compressa de gaze não aderente',q:'10 unidades',m:'Cremer',c:'socorros',pa:'',p:3.75,t:'out',k:'pack',col:'#FFFFFF',ac:'#0067B1',raw:'COMPRESSA DE GAZE CREMER NAO ADERENTE 10UND',ean:'7898179710065',img:true,sc:76,ind:'Para cobertura de ferimentos sem aderir à pele.'},
+ {id:16,n:'Coletor universal estéril',q:'80 ml',m:'Uso geral',c:'socorros',pa:'',p:2.00,t:'out',k:'jar',col:'#F4F8FB',ac:'#D8202A',raw:'COLETOR UNIVERSAL 80ML',ean:'7898949349034',img:false,sc:38,ind:'Para coleta de amostras para exames.'},
+ {id:17,n:'Adoçante líquido Zero-Cal Stevia',q:'80 ml',m:'Hypera',c:'conveniencia',pa:'',p:16.50,t:'out',k:'bottle',col:'#2E7D32',ac:'#FFFFFF',raw:'ADOC ZERO CAL STEVIA 80ML',ean:'7896094915046',img:true,sc:58,ind:'Adoçante dietético à base de stevia.'},
+ {id:18,n:'Hidratante corporal Milk',q:'400 ml',m:'Nivea',c:'higiene',pa:'',p:29.90,o:36.90,t:'out',k:'bottle',col:'#0B2A6F',ac:'#FFFFFF',raw:'NIVEA HIDR MILK 400ML',ean:'4005900036643',img:true,sc:83,ind:'Hidratação profunda para pele seca a extrasseca.',best:true},
+ {id:19,n:'Creme dental Total 12',q:'90 g',m:'Colgate',c:'higiene',pa:'',p:12.49,t:'out',k:'tube',col:'#E4002B',ac:'#FFFFFF',raw:'CR DENT COLG TOTAL12 90G',ean:'7891024134702',img:true,sc:79,ind:'Proteção completa por 12 horas.'},
+ {id:20,n:'Protetor solar facial FPS 60',q:'50 g',m:'La Roche-Posay',c:'dermo',pa:'',p:89.90,o:109.90,t:'out',k:'tube',col:'#FFFFFF',ac:'#F39200',raw:'ANTHELIOS FPS60 50G',ean:'7899706153403',img:true,sc:82,ind:'Proteção alta UVA/UVB para o rosto, toque seco.',best:true},
+ {id:21,n:'Loção hidratante',q:'200 ml',m:'Cetaphil',c:'dermo',pa:'',p:69.90,t:'out',k:'bottle',col:'#FFFFFF',ac:'#0057A8',raw:'CETAPHIL LOC HIDRAT 200ML',ean:'7896011702551',img:true,sc:81,ind:'Hidratação para pele sensível.'},
+ {id:22,n:'Fralda Supreme Care G',q:'32 unidades',m:'Huggies',c:'bebe',pa:'',p:59.90,o:69.90,t:'out',k:'pack',col:'#E6F0FA',ac:'#C8102E',raw:'FRALDA HUGGIES SUPREME CARE G 32UN',ean:'7896007549337',img:true,sc:84,ind:'Fralda com camada extra macia e alta absorção.',best:true},
+ {id:23,n:'Vitamina C 1 g efervescente',q:'10 comprimidos',m:'Cimed',c:'suplementos',pa:'ácido ascórbico',p:8.99,t:'out',k:'tube',col:'#FF8F00',ac:'#FFFFFF',raw:'VIT C 1G EFERV 10CPR CIMED',ean:'7896523207100',img:true,sc:78,ind:'Suplemento de vitamina C.'},
+ {id:24,n:'Multipiral 500 mg',q:'10 comprimidos',m:'Multilab',c:'dor',pa:'dipirona',p:5.00,o:9.24,t:'sim',k:'box',col:'#FFFFFF',ac:'#E85D04',raw:'',ean:'7895296448949',img:false,sc:12,ind:'Analgésico e antitérmico, indicado para dor e febre.'}
+];
+const byId=id=>P.find(p=>p.id===id);
+const stockAt=(p,i)=>((p.id*7+i*13)%17)+(i%3===0?0:2);
+
+/* embalagem desenhada (packshot vetorial) */
+function pack(p){
+ const t=p.t==='gen', name=p.n.split(' ').slice(0,2).join(' '), sub=p.q;
+ const fs=name.length>14?9:11;
+ if(p.k==='bottle')return `<svg class="pkv" viewBox="0 0 100 130"><defs><linearGradient id="gb${p.id}" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".18"/><stop offset=".35" stop-color="#fff" stop-opacity=".25"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient></defs><rect x="38" y="4" width="24" height="16" rx="3" fill="${p.ac}"/><path d="M34 20h32l6 12v86a8 8 0 01-8 8H36a8 8 0 01-8-8V32z" fill="${p.col}" stroke="rgba(0,0,0,.12)"/><rect x="28" y="50" width="44" height="50" fill="#fff" opacity=".92"/><text x="50" y="70" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="${fs-1}" fill="${p.col==='#FFFFFF'||p.col==='#F4F8FB'?p.ac:p.col}">${esc(name)}</text><text x="50" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="6.5" fill="#555">${esc(sub)}</text><path d="M34 20h32l6 12v86a8 8 0 01-8 8H36a8 8 0 01-8-8V32z" fill="url(#gb${p.id})"/></svg>`;
+ if(p.k==='tube')return `<svg class="pkv" viewBox="0 0 100 130"><defs><linearGradient id="gt${p.id}" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".15"/><stop offset=".4" stop-color="#fff" stop-opacity=".3"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient></defs><rect x="40" y="108" width="20" height="16" rx="3" fill="${p.ac}"/><path d="M24 6h52l-6 102H30z" fill="${p.col}" stroke="rgba(0,0,0,.12)"/><rect x="24" y="4" width="52" height="6" fill="rgba(0,0,0,.12)"/><text x="50" y="52" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="${fs}" fill="${p.col==='#FFFFFF'?p.ac:'#fff'}">${esc(name)}</text><text x="50" y="66" text-anchor="middle" font-family="Inter,sans-serif" font-size="6.5" fill="${p.col==='#FFFFFF'?'#555':'rgba(255,255,255,.85)'}">${esc(sub)}</text><rect x="34" y="76" width="32" height="4" rx="2" fill="${p.ac}" opacity=".8"/><path d="M24 6h52l-6 102H30z" fill="url(#gt${p.id})"/></svg>`;
+ if(p.k==='jar')return `<svg class="pkv" viewBox="0 0 100 130"><rect x="22" y="22" width="56" height="16" rx="4" fill="${p.ac}"/><path d="M26 38h48v74a8 8 0 01-8 8H34a8 8 0 01-8-8z" fill="${p.col}" stroke="rgba(0,0,0,.15)" opacity=".95"/><g stroke="#8AA" stroke-width="1"><path d="M30 60h8M30 72h12M30 84h8M30 96h12"/></g><text x="56" y="82" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#567">80 ml</text></svg>`;
+ if(p.k==='pack')return `<svg class="pkv" viewBox="0 0 120 120"><defs><linearGradient id="gp${p.id}" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".1"/><stop offset=".5" stop-color="#fff" stop-opacity=".25"/><stop offset="1" stop-color="#000" stop-opacity=".12"/></linearGradient></defs><path d="M12 22q48-14 96 0v84q-48 10-96 0z" fill="${p.col}" stroke="rgba(0,0,0,.12)"/><path d="M12 22q48-14 96 0v12q-48-10-96 0z" fill="${p.ac}"/><text x="60" y="64" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="12" fill="${p.ac}">${esc(p.m)}</text><text x="60" y="80" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#444">${esc(name)}</text><text x="60" y="94" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#666">${esc(sub)}</text><path d="M12 22q48-14 96 0v84q-48 10-96 0z" fill="url(#gp${p.id})"/></svg>`;
+ const light=p.col==='#FFFFFF'||p.col==='#F2F2F2', tc=light?p.ac:'#fff';
+ return `<svg class="pkv" viewBox="0 0 120 110"><path d="M10 26l20-14h80L90 26z" fill="${p.col}" stroke="rgba(0,0,0,.12)"/><path d="M10 26l20-14h80L90 26z" fill="#fff" opacity=".35"/><path d="M90 26l20-14v70L90 98z" fill="${p.col}" stroke="rgba(0,0,0,.12)"/><path d="M90 26l20-14v70L90 98z" fill="#000" opacity=".16"/><rect x="10" y="26" width="80" height="72" fill="${p.col}" stroke="rgba(0,0,0,.12)"/>${t?'<rect x="10" y="80" width="80" height="18" fill="#F8E000"/><text x="22" y="93.5" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="12" fill="#13201A">G</text><text x="32" y="92.5" font-family="Inter,sans-serif" font-size="5.6" fill="#13201A">Medicamento genérico</text>':`<rect x="10" y="86" width="80" height="5" fill="${p.ac}" opacity=".85"/>`}${p.rx?'<rect x="10" y="26" width="80" height="5" fill="#D8202A"/>':''}<text x="50" y="${t?54:58}" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="${fs}" fill="${tc}">${esc(name)}</text><text x="50" y="${t?67:71}" text-anchor="middle" font-family="Inter,sans-serif" font-size="6.2" fill="${light?'#555':'rgba(255,255,255,.88)'}">${esc(sub)}</text><rect x="10" y="26" width="80" height="72" fill="url(#gx)" opacity=".0"/></svg>`;
+}
+const pk=(p,cls='')=>`<div class="pk ${cls}">${pack(p)}</div>`;
+const badges=p=>`<div class="badges">${p.t==='gen'?'<span class="bd gen">Genérico</span>':p.t==='mip'?'<span class="bd mip">Sem receita</span>':p.t==='sim'?'<span class="bd">Similar</span>':''}${p.rx?'<span class="bd tarja">Tarja vermelha</span>':''}</div>`;
+
+/* ================= estado ================= */
+const S={mode:'store',view:'home',cat:null,filter:'todos',bag:[],fav:new Set(),store:STORES[0],
+ orders:[], adm:'inicio', sel:new Set(), catFilter:'todos', q:'', revIdx:0, blocks:[
+  {id:'hero',n:'Destaque principal',s:'Retire em 30 min',on:true},{id:'needs',n:'Atalhos por necessidade',s:'10 categorias',on:true},
+  {id:'offers',n:'Ofertas da semana',s:'Automático: maior desconto',on:true},{id:'promo',n:'Banners duplos',s:'Genéricos · Mãe e bebê',on:true},
+  {id:'again',n:'Compre de novo',s:'Só para quem já comprou',on:false},{id:'stores',n:'Nossas lojas',s:'7 unidades',on:true}]};
+const bagCount=()=>S.bag.reduce((a,b)=>a+b.q,0);
+const bagTotal=()=>S.bag.reduce((a,b)=>a+byId(b.id).p*b.q,0);
+
+/* ================= LOJA ================= */
+const OPTS={18:2,22:4,20:2,19:3}, LEVE={1:5.99,19:9.99,23:7.49,15:2.99};
+function rating(p){if(p.t==='gen'&&p.rx)return'';const v=4+((p.id*37)%10)/10,n=(p.id*53)%300+8;return `<span class="stars"><i style="--r:${v/5*100}%"></i>${v.toFixed(1).replace('.',',')} (${n})</span>`}
+function cardHTML(p){
+ const off=p.o?Math.round((1-p.p/p.o)*100):0;
+ return `<article class="card" data-open="${p.id}" style="view-transition-name:none">
+  ${off?`<span class="off">-${off}%</span>`:''}
+  <button class="fav ${S.fav.has(p.id)?'on':''}" data-fav="${p.id}" aria-label="Favoritar">${ic('heart')}</button>
+  <div class="img">${pk(p)}</div>
+  <div class="meta"><span class="mk">${esc(p.m)} · ${esc(p.q)}</span><span class="nm">${esc(p.n)}</span>${badges(p)}${rating(p)}${OPTS[p.id]?`<span class="opts">${OPTS[p.id]} opções</span>`:''}${LEVE[p.id]?`<span class="leve">Leve 3 por ${brl(LEVE[p.id])} cada</span>`:''}</div>
+  <div class="bt"><div class="pr">${p.o?`<s>${brl(p.o)}</s>`:''}<b>${brl(p.p)}</b><span class="avail"><i></i>Retire hoje</span></div>
+  <button class="add" data-add="${p.id}" aria-label="Adicionar à sacola">${ic('plus',2.5)}</button></div></article>`;
+}
+function headHTML(){
+ return `<header class="s-head gut"><div class="wrap">
+  <div class="row1">${logoHTML}
+   <button class="loc" data-act="pickstore"><span class="dot"></span><span>${esc(S.store.n)}<small>Aberta até 18h · ${S.store.km} km</small></span></button>
+   <div class="search"><span class="ic">${ic('search')}</span><input id="q" type="search" autocomplete="off" placeholder="Busque por sintoma, remédio, marca ou código de barras" value="${esc(S.q)}"><button class="scan" data-act="scan" aria-label="Escanear código de barras">${ic('scan')}</button><div id="sdrop"></div></div>
+   <div class="s-icons"><button class="hbtn" data-act="rx">${ic('upload')}<span><small>Compra rápida</small><b>com receita</b></span></button><button class="hbtn" data-act="track">${ic('pkg')}<span><small>Acompanhar</small><b>pedidos</b></span></button><button class="hbtn" aria-label="Minha conta">${ic('user')}<span><small>Olá!</small><b>Entrar</b></span></button><button class="hbtn" id="bagBtn" data-act="bag" aria-label="Sacola">${ic('bag')}<span class="cnt" id="bagCnt" ${bagCount()?'':'hidden'}>${bagCount()}</span><span><small>Sacola</small><b id="bagTot">${brl(bagTotal())}</b></span></button></div>
+  </div>
+  <nav class="s-nav">${DEPTS.map(d=>`<button class="dp ${S.mega===d.id?'open':''}" data-dept="${d.id}" aria-expanded="${S.mega===d.id}">${d.n}${ic('chev')}</button>`).join('')}<button class="hot ${S.view==='cat'&&S.cat==='ofertas'?'on':''}" data-cat="ofertas">Ofertas</button><button data-go="stores">Nossas lojas</button></nav>
+  <div id="mega"></div>
+ </div></header>`;
+}
+function homeHTML(){
+ const on=id=>S.blocks.find(b=>b.id===id).on;
+ const offers=P.filter(p=>p.o).concat(P.filter(p=>p.best&&!p.o)).slice(0,10);
+ let h='';
+ if(on('hero'))h+=heroCar()+`<div class="perks rv">
+   <div class="perk">${ic('clock')}<span><b>Retirada em 30 min</b>Em qualquer unidade</span></div>
+   <div class="perk">${ic('bike')}<span><b>Entrega no mesmo dia</b>Em Campo Grande</span></div>
+   <div class="perk">${ic('chat')}<span><b>Fale com o farmacêutico</b>Pelo WhatsApp</span></div>
+   <div class="perk">${ic('shield')}<span><b>Pix ou cartão</b>Ambiente seguro</span></div></div>
+  <div class="svc">${[['upload','Comprar com receita','rx','Novo'],['heartp','Meus remédios de uso contínuo','cont'],['spark','SL Pontos','pts'],['pill','Desconto de laboratório','lab'],['shield','Vacinas e testes','vac'],['map','Farmácia mais perto','near']].map(([i,t,a,nw])=>`<button data-act="${a}"><span class="ci">${ic(i,1.8)}${nw?`<span class="nw">${nw}</span>`:''}</span>${t}</button>`).join('')}</div>`;
+ if(on('needs'))h+=`<section class="sec rv"><div class="sec-h"><h2>Do que você precisa hoje?</h2></div><div class="needs">${CATS.map(c=>`<button class="need" data-cat="${c.id}" style="--c:${c.c};--c-soft:${c.cs}"><span class="ico">${ic(c.i)}</span><span><b>${c.n}</b><small>${c.s}</small></span></button>`).join('')}</div></section>`;
+ if(on('offers'))h+=railSec('r1','Ofertas da semana','Preços que valem até domingo, 30/11',offers,'ofertas');
+ h+=railSec('r2','Mais vendidos em Dor e febre','Os mais procurados na SL esta semana',P.filter(p=>p.c==='dor'&&p.raw&&!p.o),'dor');
+ if(on('promo'))h+=`<section class="sec rv"><div class="promo2">
+  <div class="pban a"><div><h3>Genérico é o mesmo remédio, mais barato.</h3><p>Busque pelo nome de marca e veja quanto economiza com o genérico equivalente.</p></div><button class="btn" data-open="5">Comparar Novalgina</button>${pk(byId(1))}</div>
+  <div class="pban b"><div><h3>Mãe e bebê com até 15% off</h3><p>Fraldas, lenços e cuidados para os pequenos, com entrega no mesmo dia.</p></div><button class="btn" data-cat="bebe">Ver produtos</button>${pk(byId(22))}</div></div></section>`;
+ h+=`<section class="sec rv"><div class="sec-h"><div><h2>Monte seu kit e economize</h2><p class="sub">Combine produtos na mesma compra e o desconto entra sozinho na sacola</p></div></div><div class="kits">${[['Kit gripe','var(--blue-soft)',[12,23,1],'Combine 2 ou mais','15% off'],['Higiene bucal','var(--green-soft)',[19,18,19],'Combine 3 ou mais','20% off'],['Cuidados com o bebê','var(--yellow-soft)',[22,15,21],'Combine 2 ou mais','10% off']].map(([t,k,ids,a,b])=>`<div class="kit" data-cat="${ids[0]===22?'bebe':ids[0]===19?'higiene':'gripe'}" style="--k:${k}"><div class="art"><h4>${t}</h4>${ids.map(i=>pk(byId(i))).join('')}</div><div class="ft"><span>${a}</span><b>${b}</b></div></div>`).join('')}</div></section>`;
+ if(on('again'))h+=railSec('r3','Compre de novo','Seus itens de uso contínuo, a um toque',[13,1,19,6,23].map(byId),null);
+ h+=`<section class="sec rv"><div class="sec-h"><h2>Marcas que você confia</h2></div><div class="marq"><div class="mt">${[0,1].map(()=>['Opella','Hypera','EMS','Medley','Cimed','Nivea','La Roche-Posay','Cetaphil','Huggies','Colgate','Prati-Donaduzzi','Cremer'].map(b=>`<span>${b}</span>`).join('')).join('')}</div></div></section>`;
+ if(on('stores'))h+=storesHTML(true);
+ return h;
+}
+function railSec(id,t,sub,items,cat){
+ return `<section class="sec rv"><div class="sec-h"><div><h2>${t}</h2><p class="sub">${sub}</p></div><div class="rarr">${cat?`<a data-cat="${cat}" style="margin-right:6px">Ver tudo</a>`:''}<button data-rail="${id}" data-dir="-1" aria-label="Anterior" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button><button data-rail="${id}" data-dir="1" aria-label="Próximo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button></div></div><div class="railw"><div class="rail" id="${id}">${items.map(cardHTML).join('')}</div><div class="rbar"><i></i></div></div></section>`;
+}
+function heroCar(){
+ const slides=[
+  {c:'',k:`${ic('clock')} ${esc(S.store.n)} · aberta agora`,h:'Pediu agora, <em>retira em 30 min</em> na loja do seu bairro.',p:'Mais de 10 mil produtos com estoque em tempo real nas 7 unidades da São Leopoldo em Campo Grande.',b:`<button class="btn y" data-cat="ofertas">Ver ofertas de hoje</button><button class="btn ghost" data-act="rx">${ic('upload')} Enviar receita</button>`,pk:[6,20,2],x:`<div class="eta">${ic('bike')}<span>Entrega no bairro<br><b>até 3 h</b></span></div>`},
+  {c:'y',k:'Economia de verdade',h:'Genérico é o mesmo remédio, <em>pelo menos 35% mais barato.</em>',p:'Busque pelo nome de marca e a gente mostra o genérico equivalente e quanto você economiza.',b:`<button class="btn y" data-cat="dor" data-fl="gen">Ver genéricos</button><button class="btn ghost" data-open="5">Comparar Novalgina</button>`,pk:[1,13,14],x:`<div class="big">Economize<b>R$ 18,68</b>na Novalgina 1 g</div>`},
+  {c:'r',k:'Esquenta Black Friday · até 30/11',h:'Dermocosméticos com <em>até 30% off</em>.',p:'Proteção solar, hidratantes e cuidados com a pele das marcas que dermatologistas indicam.',b:`<button class="btn y" data-cat="dermo">Aproveitar agora</button><button class="btn ghost" data-cat="ofertas">Todas as ofertas</button>`,pk:[20,21,18],x:`<div class="big">Até<b>30% off</b>em dermo</div>`}];
+ return `<div class="hcar" id="hcar"><div class="htrack" id="htrack">${slides.map((s,i)=>`<section class="hero ${s.c}" aria-roledescription="slide" aria-label="${i+1} de 3"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="grain"></span>
+  <div class="copy"><span class="kick">${s.k}</span><h1>${s.h}</h1><p>${s.p}</p><div class="ctas">${s.b}</div></div>
+  <div class="stage"><div class="pk p1">${pack(byId(s.pk[0]))}</div><div class="pk p2">${pack(byId(s.pk[1]))}</div><div class="pk p3">${pack(byId(s.pk[2]))}</div>${s.x}</div></section>`).join('')}</div>
+  <div class="hctrl"><div class="hdots">${slides.map((_,i)=>`<button data-hs="${i}" class="${i===0?'on':''}" aria-label="Slide ${i+1}"></button>`).join('')}</div><button class="harr" data-hs="prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button><button class="harr" data-hs="next" aria-label="Próximo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button></div></div>`;
+}
+let hIdx=0,hTimer;
+function goHero(i){const t=$('#htrack');if(!t)return;hIdx=(i+3)%3;t.style.transform=`translateX(${-100*hIdx}%)`;$$('.hdots button').forEach((b,k)=>{b.classList.remove('on');if(k===hIdx){void b.offsetWidth;b.classList.add('on')}});clearTimeout(hTimer);hTimer=setTimeout(()=>{if(!$('#hcar')?.classList.contains('paused'))goHero(hIdx+1);else goHero(hIdx)},6000)}
+function bindHero(){
+ const c=$('#hcar');if(!c)return;hIdx=0;goHero(0);
+ c.addEventListener('mouseenter',()=>c.classList.add('paused'));c.addEventListener('mouseleave',()=>{c.classList.remove('paused');goHero(hIdx)});
+ let x0=null;c.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;x0=e.clientX});c.addEventListener('pointerup',e=>{if(x0===null)return;const dx=e.clientX-x0;x0=null;if(Math.abs(dx)>50)goHero(hIdx+(dx<0?1:-1))});
+}
+function bindRails(){
+ $$('.railw .rail').forEach(rl=>{
+  const bar=rl.parentElement.querySelector('.rbar i'),prev=$(`[data-rail="${rl.id}"][data-dir="-1"]`),next=$(`[data-rail="${rl.id}"][data-dir="1"]`);
+  const upd=()=>{const max=rl.scrollWidth-rl.clientWidth,k=max>0?rl.scrollLeft/max:0,w=Math.max(.18,rl.clientWidth/rl.scrollWidth);bar.style.width=w*100+'%';bar.style.transform=`translateX(${k*(1/w-1)*100}%)`;if(prev)prev.disabled=rl.scrollLeft<4;if(next)next.disabled=rl.scrollLeft>max-4};
+  rl.addEventListener('scroll',upd,{passive:true});upd();
+  let down=false,sx=0,sl=0,moved=false;
+  rl.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.target.closest('button'))return;down=true;moved=false;sx=e.clientX;sl=rl.scrollLeft});
+  window.addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx;if(Math.abs(dx)>5){moved=true;rl.classList.add('drag')}rl.scrollLeft=sl-dx});
+  window.addEventListener('pointerup',()=>{if(!down)return;down=false;setTimeout(()=>rl.classList.remove('drag'),0)});
+ });
+}
+let annI=0,annT;
+function onStoreScroll(){
+ if(S.mode!=='store')return;
+ const y=scrollY,max=document.documentElement.scrollHeight-innerHeight;
+ const pr=$('.sprog');if(pr)pr.style.transform=`scaleX(${max>0?y/max:0})`;
+ $('.s-head')?.classList.toggle('shrink',y>60);
+ $('.totop')?.classList.toggle('show',y>700);
+ const hc=$('#hcar');if(hc&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const k=Math.min(1,y/500);hc.style.setProperty('--py',(k*60)+'px');hc.style.setProperty('--ho',(1-k*.7).toFixed(3))}
+}
+addEventListener('scroll',onStoreScroll,{passive:true});
+function storesHTML(mini){
+ return `<section class="sec rv" id="lojas"><div class="sec-h"><h2>${mini?'Perto de você':'Nossas lojas'}</h2>${mini?'<a data-go="stores">Ver todas</a>':''}</div><div class="stores">${STORES.slice(0,mini?4:99).map((s,i)=>`<div class="store"><div class="top"><b>${s.n}</b><span class="open">Aberta</span></div><span class="muted" style="font-size:.84rem">${s.a} · Campo Grande</span><span style="font-size:.8rem">Seg a sáb, 8h às 18h · ${s.km} km</span><div class="acts"><button>${'Rota'}</button><button>WhatsApp</button><button data-setstore="${i}">Usar esta loja</button></div></div>`).join('')}</div></section>`;
+}
+function catHTML(){
+ const c=S.cat==='ofertas'?{n:'Ofertas da semana'}:CATS.find(x=>x.id===S.cat);
+ let list=S.cat==='ofertas'?P.filter(p=>p.o&&p.raw!==''):P.filter(p=>p.c===S.cat&&(p.raw!==''));
+ const f=S.filter;
+ if(f==='gen')list=list.filter(p=>p.t==='gen');
+ if(f==='semrx')list=list.filter(p=>p.t==='mip');
+ if(f==='oferta')list=list.filter(p=>p.o);
+ if(f==='menor')list=[...list].sort((a,b)=>a.p-b.p);
+ return `<div class="cat-head"><div class="crumbs"><a data-go="home">Início</a> / ${c.n}${S.sub&&S.sub!==c.n?' / '+esc(S.sub):''}</div><div class="sec-h"><h2 style="font-size:clamp(1.6rem,3.4vw,2.4rem)">${esc(S.sub||c.n)}</h2><span class="muted">${list.length} produtos com estoque na ${esc(S.store.n)}</span></div>
+  <div class="filters">${[['todos','Todos'],['gen','Só genéricos'],['semrx','Sem receita'],['oferta','Em oferta'],['menor','Menor preço']].map(([k,n])=>`<button class="fchip ${f===k?'on':''}" data-filter="${k}">${n}</button>`).join('')}</div></div>
+  <div class="grid-p" style="margin-top:16px">${list.map(cardHTML).join('')||'<div class="empty">Nenhum produto neste exemplo.</div>'}</div>`;
+}
+function renderStore(){
+ const body=S.view==='home'?homeHTML():S.view==='cat'?catHTML():storesHTML(false);
+ $('#store').innerHTML=`<div class="sprog" aria-hidden="true"></div><div class="annc"><div class="tr" id="annTr"><span>${ic('bike')} Entrega grátis em Campo Grande nas compras acima de <b>R$ 79,90</b></span><span>${ic('clock')} Pediu agora, <b>retira em 30 min</b> na loja mais perto</span><span>${ic('spark')} Ganhe <b>SL Pontos</b> em todas as compras</span><span>${ic('bike')} Entrega grátis em Campo Grande nas compras acima de <b>R$ 79,90</b></span></div></div>`+headHTML()+`<main class="gut"><div class="wrap">${body}</div></main>
+ <footer class="sfoot"><div class="gut"><div class="wrap"><div class="cols"><div>${logoHTML}<p class="muted" style="font-size:.86rem;margin-top:12px;max-width:34ch">Farmácia do bairro em Campo Grande desde sempre. 7 lojas, retirada em 30 minutos e farmacêutico no WhatsApp.</p><div class="news"><input placeholder="Seu e-mail para ofertas" aria-label="E-mail"><button class="btn g" style="height:44px" data-act="news">Quero</button></div></div>
+ <div><h5>Atendimento</h5><ul><li>Fale com o farmacêutico</li><li>Acompanhar pedido</li><li>Trocas e devoluções</li><li data-go="stores">Nossas lojas</li></ul></div>
+ <div><h5>Institucional</h5><ul><li>Quem somos</li><li>Política de privacidade</li><li>Política de entrega</li><li>Trabalhe conosco</li></ul></div>
+ <div><h5>Pagamento</h5><div class="pays"><span>Pix</span><span>Visa</span><span>Master</span><span>Elo</span><span>Hiper</span></div><h5 style="margin-top:18px">Horário</h5><p style="font-size:.86rem">Seg a sáb, 8h às 18h</p></div></div>
+ <div class="legal"><span>Drogaria São Leopoldo · Campo Grande, MS · Farmacêutico responsável e CRF por unidade</span><span>Protótipo com dados de exemplo</span></div></div></div></footer>
+ <button class="totop" data-act="top" aria-label="Voltar ao topo">${ic('chev',2.4)}</button>`;
+ bindSearch(); bindMega(); bindHero(); bindRails(); onStoreScroll();
+ clearInterval(annT);annI=0;annT=setInterval(()=>{const t=$('#annTr');if(!t){clearInterval(annT);return}annI++;t.style.transition='';t.style.transform=`translateY(${-34*annI}px)`;if(annI===3)setTimeout(()=>{t.style.transition='none';t.style.transform='translateY(0)';annI=0},750)},3800);
+}
+
+/* mega menu */
+let megaT, megaSw, mLast={x:0,y:0,t:0}, mVel={x:0,y:0};
+const catOf=c=>CATS.find(x=>x.id===c)||{i:'pill',c:'var(--green-ink)',cs:'var(--green-soft)',n:'',s:''};
+const deptCats=d=>[...new Set(d.g.flatMap(([,it])=>it.map(x=>x[1])))];
+const SUBIC={'Genéricos':['spark','var(--amber)','var(--amber-soft)'],'Sem receita':['shield','var(--green-ink)','var(--green-soft)'],'Com receita':['scan','var(--red)','var(--red-soft)'],'Fitoterápicos':['leaf','var(--green-ink)','var(--green-soft)'],'Pressão alta':['heartp','var(--red)','var(--red-soft)'],'Diabetes':['drop','var(--blue)','var(--blue-soft)'],'Termômetros':['therm','var(--red)','var(--red-soft)'],'Medidores de pressão':['heartp','var(--red)','var(--red-soft)'],'Alergias':['tissue','var(--amber)','var(--amber-soft)'],'Protetor solar':['spark','var(--amber)','var(--amber-soft)'],'Pilhas':['plug','var(--muted)','var(--surface-2)'],'Carregadores':['plug','var(--muted)','var(--surface-2)'],'Chás':['cup','var(--green-ink)','var(--green-soft)']};
+function subIc(n,c){const o=SUBIC[n]; if(o)return o; const k=catOf(c); return [k.i,k.c,k.cs]}
+function megaBan(d,sub,c){
+ const k=catOf(c), list=P.filter(p=>p.c===c&&p.raw!=='').slice(0,3);
+ while(list.length<3&&list.length)list.push(list[list.length-1]);
+ const [,col,soft]=subIc(sub,c);
+ return `<div class="mban ch" data-cat="${c}" data-sub="${esc(sub)}" style="--bc:${col};--bs:${soft}"><span class="tg">${sub===d.n?d.tag:esc(k.n||d.n)}</span><b>${esc(sub)}</b><p>${esc(k.s||'')}</p><span class="go">Ver produtos ${ic('chev')}</span><div class="row">${list.map(p=>pk(p)).join('')}</div></div>`;
+}
+function megaHTML(id){
+ const d=DEPTS.find(x=>x.id===id), cats=deptCats(d), main=cats[0];
+ const best=[byId(d.feat),...P.filter(p=>cats.includes(p.c)&&p.raw!==''&&p.id!==d.feat).sort((a,b)=>(b.o?1:0)-(a.o?1:0))].filter(Boolean).slice(0,3);
+ const chips=[['gen','Só genéricos','var(--amber)'],['semrx','Sem receita','var(--green)'],['oferta','Em oferta','var(--red)']];
+ let i=0;
+ return `<div class="mega" role="menu">
+ <div class="mchips" style="--i:${i++}"><span>Filtrar ${esc(d.n)}</span>${chips.map(([fl,n,cc])=>`<button data-cat="${main}" data-sub="${esc(d.n)}" data-fl="${fl}" style="--cc:${cc}"><i></i>${n}</button>`).join('')}</div>
+ ${d.g.map(([h,items])=>`<div class="grp" style="--i:${i++}"><h5>${h}</h5>${items.map(([n,c,fl])=>{const [ii,cc,cs]=subIc(n,c);return `<button data-cat="${c}" data-sub="${esc(n)}" ${fl?`data-fl="${fl}"`:''} style="--cc:${cc};--cs:${cs}"><span class="mi">${ic(ii)}</span><span class="nm">${n}</span><small>${(n.length*7)%40+6}</small></button>`}).join('')}</div>`).join('')}
+ <div class="mside" style="--i:${i++}">${megaBan(d,d.n,main)}
+  <div class="mbest"><h5>Mais vendidos</h5>${best.map(p=>`<div class="mmini" data-open="${p.id}">${pk(p)}<div class="tx"><span>${esc(p.n)}</span><em>${brl(p.p)}${p.o?`<s>${brl(p.o)}</s>`:''}</em></div><button class="ad" data-add="${p.id}">+ sacola</button></div>`).join('')}</div></div>
+ <div class="mpill"></div></div>`;
+}
+function bindMegaInner(m,id){
+ const mg=$('.mega',m); if(!mg)return; const pill=$('.mpill',mg), d=DEPTS.find(x=>x.id===id);
+ let banT;
+ $$('.grp button',mg).forEach(b=>b.addEventListener('mouseenter',()=>{
+  const r=b.getBoundingClientRect(), o=mg.getBoundingClientRect();
+  pill.style.cssText=`opacity:1;width:${r.width}px;height:${r.height}px;transform:translate(${r.left-o.left}px,${r.top-o.top}px);--pc:${b.style.getPropertyValue('--cs')}`;
+  $$('.grp button.hv',mg).forEach(x=>x.classList.remove('hv')); b.classList.add('hv');
+  clearTimeout(banT); banT=setTimeout(()=>{const old=$('.mban',mg); if(old&&old.dataset.sub!==b.dataset.sub)old.outerHTML=megaBan(d,b.dataset.sub,b.dataset.cat)},60);
+ }));
+ mg.addEventListener('mouseleave',()=>{pill.style.opacity=0;$$('.grp button.hv',mg).forEach(x=>x.classList.remove('hv'))});
+}
+function setMega(id){
+ const was=S.mega; S.mega=id; const m=$('#mega'); if(!m)return;
+ m.innerHTML=id?megaHTML(id):'';
+ if(id){$('.mega',m).classList.add(was?'swap':'enter');bindMegaInner(m,id)}
+ let dim=$('#mdim'); if(!dim){dim=document.createElement('div');dim.id='mdim';dim.className='mdim';document.body.appendChild(dim);dim.addEventListener('click',()=>setMega(null))}
+ dim.classList.toggle('on',!!id&&matchMedia('(min-width:901px)').matches);
+ $$('.s-nav .dp').forEach(b=>{const on=b.dataset.dept===id;b.classList.toggle('open',on);b.setAttribute('aria-expanded',on)});
+}
+function bindMega(){
+ const head=$('.s-head'); if(!head)return;
+ const hov=()=>matchMedia('(hover:hover)').matches;
+ head.addEventListener('mousemove',e=>{const t=performance.now(),dt=Math.max(1,t-mLast.t);mVel={x:(e.clientX-mLast.x)/dt,y:(e.clientY-mLast.y)/dt};mLast={x:e.clientX,y:e.clientY,t}});
+ $$('.s-nav .dp').forEach(b=>{
+  b.addEventListener('mouseenter',()=>{if(!hov())return;clearTimeout(megaT);clearTimeout(megaSw);
+   // hover intent: se o menu já está aberto e o mouse desce na diagonal rumo ao painel, espera antes de trocar
+   const aiming=S.mega&&S.mega!==b.dataset.dept&&mVel.y>0.05&&Math.abs(mVel.x)>0.05;
+   megaSw=setTimeout(()=>{if(b.matches(':hover'))setMega(b.dataset.dept)},aiming?260:S.mega?60:110)});
+  b.addEventListener('mouseleave',()=>clearTimeout(megaSw));
+  b.addEventListener('click',()=>{clearTimeout(megaSw);setMega(S.mega===b.dataset.dept?null:b.dataset.dept)});
+ });
+ head.addEventListener('mouseleave',()=>{if(hov()){clearTimeout(megaT);clearTimeout(megaSw);megaT=setTimeout(()=>setMega(null),320)}});
+ head.addEventListener('mouseenter',()=>clearTimeout(megaT));
+ $('#mega').addEventListener('mouseenter',()=>{clearTimeout(megaT);clearTimeout(megaSw)});
+}
+document.addEventListener('click',e=>{if(S.mega&&!e.target.closest('.s-nav')&&!e.target.closest('.mega')&&!e.target.closest('#mdim'))setMega(null)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.mega)setMega(null)});
+
+/* busca instantânea */
+const SYN={cabeca:'dor',febre:'dor',dor:'dor',muscular:'dor',colica:'estomago',verme:'estomago',barriga:'estomago',gripe:'gripe',resfriado:'gripe',nariz:'gripe',pressao:'continuo',hipertensao:'continuo',curativo:'socorros',machucado:'socorros',bebe:'bebe',fralda:'bebe',pele:'dermo',sol:'dermo',protetor:'dermo',dente:'higiene',vitamina:'suplementos'};
+function doSearch(q){
+ const n=norm(q.trim()); if(!n)return null;
+ const toks=n.split(/\s+/);
+ const cats=new Set(); toks.forEach(t=>Object.keys(SYN).forEach(k=>{if(k.startsWith(t)&&t.length>2)cats.add(SYN[k])}));
+ const fuzzy=(h,t)=>h.includes(t)||(t.length>4&&lev(h,t));
+ const res=P.filter(p=>p.raw!=='').map(p=>{const hay=norm([p.n,p.m,p.pa,p.ean,p.q].join(' '));let s=0;toks.forEach(t=>{if(hay.includes(t))s+=3;else if(fuzzy(hay,t))s+=1});if(cats.has(p.c))s+=2;return{p,s}}).filter(x=>x.s>0).sort((a,b)=>b.s-a.s||a.p.p-b.p.p).map(x=>x.p);
+ return{res,cats:[...cats]};
+}
+function lev(hay,t){return hay.split(/\s+/).some(w=>{if(Math.abs(w.length-t.length)>2)return false;let d=0,i=0,j=0;while(i<w.length&&j<t.length){if(w[i]===t[j]){i++;j++}else{d++;if(w.length>t.length)i++;else if(t.length>w.length)j++;else{i++;j++}}}d+=(w.length-i)+(t.length-j);return d<=2})}
+function hl(s,q){let o=esc(s);norm(q).split(/\s+/).filter(t=>t.length>1).forEach(t=>{const i=norm(s).indexOf(t);if(i>=0){const seg=s.slice(i,i+t.length);o=o.replace(esc(seg),'<mark>'+esc(seg)+'</mark>')}});return o}
+let sTimer, sAct=-1;
+function bindSearch(){
+ const inp=$('#q'), dd=$('#sdrop'); if(!inp)return;
+ const show=()=>{
+  const q=inp.value; S.q=q;
+  if(!q.trim()){dd.innerHTML=`<div class="sdrop"><h5>Mais buscados</h5><div class="schips">${['dipirona','dor de cabeça','protetor solar','fralda','gripe','losartana'].map(t=>`<button class="schip" data-sq="${t}">${t}</button>`).join('')}</div><h5>Atalhos</h5><div class="schips">${CATS.slice(0,6).map(c=>`<button class="schip" data-cat="${c.id}">${c.n}</button>`).join('')}</div></div>`;return}
+  dd.innerHTML='<div class="sdrop"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>';
+  clearTimeout(sTimer);sTimer=setTimeout(()=>{
+   const r=doSearch(q); sAct=-1;
+   if(!r||!r.res.length){dd.innerHTML=`<div class="sdrop"><div class="empty"><b>Nada encontrado para "${esc(q)}"</b><span>Fale com o farmacêutico pelo WhatsApp que ele ajuda a encontrar.</span></div></div>`;return}
+   const gen=r.res.filter(p=>p.t==='gen'), pa=r.res[0].pa;
+   let cheaper='';
+   if(pa&&r.res[0].t!=='gen'){const g=P.find(x=>x.pa===pa&&x.t==='gen'&&x.p<r.res[0].p);if(g)cheaper=`<h5>Economize com genérico</h5><button class="sres" data-open="${g.id}"><div class="pk">${pack(g)}</div><div><span class="t">${esc(g.n)}</span><br><small>Mesmo princípio ativo de ${esc(r.res[0].n)} · economia de ${brl(r.res[0].p-g.p)}</small></div><span class="p">${brl(g.p)}</span></button>`}
+   const terms=[...new Set(r.res.slice(0,5).map(p=>p.n.toLowerCase()))].slice(0,4);
+   dd.innerHTML=`<div class="sdrop"><button class="srx" data-act="rx">${ic('upload')} Comprar com receita: envie a foto e a gente monta a sacola<span class="nw">NOVO</span></button><h5>Sugestões</h5><div class="terms">${terms.map(t=>`<button data-sq="${esc(t)}">${ic('search')}${hl(t,q)}</button>`).join('')}</div>${r.cats.length?`<h5>Categorias</h5><div class="schips">${r.cats.map(c=>`<button class="schip" data-cat="${c}">${CATS.find(x=>x.id===c).n}</button>`).join('')}</div>`:''}<h5>Produtos · ${r.res.length}</h5>${r.res.slice(0,6).map(p=>`<button class="sres" data-open="${p.id}"><div class="pk">${pack(p)}</div><div><span class="t">${hl(p.n,q)}</span><br><small>${esc(p.m)} · ${esc(p.q)}${p.pa?' · '+esc(p.pa):''}</small></div><span class="p">${brl(p.p)}</span></button>`).join('')}${cheaper}</div>`;
+  },260);
+ };
+ inp.addEventListener('focus',show);
+ inp.addEventListener('input',show);
+ inp.addEventListener('keydown',e=>{const items=$$('.sres',dd);if(!items.length)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();sAct=(sAct+(e.key==='ArrowDown'?1:-1)+items.length)%items.length;items.forEach((x,i)=>x.classList.toggle('act',i===sAct))}if(e.key==='Enter'){(items[sAct]||items[0]).click()}if(e.key==='Escape'){dd.innerHTML='';inp.blur()}});
+}
+document.addEventListener('click',e=>{const dd=$('#sdrop');if(dd&&!e.target.closest('.search'))dd.innerHTML=''});
+
+/* produto */
+function openProduct(id){
+ const p=byId(id), gen=p.pa?P.filter(x=>x.pa===p.pa&&x.t==='gen'&&x.p<p.p&&x.id!==p.id).sort((a,b)=>a.p-b.p)[0]:null;
+ let qty=1, tab='uso';
+ const med=['dor','gripe','continuo','estomago'].includes(p.c);
+ const tabs={uso:`<p>${esc(p.ind)}</p><div class="srcs"><span class="src">Fonte: bula ANVISA</span><span class="src">EAN ${p.ean}</span><span class="src">Revisado por farmacêutico</span></div>`,
+  como:med?'<p>Siga a posologia indicada na bula ou orientada pelo médico ou farmacêutico.</p>':'<p>Use conforme as instruções da embalagem.</p>',
+  avis:med?'<p><b>Leia a bula.</b> Se persistirem os sintomas, o médico deverá ser consultado.'+(p.rx?' Venda sob prescrição médica: a receita é pedida no checkout.':'')+'</p>':'<p>Mantenha fora do alcance de crianças.</p>'};
+ const draw=()=>{
+  $('#layer').innerHTML=`<div class="scrim" data-close></div><div class="sheet product" role="dialog" aria-label="${esc(p.n)}"><button class="xbtn" data-close aria-label="Fechar">${ic('x')}</button>
+  <div class="pd"><div class="gal"><span class="ring"></span>${pk(p)}</div>
+  <div class="info"><div><span class="muted" style="font-size:.82rem">${esc(p.m)} · ${esc(p.q)}</span><h2>${esc(p.n)}</h2></div>${badges(p)}
+   <div class="price"><b>${brl(p.p)}</b>${p.o?`<s>${brl(p.o)}</s><span class="bd tarja" style="background:var(--red);color:#fff">-${Math.round((1-p.p/p.o)*100)}%</span>`:''}</div>
+   ${gen?`<div class="save" data-open="${gen.id}">${pk(gen)}<span>Tem <b>genérico com o mesmo princípio ativo</b> por ${brl(gen.p)}. Você economiza <b>${brl(p.p-gen.p)}</b>.</span></div>`:''}
+   <div class="buy"><div class="qty"><button data-q="-1" aria-label="Menos">−</button><span>${qty}</span><button data-q="1" aria-label="Mais">+</button></div><button class="btn g" data-addq="${p.id}">${ic('bag')} Adicionar · ${brl(p.p*qty)}</button></div>
+   <div class="tabs">${[['uso','Para que serve'],['como','Como usar'],['avis','Advertências']].map(([k,n])=>`<button class="${tab===k?'on':''}" data-tab="${k}">${n}</button>`).join('')}</div>
+   <div class="tabbody">${tabs[tab]}</div>
+   <div class="av"><b style="font-size:.9rem">Disponível para retirar hoje</b>${STORES.slice(0,4).map((s,i)=>{const st=stockAt(p,i);return `<div class="r ${i===0?'best':''}"><span>${s.n} · ${s.km} km</span><span class="st ${st<4?'lo':''}">${st<4?'Últimas '+st+' un.':st+' em estoque'}</span></div>`}).join('')}</div>
+  </div></div></div>`;
+  const sh=$('.sheet.product');
+  $$('[data-q]',sh).forEach(b=>b.onclick=()=>{qty=Math.max(1,qty+ +b.dataset.q);draw()});
+  $$('[data-tab]',sh).forEach(b=>b.onclick=()=>{tab=b.dataset.tab;draw()});
+  $('[data-addq]',sh).onclick=ev=>{addToBag(p.id,qty,$('.gal .pk',sh));setTimeout(closeLayer,350)};
+ };
+ vt(draw);
+}
+function closeLayer(){vt(()=>{$('#layer').innerHTML=''})}
+
+/* sacola */
+function addToBag(id,q=1,fromEl){
+ const it=S.bag.find(b=>b.id===id); if(it)it.q+=q; else S.bag.push({id,q});
+ const cnt=$('#bagCnt'), btn=$('#bagBtn');
+ if(fromEl&&btn&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const a=fromEl.getBoundingClientRect(), b=btn.getBoundingClientRect();
+  const f=fromEl.cloneNode(true); f.className='flyer'; Object.assign(f.style,{left:a.left+'px',top:a.top+'px',width:a.width+'px'});
+  document.body.appendChild(f);
+  f.animate([{transform:'translate(0,0) scale(1) rotate(0)',opacity:1},{transform:`translate(${(b.left-a.left)*.5}px,${b.top-a.top-120}px) scale(.6) rotate(-20deg)`,opacity:1,offset:.55},{transform:`translate(${b.left-a.left-a.width/2+22}px,${b.top-a.top-a.height/2+22}px) scale(.12) rotate(-40deg)`,opacity:.6}],{duration:750,easing:'cubic-bezier(.5,0,.3,1)'}).onfinish=()=>{f.remove();upd()};
+ } else upd();
+ function upd(){if(cnt){cnt.hidden=false;cnt.textContent=bagCount();cnt.classList.remove('bump');void cnt.offsetWidth;cnt.classList.add('bump')}const t=$('#bagTot');if(t)t.textContent=brl(bagTotal())}
+ toast(byId(id).n+' na sacola');
+}
+function openBag(){
+ const free=79.9, tot=bagTotal();
+ $('#layer').innerHTML=`<div class="scrim" data-close></div><aside class="sheet drawer" role="dialog" aria-label="Sacola"><div class="dr-h"><h3>Sua sacola</h3><button class="xbtn" style="position:static" data-close aria-label="Fechar">${ic('x')}</button></div>
+ <div class="dr-b">${S.bag.length?`<div style="display:grid;gap:6px;font-size:.82rem"><span>${tot>=free?'<b style="color:var(--green-ink)">Entrega grátis liberada!</b>':`Faltam <b>${brl(free-tot)}</b> para entrega grátis`}</span><div class="prog"><i style="width:${Math.min(100,tot/free*100)}%"></i></div></div>`+S.bag.map(b=>{const p=byId(b.id);return `<div class="li"><div class="th">${pk(p)}</div><div><b>${esc(p.n)}</b><small>${esc(p.q)} · ${brl(p.p)}</small></div><div class="q"><button data-bq="${p.id}" data-d="-1" aria-label="Menos">−</button><span>${b.q}</span><button data-bq="${p.id}" data-d="1" aria-label="Mais">+</button></div></div>`}).join(''):`<div class="empty">${pk(byId(22))}<b>Sua sacola está vazia</b><span>Adicione produtos e retire em 30 minutos.</span></div>`}</div>
+ ${S.bag.length?`<div class="dr-f"><div class="tot"><span>Subtotal</span><span class="num">${brl(tot)}</span></div><div class="tot"><span>Retirada na ${esc(S.store.n)}</span><span style="color:var(--green-ink);font-weight:700">Grátis</span></div><div class="tot big"><span>Total</span><b class="num">${brl(tot)}</b></div><button class="btn g full" data-act="checkout" style="height:52px">Continuar para pagamento</button></div>`:''}</aside>`;
+}
+function checkout(){
+ let mode='ret', pay='pix', stage='form';
+ const rx=S.bag.some(b=>byId(b.id).rx);
+ const draw=()=>{
+  const tot=bagTotal()+(mode==='ent'&&bagTotal()<79.9?7.9:0);
+  let body='';
+  if(stage==='form')body=`<div class="co"><b>Como você quer receber?</b><div class="opt2"><button class="opt ${mode==='ret'?'on':''}" data-m="ret"><b>Retirar na loja</b>Pronto em 30 min · grátis</button><button class="opt ${mode==='ent'?'on':''}" data-m="ent"><b>Receber em casa</b>Até 3 h · ${bagTotal()>=79.9?'grátis':'R$ 7,90'}</button></div>
+   ${mode==='ret'?`<label for="cos" style="font-size:.84rem;font-weight:600">Unidade</label><select id="cos">${STORES.map(s=>`<option ${s===S.store?'selected':''}>${s.n} · ${s.km} km</option>`).join('')}</select>`:'<div class="opt on" style="cursor:default"><b>Rua das Garças, 1200 · Centro</b>Endereço de exemplo</div>'}
+   ${rx?`<div class="save" style="background:var(--red-soft);border-color:transparent">${ic('upload')}<span><b>Um item precisa de receita.</b> Envie uma foto agora ou apresente na retirada. O farmacêutico confere antes de liberar.</span></div>`:''}
+   <b>Pagamento</b><div class="opt2"><button class="opt ${pay==='pix'?'on':''}" data-p="pix"><b>Pix</b>Aprovação na hora</button><button class="opt ${pay==='card'?'on':''}" data-p="card"><b>Cartão</b>Em até 3x sem juros</button></div></div>`;
+  if(stage==='pix')body=`<div class="pix"><b style="font-size:1.1rem">Pague com Pix</b><div class="qr">${qr()}</div><span class="muted" style="font-size:.84rem">Escaneie no app do seu banco. O código expira em <b class="num" id="cd">04:59</b>.</span><code>00020126580014br.gov.bcb.pix0136exemplo-prototipo-sao-leopoldo5204000053039865802BR</code><button class="btn line" data-act="copypix">Copiar código</button></div>`;
+  if(stage==='track')body=trackHTML(0);
+  $('#layer').innerHTML=`<div class="scrim" data-close></div><aside class="sheet drawer" role="dialog" aria-label="Pagamento"><div class="dr-h"><h3>${stage==='track'?'Pedido #10527':'Pagamento'}</h3><button class="xbtn" style="position:static" data-close aria-label="Fechar">${ic('x')}</button></div><div class="dr-b">${body}</div>
+  ${stage==='form'?`<div class="dr-f"><div class="tot big"><span>Total</span><b class="num">${brl(tot)}</b></div><button class="btn g full" style="height:52px" id="goPay">${pay==='pix'?'Gerar Pix':'Pagar com cartão'}</button></div>`:stage==='pix'?`<div class="dr-f"><button class="btn y full" style="height:52px" id="simPay">Simular pagamento aprovado</button></div>`:''}</aside>`;
+  $$('[data-m]').forEach(b=>b.onclick=()=>{mode=b.dataset.m;draw()});
+  $$('[data-p]').forEach(b=>b.onclick=()=>{pay=b.dataset.p;draw()});
+  const gp=$('#goPay'); if(gp)gp.onclick=()=>{stage=pay==='pix'?'pix':'track';draw();if(stage==='track')runTrack()};
+  const sp=$('#simPay'); if(sp)sp.onclick=()=>{stage='track';draw();runTrack()};
+  if(stage==='pix'){let s=299;const t=setInterval(()=>{const el=$('#cd');if(!el){clearInterval(t);return}s--;el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},1000)}
+ };
+ const runTrack=()=>{
+  S.orders.unshift({id:10527,who:'Você (cliente do protótipo)',items:bagCount(),tot:bagTotal(),mode:mode==='ret'?'ret':'ent',store:S.store.n,st:0,min:0,rx});
+  S.bag=[]; renderStoreHead();
+  let i=0;const t=setInterval(()=>{i++;const tr=$('.track');if(!tr||i>3){clearInterval(t);return}tr.outerHTML=trackHTML(i);S.orders[0].st=Math.min(i,3)},2200);
+  toast('Pagamento aprovado');
+ };
+ draw();
+}
+function trackHTML(n){
+ const st=[['Pagamento aprovado','Pix recebido agora','check'],['Separando seus produtos','Farmacêutico conferindo','box'],['Pronto para retirar',S.store.n+' · balcão rápido','store'],['Retirado','Obrigado pela compra!','heart']];
+ return `<div class="track">${st.map((s,i)=>`<div class="tstep ${i<n?'done':i===n?'now':''}"><span class="c">${ic(s[2])}</span><div><b>${s[0]}</b><small>${s[1]}</small></div></div>`).join('')}<p class="muted" style="font-size:.8rem;margin-top:8px">Este pedido já aparece no Painel admin, na aba Pedidos.</p></div>`;
+}
+function qr(){let s='<svg viewBox="0 0 29 29" width="100%" height="100%" shape-rendering="crispEdges"><rect width="29" height="29" fill="#fff"/>';let seed=7;const r=()=>(seed=(seed*9301+49297)%233280)/233280;for(let y=0;y<29;y++)for(let x=0;x<29;x++){const f=(x<8&&y<8)||(x>20&&y<8)||(x<8&&y>20);if(f)continue;if(r()>.52)s+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#13201A"/>`}[[0,0],[21,0],[0,21]].forEach(([x,y])=>{s+=`<rect x="${x}" y="${y}" width="7" height="7" fill="#13201A"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#009848"/>`});s+='<rect x="11" y="11" width="7" height="7" rx="1.5" fill="#fff"/><path d="M14.5 11.8l2.6 4.6h-5.2z" fill="#D8202A"/></svg>';return s}
+function renderStoreHead(){const c=$('#bagCnt');if(c){c.textContent=bagCount();c.hidden=!bagCount()}const t=$('#bagTot');if(t)t.textContent=brl(bagTotal())}
+
+/* ================= PAINEL ================= */
+const NAV=[['inicio','Início','home'],['pedidos','Pedidos','pkg'],['catalogo','Catálogo','grid'],['revisao','Revisão IA','spark'],['imagens','Ferramenta de imagem','image'],['vitrine','Vitrine','layout'],['erp','Conexão de dados','plug']];
+function seedOrders(){
+ const names=['Ana P.','Carlos M.','Juliana R.','Roberto S.','Fernanda L.','Marcos T.','Patrícia V.','Luiz H.','Beatriz C.','Rafael D.'];
+ S.orders=names.map((n,i)=>({id:10517+i,who:n,items:1+(i*3)%5,tot:[47.9,23.5,112.4,18.75,64.3,31.2,89.9,15.13,54,27.8][i],mode:i%3?'ret':'ent',store:STORES[i%5].n,st:[0,0,0,1,1,1,2,2,3,3][i],min:[2,4,7,9,12,18,21,26,33,41][i],rx:i===2||i===5}));
+}
+function admShell(){
+ const pend=P.filter(p=>p.sc<60).length;
+ return `<div class="adm"><aside class="side">${logoHTML}<button class="kbar" data-act="cmd">${ic('search')} Buscar <kbd>Ctrl K</kbd></button>
+ <nav class="snav">${NAV.map(([k,n,i])=>`<button class="${S.adm===k?'on':''}" data-adm="${k}">${ic(i)}${n}${k==='pedidos'?`<span class="pill">${S.orders.filter(o=>o.st===0).length}</span>`:k==='revisao'?`<span class="pill y">248</span>`:''}</button>`).join('')}</nav>
+ <div class="me"><span class="ava">EM</span><div><b>Emanuel</b><br><span class="muted">Administrador</span></div></div></aside>
+ <main class="main gut"><div class="inner" id="admMain"></div></main></div>`;
+}
+function renderAdmin(){
+ $('#admin').innerHTML=admShell();
+ const v={inicio:admHome,pedidos:admOrders,catalogo:admCatalog,revisao:admReview,imagens:admImages,vitrine:admVitrine,erp:admERP}[S.adm];
+ $('#admMain').innerHTML=v(); after[S.adm]&&after[S.adm]();
+}
+const after={};
+function spark(pts,col='var(--green)'){const w=90,h=34,mx=Math.max(...pts),mn=Math.min(...pts);const d=pts.map((v,i)=>`${i?'L':'M'}${(i/(pts.length-1)*w).toFixed(1)},${(h-3-(v-mn)/(mx-mn||1)*(h-6)).toFixed(1)}`).join('');return `<svg class="spark" viewBox="0 0 ${w} ${h}"><path d="${d}" fill="none" stroke="${col}" stroke-width="2" stroke-linecap="round"/></svg>`}
+function admHome(){
+ const days=[3120,2840,3410,3980,3650,4210,2950,3380,3720,4105,3890,4520,4980,4182];
+ const W=640,H=200,mx=5200;
+ const x=i=>30+i*(W-40)/(days.length-1), y=v=>H-24-(v/mx)*(H-40);
+ const line=days.map((v,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join('');
+ const area=line+`L${x(days.length-1)},${H-24}L${x(0)},${H-24}Z`;
+ const lbl=['12/11','','14/11','','16/11','','18/11','','20/11','','22/11','','24/11','hoje'];
+ const withImg=Math.round(4363/10613*100);
+ return `<div class="ph"><div><h1>Bom dia, Emanuel</h1><p>Terça, 25 de novembro · 7 lojas abertas · estoque atualizado há 2 min</p></div><button class="btn g" data-adm="revisao">${ic('spark')} Revisar sugestões da IA</button></div>
+ <div class="quick">${[['newprod','plus','Cadastrar produto','Pelo código de barras, em 3 passos'],['offer','trend','Criar oferta','Escolha o produto e o desconto'],['photo','image','Trocar foto','Arraste a foto, sai pronta'],['orders','pkg','Ver pedidos novos','Separar e avisar o cliente']].map(([a,i,t,s])=>`<button class="qa" data-act="${a}"><span class="qi">${ic(i)}</span><b>${t}</b><small>${s}</small></button>`).join('')}</div>
+ <div class="kpis">
+  <div class="kpi"><small>Vendas hoje</small><b data-count="4182.30" data-fmt="brl">R$ 0</b><span class="delta up">▲ 12,4% vs. terça passada</span>${spark([3,4,3.5,5,4.6,6,7])}</div>
+  <div class="kpi"><small>Pedidos</small><b data-count="37">0</b><span class="delta up">▲ 6 pedidos</span>${spark([2,3,3,4,5,4,6])}</div>
+  <div class="kpi"><small>Ticket médio</small><b data-count="113.03" data-fmt="brl">R$ 0</b><span class="delta up">▲ R$ 8,20</span>${spark([5,4,5,6,5,6,6.5])}</div>
+  <div class="kpi"><small>Tempo médio de separação</small><b data-count="14" data-suf=" min">0</b><span class="delta dn">▼ 3 min acima da meta</span>${spark([10,12,11,13,15,14,14],'var(--red)')}</div></div>
+ <div class="g2"><div class="panel"><div class="hd"><h3>Vendas online · últimos 14 dias</h3><span class="muted" style="font-size:.8rem">Total R$ 54.307,00</span></div>
+  <svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--green)" stop-opacity=".35"/><stop offset="1" stop-color="var(--green)" stop-opacity="0"/></linearGradient></defs>
+  ${[0,1000,2000,3000,4000,5000].map(v=>`<line class="grid" x1="30" x2="${W-10}" y1="${y(v)}" y2="${y(v)}"/><text x="0" y="${y(v)+3}">${v/1000}k</text>`).join('')}
+  <path class="area" d="${area}"/><path class="ln" d="${line}"/>${days.map((v,i)=>i===days.length-1?`<circle class="pt" cx="${x(i)}" cy="${y(v)}" r="5"/>`:'').join('')}
+  ${lbl.map((l,i)=>l?`<text x="${x(i)}" y="${H-6}" text-anchor="middle">${l}</text>`:'').join('')}</svg></div>
+  <div class="panel"><div class="hd"><h3>Saúde do catálogo</h3><button class="link" data-adm="catalogo">Abrir catálogo</button></div>
+   <div class="health"><div class="ringw"><svg viewBox="0 0 130 130"><circle class="bgc" cx="65" cy="65" r="54" fill="none" stroke-width="12"/><circle class="fgc" id="ring" cx="65" cy="65" r="54" fill="none" stroke-width="12" stroke-dasharray="339.3" stroke-dashoffset="339.3" data-p="${withImg}"/></svg><div class="lbl"><div><b>${withImg}%</b><small>com foto</small></div></div></div>
+   <div class="bars">${[['Com categoria de cliente',62,'var(--green)'],['Nome padronizado',38,'var(--amber)'],['Com descrição',21,'var(--red)'],['Fabricante canônico',57,'var(--green)']].map(([n,v,c])=>`<div class="bar"><div class="t"><span>${n}</span><b>${v}%</b></div><div class="tr"><i style="width:0;background:${c}" data-w="${v}"></i></div></div>`).join('')}</div></div></div></div>
+ <div class="g2"><div class="panel"><div class="hd"><h3>Precisa de atenção</h3></div><div class="alerts">
+  <div class="alert"><span class="ai r">${ic('alert')}</span><div><b>Multipiral 500 mg está em oferta sem nome e sem foto</b><small>Aparece na vitrine com -46%. A IA já sugeriu nome e imagem.</small></div><button data-adm="revisao">Resolver</button></div>
+  <div class="alert"><span class="ai r">${ic('image')}</span><div><b>Imagem não confere: Anador 4 comprimidos</b><small>A visão computacional leu "Sol Hits" na embalagem da foto atual.</small></div><button data-adm="revisao">Ver</button></div>
+  <div class="alert"><span class="ai a">${ic('box')}</span><div><b>Dorflex 36 com estoque baixo em 3 lojas</b><small>Está no destaque da home. Vendeu 41 unidades esta semana.</small></div><button>Repor</button></div>
+  <div class="alert"><span class="ai g">${ic('check')}</span><div><b>312 imagens tratadas e publicadas ontem</b><small>Pipeline automático · 4 rejeitadas para revisão manual</small></div><button data-adm="imagens">Detalhes</button></div></div></div>
+  <div class="panel"><div class="hd"><h3>Pedidos hoje por loja</h3></div><div class="sbars">${[['SL Centro',11],['SL Carandá',8],['SL Noroeste',6],['SL Jardim Allah',5],['SL Vila Sobrinho',4],['SL Nova Lima',2],['SL Vila Alba',1]].map(([n,v])=>`<div class="sbar"><span>${n}</span><div class="tr"><i style="width:0" data-w="${v/11*100}"></i></div><b>${v}</b></div>`).join('')}</div></div></div>`;
+}
+after.inicio=()=>{
+ requestAnimationFrame(()=>{
+  const r=$('#ring');if(r)r.style.strokeDashoffset=339.3*(1-r.dataset.p/100);
+  $$('[data-w]').forEach(e=>e.style.width=e.dataset.w+'%');
+  $$('[data-count]').forEach(el=>{const to=+el.dataset.count,f=el.dataset.fmt,suf=el.dataset.suf||'';const t0=performance.now();const step=t=>{const k=Math.min(1,(t-t0)/1100),e=1-Math.pow(1-k,3),v=to*e;el.textContent=f==='brl'?brl(v):Math.round(v)+suf;if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
+ });
+};
+const COLS=[['Novo','novo'],['Separando','sep'],['Pronto','pronto'],['Entregue / retirado','fim']];
+function admOrders(){
+ return `<div class="ph"><div><h1>Pedidos</h1><p>Arraste os cartões entre as colunas ou use o botão para avançar. Filtro: todas as lojas.</p></div><div class="toolbar"><select class="tsearch" style="flex:0 0 auto;min-width:170px" aria-label="Loja"><option>Todas as lojas</option>${STORES.map(s=>`<option>${s.n}</option>`).join('')}</select></div></div>
+ <div class="kan">${COLS.map(([n],ci)=>{const os=S.orders.filter(o=>o.st===ci);return `<div class="col" data-col="${ci}"><div class="ch">${n}<span>${os.length}</span></div>${os.map(o=>`<div class="ord" draggable="true" data-ord="${o.id}"><div class="r1"><b>#${o.id}</b><span class="timer ${o.min>20&&ci<2?'late':''}">${o.min} min</span></div><span class="who">${esc(o.who)}</span><div class="r2"><span>${o.items} ${o.items>1?'itens':'item'} · ${brl(o.tot)}</span><span class="mode ${o.mode}">${o.mode==='ret'?'Retirada':'Entrega'}</span></div><div class="r2"><span>${esc(o.store)}</span>${o.rx?'<span class="rx">Receita</span>':''}</div>${ci<3?`<button class="nx" data-adv="${o.id}">Mover para ${COLS[ci+1][0].toLowerCase()} →</button>`:''}</div>`).join('')}</div>`}).join('')}</div>`;
+}
+after.pedidos=()=>{
+ $$('.ord').forEach(c=>{c.addEventListener('dragstart',e=>{c.classList.add('drag');e.dataTransfer.setData('text/plain',c.dataset.ord)});c.addEventListener('dragend',()=>c.classList.remove('drag'))});
+ $$('.col').forEach(col=>{col.addEventListener('dragover',e=>{e.preventDefault();col.classList.add('over')});col.addEventListener('dragleave',()=>col.classList.remove('over'));col.addEventListener('drop',e=>{e.preventDefault();const o=S.orders.find(x=>x.id==e.dataTransfer.getData('text/plain'));if(o){o.st=+col.dataset.col;vt(renderAdmin);toast('Pedido #'+o.id+' em '+COLS[o.st][0].toLowerCase())}})});
+};
+function issues(p){const a=[];if(!p.raw)a.push(['Sem nome','']);if(!p.img)a.push([p.wrong?'Foto errada':'Sem foto','']);if(p.raw&&p.raw===p.raw.toUpperCase())a.push(['Nome de nota','a']);if(p.sc<50&&p.img)a.push(['Sem descrição','a']);return a}
+function admCatalog(){
+ let list=P.slice();
+ const f=S.catFilter;
+ if(f==='foto')list=list.filter(p=>!p.img);
+ if(f==='nome')list=list.filter(p=>!p.raw||p.raw===p.raw.toUpperCase());
+ if(f==='baixa')list=list.filter(p=>p.sc<60);
+ if(S.tq)list=list.filter(p=>norm(p.n+' '+p.raw+' '+p.ean+' '+p.m).includes(norm(S.tq)));
+ const cnt={todos:'10.613',foto:'6.250',nome:'7.912',baixa:'3.104'};
+ return `<div class="ph"><div><h1>Catálogo</h1><p>Mostrando ${list.length} de 24 produtos de exemplo. Os números nos filtros são do catálogo real.</p></div><button class="btn g" data-act="newprod">${ic('plus',2.5)} Novo produto</button></div>
+ <div class="toolbar"><input class="tsearch" id="tq" placeholder="Buscar por nome, EAN ou fabricante" value="${esc(S.tq||'')}">${[['todos','Todos'],['foto','Sem foto'],['nome','Nome fora do padrão'],['baixa','Nota abaixo de 60']].map(([k,n])=>`<button class="fchip ${f===k?'on':''}" data-cf="${k}">${n} <span class="mono" style="opacity:.6;font-size:.72rem">${cnt[k]}</span></button>`).join('')}</div>
+ <div class="tbl"><table><thead><tr><th><input type="checkbox" id="selAll" aria-label="Selecionar todos"></th><th></th><th>Produto</th><th>Categoria</th><th>Fabricante</th><th style="text-align:right">Preço</th><th>Nota</th><th>Pendências</th></tr></thead><tbody>
+ ${list.map(p=>{const c=p.sc>=80?'var(--green)':p.sc>=60?'var(--amber)':'var(--red)';const is=issues(p);const cat=CATS.find(x=>x.id===p.c);return `<tr class="${S.sel.has(p.id)?'sel':''}"><td><input type="checkbox" data-sel="${p.id}" ${S.sel.has(p.id)?'checked':''} aria-label="Selecionar"></td><td>${p.img?`<div class="th">${pk(p)}</div>`:`<div class="th none">${ic('image')}</div>`}</td><td><span class="nm">${p.raw?esc(p.n)+' · '+esc(p.q):'<span style="color:var(--red)">(sem nome)</span>'}</span><span class="raw">Origem: ${esc(p.raw||'—')} · ${p.ean}</span></td><td>${cat.n}</td><td>${esc(p.m)}</td><td class="price" style="text-align:right"><span contenteditable="true" data-price="${p.id}" spellcheck="false">${brl(p.p)}</span></td><td><span class="score" style="--w:${p.sc}%;--c:${c}"><i></i>${p.sc}</span></td><td><div class="iss">${is.length?is.map(([t,k])=>`<span class="is ${k}">${t}</span>`).join(''):'<span class="is ok">Tudo certo</span>'}</div></td></tr>`}).join('')}
+ </tbody></table></div>
+ ${S.sel.size?`<div class="bulk"><b>${S.sel.size} selecionado${S.sel.size>1?'s':''}</b><button data-bulk="cat">Mudar categoria</button><button data-bulk="fab">Unificar fabricante</button><button class="y" data-bulk="ia">${'Enviar para a IA'}</button><button data-bulk="clear" aria-label="Limpar seleção">✕</button></div>`:''}`;
+}
+after.catalogo=()=>{
+ const tq=$('#tq');tq.oninput=()=>{S.tq=tq.value;const pos=tq.selectionStart;renderAdmin();const n=$('#tq');n.focus();n.setSelectionRange(pos,pos)};
+ $('#selAll').onchange=e=>{P.forEach(p=>e.target.checked?S.sel.add(p.id):S.sel.delete(p.id));renderAdmin()};
+ $$('[data-sel]').forEach(c=>c.onchange=()=>{const id=+c.dataset.sel;c.checked?S.sel.add(id):S.sel.delete(id);renderAdmin()});
+ $$('[data-price]').forEach(s=>{s.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();s.blur()}};s.onblur=()=>{const p=byId(+s.dataset.price);const v=parseFloat(s.textContent.replace(/[^\d,]/g,'').replace(',','.'));if(!isNaN(v)&&v>0&&v!==p.p){p.p=v;toast('Preço de '+p.n+' agora é '+brl(v))}s.textContent=brl(p.p)}});
+};
+const REV=[
+ {id:24,src:['Registro MS','EAN 7895296448949','Bula ANVISA'],name:'Multipiral 500 mg, 10 comprimidos',desc:'Analgésico e antitérmico à base de dipirona 500 mg. Indicado para dor e febre. Leia a bula. Se persistirem os sintomas, o médico deverá ser consultado.',cat:'Medicamentos › Dor e febre',fab:'Multilab',img:'Foto encontrada no banco do fabricante, texto da embalagem confere com o EAN',conf:96},
+ {id:4,src:['Registro MS 1036700760284','Bula ANVISA'],name:'Anador 4 comprimidos',desc:'Analgésico e antitérmico à base de dipirona. Indicado para dor e febre. Leia a bula. Se persistirem os sintomas, o médico deverá ser consultado.',cat:'Medicamentos › Dor e febre',fab:'Opella',img:'Foto atual rejeitada: a embalagem lida é "Sol Hits". Nova foto confere com Anador.',conf:94},
+ {id:17,src:['GS1 · EAN 7896094915046','Ficha do fabricante'],name:'Adoçante líquido Zero-Cal Stevia 80 ml',desc:'Adoçante dietético líquido à base de stevia. Prático para adoçar bebidas e receitas sem adicionar açúcar.',cat:'Conveniência › Adoçantes',fab:'Hypera (antes "HYPERMARCAS S/A")',img:'Foto atual mantida, recortada e centralizada',conf:91},
+ {id:13,src:['Registro MS','Bula ANVISA','Lista CMED'],name:'Losartana potássica 50 mg, 30 comprimidos · Genérico',desc:'Medicamento genérico indicado para hipertensão. Venda sob prescrição médica. Leia a bula. Se persistirem os sintomas, o médico deverá ser consultado.',cat:'Medicamentos › Uso contínuo › Pressão',fab:'EMS',img:'Foto encontrada no banco do fabricante',conf:93}
+];
+function admReview(){
+ const r=REV[S.revIdx%REV.length], p=byId(r.id);
+ return `<div class="ph"><div><h1>Revisão da IA</h1><p>Sugestões geradas só a partir de fontes confiáveis. Nada vai para a loja sem aprovação.</p></div><div class="qprog"><span class="num">${S.revIdx+1} de 248</span><div class="prog"><i style="width:${(S.revIdx+1)/248*100}%"></i></div></div></div>
+ <div class="rev">
+  <div class="rv before"><span class="lab">Como veio do sistema da farmácia</span>
+   <div class="imgbox"><div class="bx">${p.img&&!p.wrong?pk(p):`<span style="color:var(--red)">${ic('image')}</span>`}</div><div class="fld"><small>Imagem</small><span class="v">${p.wrong?'Foto de outro produto':p.img?'Foto sem tratamento':'Sem imagem'}</span></div></div>
+   <div class="fld"><small>Nome</small><span class="v">${esc(p.raw||'(vazio)')}</span></div>
+   <div class="fld"><small>Descrição</small><span class="v">(vazio)</span></div>
+   <div class="fld"><small>Categoria</small><span class="v">${p.id===24?'Padrão / Padrão':p.id===17?'CONVENIENCIA / BEBIDAS':'MEDICAMENTOS / '+(p.t==='gen'?'GENÉRICO':'REFERENCIA FRACIONADO')}</span></div>
+   <div class="fld"><small>Fabricante</small><span class="v">${p.id===17?'HYPERMARCAS S/A':esc(p.m.toUpperCase())}</span></div></div>
+  <div class="rv after"><span class="lab">${ic('spark')} Sugestão <span class="conf">${r.conf}% de confiança</span></span>
+   <div class="imgbox"><div class="bx">${pk(p)}</div><div class="fld"><small>Imagem</small><span class="v">${esc(r.img)}</span></div></div>
+   <div class="fld"><small>Nome</small><span class="v"><b>${esc(r.name)}</b></span></div>
+   <div class="fld"><small>Descrição</small><span class="v typing" id="tw"></span></div>
+   <div class="fld"><small>Categoria</small><span class="v">${esc(r.cat)}</span></div>
+   <div class="fld"><small>Fabricante</small><span class="v">${esc(r.fab)}</span></div>
+   <div class="srcs">${r.src.map(s=>`<span class="src">${esc(s)}</span>`).join('')}</div></div></div>
+ <div class="rvbar"><button class="btn g" data-rv="ok">${ic('check')} Aprovar e publicar <kbd class="k">A</kbd></button><button class="btn line" data-rv="edit">Editar <kbd class="k">E</kbd></button><button class="btn r" data-rv="no">Rejeitar <kbd class="k">R</kbd></button><span class="muted" style="font-size:.8rem">Medicamentos exigem aprovação de um farmacêutico.</span></div>`;
+}
+let twT;
+after.revisao=()=>{const r=REV[S.revIdx%REV.length],el=$('#tw');let i=0;clearInterval(twT);twT=setInterval(()=>{if(!el.isConnected){clearInterval(twT);return}i+=2;el.textContent=r.desc.slice(0,i);if(i>=r.desc.length){clearInterval(twT);el.classList.remove('typing')}},18)};
+function review(a){if(S.adm!=='revisao')return;if(a==='ok'){const r=REV[S.revIdx%REV.length],p=byId(r.id);p.sc=95;p.img=true;p.wrong=false;if(!p.raw)p.raw=r.name.toUpperCase();toast('Publicado: '+r.name)}if(a==='no')toast('Sugestão rejeitada e enviada para ajuste');if(a==='edit'){toast('Modo de edição (no protótipo, só simulado)');return}S.revIdx++;vt(renderAdmin)}
+function admImages(){
+ return `<div class="ph"><div><h1>Ferramenta de imagem</h1><p>Arraste uma foto e receba o arquivo no padrão do sistema. Tudo roda no seu navegador neste protótipo.</p></div></div>
+ <label class="drop" id="drop" for="file">${ic('upload',1.6)}<b>Arraste fotos aqui ou clique para escolher</b><span class="muted" style="font-size:.86rem">JPG, PNG ou foto do celular. O fundo claro é removido, o produto é recortado e centralizado.</span>
+  <div class="presets">${[['1200','1200 × 1200 · loja nova'],['mob','500 × 1000 · vertical'],['800','800 × 800 · marketplace']].map(([k,n],i)=>`<button type="button" class="fchip ${(S.preset||'1200')===k?'on':''}" data-preset="${k}">${n}</button>`).join('')}</div></label>
+ <input type="file" id="file" accept="image/*" hidden>
+ <div class="g2"><div class="panel"><div class="ba"><figure><canvas id="cvIn" width="600" height="600"></canvas><figcaption><span>Original</span><span id="inInfo"></span></figcaption></figure><figure><canvas id="cvOut" width="600" height="600"></canvas><figcaption><span>Tratada</span><span id="outInfo"></span></figcaption></figure></div></div>
+ <div class="panel" style="display:grid;gap:12px;align-content:start"><h3>Etapas</h3><div class="steps">${['Fundo removido','Produto recortado pelas bordas','Centralizado com margem de 8%','Sombra suave e fundo branco','Código de barras lido','Arquivo nomeado pelo EAN'].map((s,i)=>`<div class="stp" data-stp="${i}"><span class="ck">${i+1}</span>${s}</div>`).join('')}</div>
+ <div class="fld"><small>Arquivo gerado</small><span class="v mono" id="fname">—</span></div><button class="btn g" data-act="sendimg">${ic('check')} Enviar para o produto</button><span class="muted" style="font-size:.76rem">No sistema final a remoção de fundo usa IA no servidor e funciona com qualquer fundo.</span></div></div>`;
+}
+after.imagens=()=>{
+ const drop=$('#drop'), file=$('#file');
+ ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+ ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+ drop.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)loadFile(f)});
+ file.onchange=()=>{if(file.files[0])loadFile(file.files[0])};
+ if(S.lastImg)processImg(S.lastImg,S.lastName); else sampleImg();
+};
+function loadFile(f){const url=URL.createObjectURL(f);const im=new Image();im.onload=()=>{S.lastImg=im;S.lastName=f.name;processImg(im,f.name)};im.src=url}
+function sampleImg(){
+ const c=document.createElement('canvas');c.width=900;c.height=700;const x=c.getContext('2d');
+ const g=x.createLinearGradient(0,0,900,700);g.addColorStop(0,'#E9E4DA');g.addColorStop(1,'#D9D2C4');x.fillStyle=g;x.fillRect(0,0,900,700);
+ x.save();x.translate(520,360);x.rotate(-.08);x.fillStyle='rgba(0,0,0,.18)';x.fillRect(-150,-95,320,210);x.fillStyle='#1A9AD6';x.fillRect(-160,-110,320,210);x.fillStyle='#F7C600';x.fillRect(-160,60,320,24);x.fillStyle='#fff';x.font='800 54px "Bricolage Grotesque",sans-serif';x.textAlign='center';x.fillText('Dorflex',0,-10);x.font='500 22px Inter,sans-serif';x.fillText('36 comprimidos',0,26);
+ x.fillStyle='#fff';x.fillRect(70,-100,70,46);x.fillStyle='#13201A';for(let i=0;i<14;i++)x.fillRect(76+i*4.4,-94,i%3?1.6:2.8,30);x.restore();
+ const im=new Image();im.onload=()=>processImg(im,'IMG_20261125_0912.jpg (exemplo)');im.src=c.toDataURL();
+}
+async function processImg(im,name){
+ const ci=$('#cvIn'),co=$('#cvOut');if(!ci)return;
+ const preset=S.preset||'1200', OW=preset==='mob'?500:preset==='800'?800:1200, OH=preset==='mob'?1000:OW;
+ ci.width=im.naturalWidth;ci.height=im.naturalHeight;ci.getContext('2d').drawImage(im,0,0);
+ $('#inInfo').textContent=im.naturalWidth+' × '+im.naturalHeight+' px';
+ $$('.stp').forEach(s=>s.classList.remove('ok'));
+ // fundo: média dos cantos; máscara por distância de cor
+ const w=Math.min(im.naturalWidth,900), h=Math.round(im.naturalHeight*w/im.naturalWidth);
+ const t=document.createElement('canvas');t.width=w;t.height=h;const tx=t.getContext('2d',{willReadFrequently:true});tx.drawImage(im,0,0,w,h);
+ const d=tx.getImageData(0,0,w,h), px=d.data;
+ const corner=(x,y)=>{const i=(y*w+x)*4;return[px[i],px[i+1],px[i+2]]};
+ const cs=[corner(2,2),corner(w-3,2),corner(2,h-3),corner(w-3,h-3)];
+ const bg=[0,1,2].map(k=>cs.reduce((a,c)=>a+c[k],0)/4);
+ let minX=w,minY=h,maxX=0,maxY=0;
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4;const dd=Math.hypot(px[i]-bg[0],px[i+1]-bg[1],px[i+2]-bg[2]);
+  // gradiente de fundo: tolerância maior
+  if(dd<38){px[i+3]=0}else if(dd<58){px[i+3]=Math.round((dd-38)/20*255)}else{if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y}}
+ tx.putImageData(d,0,0);
+ await step(0);
+ if(maxX<=minX){minX=0;minY=0;maxX=w-1;maxY=h-1}
+ await step(1);
+ co.width=OW;co.height=OH;const ox=co.getContext('2d');
+ ox.fillStyle='#FFFFFF';ox.fillRect(0,0,OW,OH);
+ const bw=maxX-minX+1,bh=maxY-minY+1,m=0.08,sc=Math.min(OW*(1-2*m)/bw,OH*(1-2*m)/bh);
+ const dw=bw*sc,dh=bh*sc,dx=(OW-dw)/2,dy=(OH-dh)/2;
+ await step(2);
+ ox.save();ox.filter='blur('+Math.round(OW/60)+'px)';ox.fillStyle='rgba(19,32,26,.22)';ox.beginPath();ox.ellipse(OW/2,dy+dh+OW*0.015,dw*0.42,OW*0.02,0,0,Math.PI*2);ox.fill();ox.restore();
+ ox.drawImage(t,minX,minY,bw,bh,dx,dy,dw,dh);
+ await step(3);
+ let ean=null;
+ try{if('BarcodeDetector' in window){const bd=new BarcodeDetector({formats:['ean_13','ean_8','upc_a']});const r=await bd.detect(ci);if(r[0])ean=r[0].rawValue}}catch(e){}
+ if(!ean&&/exemplo/.test(name))ean='7891058003142';
+ await step(4);
+ $('#fname').textContent=(ean||'sem-ean-'+Date.now().toString().slice(-5))+'.jpg';
+ $('#outInfo').textContent=OW+' × '+OH+' px · fundo branco';
+ await step(5);
+}
+function step(i){return new Promise(r=>setTimeout(()=>{const s=$(`[data-stp="${i}"]`);if(s)s.classList.add('ok');r()},220))}
+function admVitrine(){
+ return `<div class="ph"><div><h1>Vitrine</h1><p>Arraste os blocos para reordenar a home e ligue ou desligue cada um. A loja muda na hora.</p></div><button class="btn g" data-act="seestore">Ver na loja</button></div>
+ <div class="vit"><div style="display:grid;gap:8px" id="blks">${S.blocks.map((b,i)=>`<div class="blk" draggable="true" data-blk="${i}"><span class="grip">⋮⋮</span><div><b>${b.n}</b><small>${b.s}</small></div><button class="sw ${b.on?'on':''}" data-sw="${i}" aria-label="Ligar ou desligar ${b.n}" aria-pressed="${b.on}"></button></div>`).join('')}</div>
+ <div class="phone" aria-label="Prévia no celular">${S.blocks.filter(b=>b.on).map(b=>b.id==='hero'?'<div class="pb hero2">Pediu agora, retira em 30 min</div>':b.id==='needs'?'<div class="pb"><b>Do que você precisa?</b><div class="dots"><i></i><i></i><i></i><i></i></div></div>':b.id==='offers'?'<div class="pb"><b>Ofertas da semana</b><div class="dots"><i></i><i></i><i></i></div></div>':b.id==='promo'?'<div class="pb yel">Genérico é o mesmo remédio, mais barato</div>':b.id==='again'?'<div class="pb"><b>Compre de novo</b><div class="dots"><i></i><i></i><i></i></div></div>':'<div class="pb"><b>Perto de você</b><span class="muted">SL Centro · 1,2 km</span></div>').join('')}</div></div>`;
+}
+after.vitrine=()=>{
+ let from=null;
+ $$('.blk').forEach(b=>{b.addEventListener('dragstart',()=>{from=+b.dataset.blk;b.classList.add('drag')});b.addEventListener('dragend',()=>b.classList.remove('drag'));b.addEventListener('dragover',e=>e.preventDefault());b.addEventListener('drop',e=>{e.preventDefault();const to=+b.dataset.blk;if(from===null||from===to)return;const [m]=S.blocks.splice(from,1);S.blocks.splice(to,0,m);vt(renderAdmin)})});
+ $$('[data-sw]').forEach(s=>s.onclick=()=>{const b=S.blocks[+s.dataset.sw];b.on=!b.on;renderAdmin()});
+};
+function admERP(){
+ const nodes=[['Sistema da farmácia','Fonte de preço e estoque','10.613','itens lidos'],['Normalização','EAN, unidades, caixa','10.598','válidos'],['Enriquecimento','ANVISA · CMED · GS1','8.204','cruzados'],['Classificação','Regras + IA','9.871','categorizados'],['Imagens','Busca, conferência, tratamento','4.363','com foto'],['Publicação','Nota ≥ 80 vai direto','7.509','na loja']];
+ return `<div class="ph"><div><h1>Conexão de dados</h1><p>Prévia da próxima etapa: ligar o sistema da farmácia à loja nova. Preço e estoque a cada 5 minutos, cadastro toda madrugada, e o que a equipe ajustou aqui nunca é sobrescrito.</p></div><button class="btn g" data-act="sync">${ic('trend')} Sincronizar agora</button></div>
+ <div class="pipe">${nodes.map((n,i)=>`<div class="node" style="--d:${i*.4}s"><b>${n[0]}</b><small>${n[1]}</small><span class="n">${n[2]}</span><small>${n[3]}</small></div>`).join('')}</div>
+ <div class="g2"><div class="panel"><div class="hd"><h3>Registro em tempo real</h3><span class="muted mono" style="font-size:.74rem">worker-sync-01</span></div><div class="log" id="log"></div></div>
+ <div class="panel"><div class="hd"><h3>Regras de dono do dado</h3></div><div class="bars" style="gap:12px">
+  ${[['Preço, estoque, EAN, código interno','Sistema da farmácia sempre manda'],['Nome, descrição, fotos','Catálogo curado manda'],['Categoria e fabricante','Catálogo curado, com sugestão automática'],['Promoções','Criadas aqui no painel, em 2 cliques']].map(([a,b])=>`<div class="alert" style="grid-template-columns:1fr"><div><b>${a}</b><small>${b}</small></div></div>`).join('')}</div></div></div>`;
+}
+const LOGS=[['ok','Lote de preços recebido · 312 itens alterados'],['ok','Estoque SL Centro atualizado · 1.204 SKUs'],['wa','EAN 789109... com dígito inválido, enviado para revisão'],['ok','Fabricante "SANOFI-AVENTIS" unificado em Sanofi'],['ok','ANVISA: 41 registros cruzados'],['ok','Imagem 7891058003142.jpg tratada (1200×1200)'],['er','Imagem rejeitada: embalagem lida não confere com EAN 7891058021665'],['ok','Categoria sugerida: "Dor e febre" para 18 itens'],['ok','Estoque SL Noroeste atualizado · 987 SKUs'],['ok','Publicação: 27 produtos atingiram nota ≥ 80']];
+let logT;
+after.erp=()=>{const el=$('#log');let i=0;const add=()=>{if(!el.isConnected){clearInterval(logT);return}const [k,m]=LOGS[i%LOGS.length];const d=new Date();const ln=document.createElement('div');ln.innerHTML=`<span><time>${d.toLocaleTimeString('pt-BR')}</time><span class="${k}">${k==='ok'?'✓':k==='wa'?'!':'✕'}</span> ${esc(m)}</span>`;el.appendChild(ln);el.scrollTop=el.scrollHeight;i++};for(let k=0;k<5;k++)add();clearInterval(logT);logT=setInterval(add,1400)};
+
+/* paleta de comandos */
+function openCmd(){
+ const items=[...NAV.map(([k,n,i])=>({t:n,s:'Ir para',i,go:()=>{S.adm=k;vt(renderAdmin)}})),...P.filter(p=>p.raw).map(p=>({t:p.n+' · '+p.q,s:brl(p.p),p,go:()=>{S.adm='catalogo';S.tq=p.n;vt(renderAdmin)}})),{t:'Ver a loja do cliente',s:'Alternar',i:'store',go:()=>setMode('store')}];
+ let act=0;
+ $('#layer').innerHTML=`<div class="scrim c" data-close></div><div class="cmd" role="dialog" aria-label="Busca rápida"><input id="cmdq" placeholder="Buscar páginas, produtos, ações…" autocomplete="off"><div class="list" id="cmdl"></div></div>`;
+ const q=$('#cmdq'),l=$('#cmdl');
+ const draw=()=>{const n=norm(q.value);const f=items.filter(x=>norm(x.t).includes(n)).slice(0,9);act=Math.min(act,f.length-1);l.innerHTML=f.map((x,i)=>`<button class="it ${i===act?'act':''}" data-ci="${i}">${x.p?pk(x.p):ic(x.i)}<span>${esc(x.t)}</span><small>${esc(x.s)}</small></button>`).join('')||'<div class="empty">Nada encontrado</div>';$$('[data-ci]',l).forEach(b=>b.onclick=()=>{$('#layer').innerHTML='';f[+b.dataset.ci].go()});return f};
+ let cur=draw();q.focus();
+ q.oninput=()=>{act=0;cur=draw()};
+ q.onkeydown=e=>{if(e.key==='ArrowDown'){act=(act+1)%cur.length;cur=draw();e.preventDefault()}if(e.key==='ArrowUp'){act=(act-1+cur.length)%cur.length;cur=draw();e.preventDefault()}if(e.key==='Enter'&&cur[act]){$('#layer').innerHTML='';cur[act].go()}};
+}
+
+/* assistentes do painel */
+function newProduct(){
+ let st=0;const np={id:25,n:'Paracetamol 750 mg',q:'20 comprimidos',m:'EMS',c:'dor',pa:'paracetamol',p:9.9,t:'gen',k:'box',col:'#FFFFFF',ac:'#0057A8',raw:'PARACETAMOL 750MG 20CPR',ean:'7896004700014',img:true,sc:94,ind:'Analgésico e antitérmico, indicado para dor e febre.'};
+ const draw=()=>{
+  let b='';
+  if(st===0)b=`<span class="muted" style="font-size:.8rem">Passo 1 de 3</span><h2>Qual é o código de barras?</h2><p class="muted">Digite ou aponte a câmera para a caixa. O resto a gente preenche sozinho.</p><div class="big-in"><input id="eanIn" inputmode="numeric" value="7896004700014" aria-label="Código de barras"><button class="btn line" style="height:56px" data-act="scan">${ic('scan')}</button></div><div id="look"></div>`;
+  if(st===1)b=`<span class="muted" style="font-size:.8rem">Passo 2 de 3</span><h2>Confira os dados</h2><div class="found"><div class="bx">${pk(np)}</div><div class="ff"><label>Nome na loja <span><input value="${np.n}, ${np.q}"></span></label><label>Categoria<select><option>Dor e febre</option><option>Gripe e resfriado</option></select></label></div></div><div class="ff" style="grid-template-columns:1fr 1fr;display:grid"><label>Fabricante <input value="EMS"></label><label>Preço (vem do sistema) <input value="R$ 9,90"></label></div><p class="muted" style="font-size:.8rem">${ic('spark')} Nome, categoria, foto e descrição preenchidos a partir da bula e do cadastro do fabricante.</p>`;
+  if(st===2)b=`<span class="muted" style="font-size:.8rem">Passo 3 de 3</span><h2>Assim fica na loja</h2><div class="offprev">${cardHTML(np)}<div style="display:grid;gap:8px;font-size:.88rem"><span>${ic('check')} Foto tratada no padrão</span><span>${ic('check')} Descrição revisável</span><span>${ic('check')} Estoque nas 7 lojas</span><span class="muted">Pode publicar agora ou agendar.</span></div></div>`;
+  $('#layer').innerHTML=`<div class="scrim" data-close></div><div class="wiz" role="dialog" aria-label="Novo produto"><div class="wsteps">${[0,1,2].map(i=>`<i class="${i<=st?'on':''}"></i>`).join('')}</div>${b}<div class="wact"><button class="btn line" data-close>Cancelar</button><button class="btn g" id="wnext">${st===0?'Buscar produto':st===1?'Continuar':'Publicar na loja'}</button></div></div>`;
+  $('#wnext').onclick=()=>{
+   if(st===0){const l=$('#look');l.innerHTML='<div class="sk"></div><div class="sk" style="height:40px"></div>';setTimeout(()=>{st=1;draw()},900);return}
+   if(st===1){st=2;draw();return}
+   if(!byId(25))P.push(np);$('#layer').innerHTML='';toast('Paracetamol 750 mg publicado na loja');if(S.adm==='catalogo')renderAdmin();
+  };
+  const e=$('#eanIn');if(e)e.focus();
+ };draw();
+}
+function newOffer(){
+ let pid=6,pct=15;
+ const draw=()=>{
+  const base=byId(pid),orig=base.o||base.p,prev=Object.assign({},base,{o:orig,p:Math.round(orig*(1-pct/100)*100)/100});
+  $('#layer').innerHTML=`<div class="scrim" data-close></div><div class="wiz" role="dialog" aria-label="Criar oferta"><h2>Criar oferta</h2>
+  <div class="ff"><label>Produto<select id="ofp">${P.filter(p=>p.raw).map(p=>`<option value="${p.id}" ${p.id===pid?'selected':''}>${esc(p.n)} · ${esc(p.q)}</option>`).join('')}</select></label>
+  <label>Desconto: <b style="color:var(--red);font-size:1.1rem" id="ofpct">${pct}%</b><input type="range" class="range" id="ofr" min="5" max="50" step="1" value="${pct}"></label>
+  <label>Vale até<select><option>Domingo, 30/11</option><option>Sexta, 05/12</option><option>Enquanto durar o estoque</option></select></label></div>
+  <div class="offprev" id="ofprev">${cardHTML(prev)}<div style="display:grid;gap:6px;font-size:.88rem"><b>Prévia ao vivo</b><span class="muted">De ${brl(orig)} por <b style="color:var(--ink)">${brl(prev.p)}</b>.</span><span class="muted">Entra sozinha em "Ofertas da semana" e sai na data final.</span></div></div>
+  <div class="wact"><button class="btn line" data-close>Cancelar</button><button class="btn g" id="ofok">Publicar oferta</button></div></div>`;
+  $('#ofp').onchange=e=>{pid=+e.target.value;draw()};
+  $('#ofr').oninput=e=>{pct=+e.target.value;$('#ofpct').textContent=pct+'%';const pv=Object.assign({},base,{o:orig,p:Math.round(orig*(1-pct/100)*100)/100});$('#ofprev').firstElementChild.outerHTML=cardHTML(pv);$('#ofprev').lastElementChild.querySelector('span').innerHTML='De '+brl(orig)+' por <b style="color:var(--ink)">'+brl(pv.p)+'</b>.'};
+  $('#ofok').onclick=()=>{base.o=orig;base.p=Math.round(orig*(1-pct/100)*100)/100;$('#layer').innerHTML='';toast('Oferta publicada: '+base.n+' -'+pct+'%')};
+ };draw();
+}
+
+/* ================= modo e eventos ================= */
+function setMode(m){
+ S.mode=m;
+ $('#seg').classList.toggle('admin',m==='admin');
+ $('#bStore').setAttribute('aria-pressed',m==='store');$('#bAdmin').setAttribute('aria-pressed',m==='admin');
+ vt(()=>{$('#store').hidden=m!=='store';$('#admin').hidden=m!=='admin';$('#layer').innerHTML='';if(m==='admin')renderAdmin();else renderStore();scrollTo({top:0})});
+}
+$('#bStore').onclick=()=>setMode('store');
+$('#bAdmin').onclick=()=>setMode('admin');
+
+document.addEventListener('click',e=>{
+ const rb=e.target.closest('[data-rail]');if(rb){const rl=$('#'+rb.dataset.rail);rl.scrollBy({left:+rb.dataset.dir*rl.clientWidth*.85,behavior:'smooth'});return}
+ const hb=e.target.closest('[data-hs]');if(hb){const v=hb.dataset.hs;goHero(v==='prev'?hIdx-1:v==='next'?hIdx+1:+v);return}
+ if(e.target.closest('.railw .rail.drag')){e.preventDefault();return}
+ const t=e.target.closest('[data-open],[data-add],[data-fav],[data-cat],[data-go],[data-act],[data-close],[data-filter],[data-bq],[data-setstore],[data-sq],[data-adm],[data-adv],[data-cf],[data-bulk],[data-rv],[data-preset]');
+ if(!t)return;
+ const d=t.dataset;
+ if(d.add){e.stopPropagation();addToBag(+d.add,1,t.closest('.card')?.querySelector('.img .pk')||t.closest('.mmini')?.querySelector('.pk'));return}
+ if(d.fav){e.stopPropagation();const id=+d.fav;S.fav.has(id)?S.fav.delete(id):S.fav.add(id);t.classList.toggle('on');t.animate([{transform:'scale(1)'},{transform:'scale(1.35)'},{transform:'scale(1)'}],{duration:350});return}
+ if(d.open){openProduct(+d.open);$('#sdrop')&&($('#sdrop').innerHTML='');return}
+ if(d.sq){const q=$('#q');q.value=d.sq;q.dispatchEvent(new Event('input'));q.focus();return}
+ if(d.cat){S.view='cat';S.cat=d.cat;S.sub=d.sub||null;S.filter=d.fl||'todos';if(S.mega)setMega(null);$('#layer').innerHTML='';if(S.mode!=='store')setMode('store');else vt(renderStore);scrollTo({top:0,behavior:'smooth'});return}
+ if(d.go){if(S.mode!=='store'){setMode('store');return}S.view=d.go==='stores'?'stores':'home';vt(renderStore);scrollTo({top:0,behavior:'smooth'});return}
+ if(d.filter){S.filter=d.filter;vt(renderStore);return}
+ if(d.close!==undefined){closeLayer();return}
+ if(d.bq){const it=S.bag.find(b=>b.id===+d.bq);it.q+= +d.d;if(it.q<1)S.bag=S.bag.filter(b=>b!==it);renderStoreHead();openBag();return}
+ if(d.setstore){S.store=STORES[+d.setstore];vt(renderStore);toast('Loja escolhida: '+S.store.n);return}
+ if(d.adm){S.adm=d.adm;S.sel.clear();vt(renderAdmin);scrollTo({top:0});return}
+ if(d.adv){const o=S.orders.find(x=>x.id===+d.adv);o.st++;vt(renderAdmin);toast('Pedido #'+o.id+' em '+COLS[o.st][0].toLowerCase());return}
+ if(d.cf){S.catFilter=d.cf;renderAdmin();return}
+ if(d.bulk){if(d.bulk==='clear'){S.sel.clear();renderAdmin();return}const n=S.sel.size;S.sel.clear();renderAdmin();toast(d.bulk==='ia'?n+' produtos enviados para a fila da IA':d.bulk==='cat'?'Categoria aplicada em '+n+' produtos':'Fabricante unificado em '+n+' produtos');return}
+ if(d.rv){review(d.rv);return}
+ if(d.preset){e.preventDefault();S.preset=d.preset;$$('[data-preset]').forEach(b=>b.classList.toggle('on',b===t));if(S.lastImg)processImg(S.lastImg,S.lastName);else sampleImg();return}
+ const a=d.act;
+ if(a==='bag')openBag();
+ if(a==='checkout')checkout();
+ if(a==='copypix'){navigator.clipboard?.writeText('pix-exemplo-prototipo').then(()=>toast('Código Pix copiado'),()=>toast('Selecione o código e copie'))}
+ if(a==='pickstore'){S.view='stores';vt(renderStore)}
+ if(a==='scan')toast('Abriria a câmera para ler o código de barras');
+ if(a==='rx')toast('Abriria o envio da foto da receita');
+ if(a==='cmd')openCmd();
+ if(a==='sendimg')toast('Imagem vinculada ao produto e publicada');
+ if(a==='sync')toast('Sincronização iniciada');
+ if(a==='top')scrollTo({top:0,behavior:'smooth'});
+ if(a==='track')toast('Abriria o acompanhamento dos seus pedidos');
+ if(a==='cont')toast('Abriria a lista dos seus remédios de uso contínuo');
+ if(a==='pts')toast('Você tem 1.240 SL Pontos (exemplo)');
+ if(a==='lab')toast('Abriria os programas de desconto dos laboratórios');
+ if(a==='vac')toast('Abriria agendamento de vacinas e testes');
+ if(a==='near'){S.view='stores';vt(renderStore)}
+ if(a==='news')toast('Cadastro de e-mail simulado');
+ if(a==='newprod')newProduct();
+ if(a==='offer')newOffer();
+ if(a==='photo'){S.adm='imagens';vt(renderAdmin)}
+ if(a==='orders'){S.adm='pedidos';vt(renderAdmin)}
+ if(a==='seestore'){S.view='home';setMode('store')}
+});
+document.addEventListener('keydown',e=>{
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){if(S.mode==='admin'){e.preventDefault();openCmd()}else{e.preventDefault();$('#q')?.focus()}}
+ if(e.key==='Escape'&&$('#layer').innerHTML){closeLayer()}
+ const tag=(e.target.tagName||'').toLowerCase();
+ if(S.mode==='admin'&&S.adm==='revisao'&&!['input','textarea'].includes(tag)&&!e.target.isContentEditable&&!$('#layer').innerHTML){const k=e.key.toLowerCase();if(k==='a')review('ok');if(k==='r')review('no');if(k==='e')review('edit')}
+});
+
+seedOrders();
+renderStore();
+</script>
+
+</body></html>
